@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS Contributor (
+    contributor_id INTEGER PRIMARY KEY AUTOINCREMENT
+    , tweet_id INTEGER NOT NULL
+    , user_id INTEGER NOT NULL
+    , FOREIGN KEY(tweet_id) REFERENCES Tweet(tweet_id) ON DELETE CASCADE
+    , FOREIGN KEY(user_id) REFERENCES User(user_id) ON DELETE CASCADE
+);

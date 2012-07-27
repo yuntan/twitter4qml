@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/twitter4qml">
+        <file alias="sql/000">tools/createdb/000.sql</file>
+        <file alias="sql/001">tools/createdb/001.sql</file>
+        <file alias="sql/002">tools/createdb/002.sql</file>
+        <file alias="sql/003">tools/createdb/003.sql</file>
+        <file alias="sql/004">tools/createdb/004.sql</file>
+        <file alias="sql/005">tools/createdb/005.sql</file>
+        <file alias="sql/006">tools/createdb/006.sql</file>
+        <file alias="sample.jpeg">statuses/sample.jpeg</file>
+    </qresource>
+</RCC>

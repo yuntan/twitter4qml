@@ -1,0 +1,3 @@
+CREATE TABLE IF NOT EXISTS Version (
+    version INT PRIMARY KEY NOT NULL
+);
