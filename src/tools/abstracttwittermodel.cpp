@@ -25,8 +25,9 @@ public:
 
     bool enabled;
     bool isLoading;
+    PushOrder pushOrder;
     QStringList ids;
-    QStack< QPair<Private::Action, QVariant> > stack;
+    QList< QPair<Private::Action, QVariant> > stack;
     QString sortKey;
     QString cacheKey;
     QList<QObject *> childObjects;
@@ -63,6 +64,7 @@ private:
 AbstractTwitterModel::Private::Private(AbstractTwitterModel *parent)
     : QObject(parent)
     , enabled(true)
+    , pushOrder(PushAtOnce)
     , isLoading(false)
     , filtering(false)
     , q(parent)
@@ -287,20 +289,9 @@ void AbstractTwitterModel::Private::timeout()
 
     int previousSize = ids.size();
 
-    bool allAdd = true;
-    if (size == 1) {
-        for (int i = 0; i < stack.size(); i++) {
-            if (stack.at(i).first != Private::Add) {
-                allAdd = false;
-                break;
-            }
-        }
-    } else {
-        allAdd = false;
-    }
-
     DataManager *dataManager = DataManager::instance();
-    if (allAdd) {
+
+    if (pushOrder == PushAtOnce) {
         // check filtering first
         int size = stack.size() - 1;
         for (int i = size; i > -1; i--) {
@@ -310,7 +301,7 @@ void AbstractTwitterModel::Private::timeout()
             emit q->filtering(item);
 //            DEBUG() << item.value("user").toMap().value("screen_name").toString() << filtering;
             if (filtering) {
-                stack.remove(i);
+                stack.takeAt(i);
                 size--;
             }
         }
@@ -319,25 +310,33 @@ void AbstractTwitterModel::Private::timeout()
 
     bool end = false;
     while (!stack.isEmpty() && !end) {
-        QPair<Action, QVariant> action = stack.pop();
+        QPair<Action, QVariant> action;
+        switch (pushOrder) {
+        case PushOlderToNewer:
+            action = stack.takeLast();
+            break;
+        default:
+            action = stack.takeFirst();
+            break;
+        }
         switch (action.first) {
         case Private::Add: {
             QVariantMap item = action.second.toMap();
             if (sortKey.isNull()) {
                 QString id = item.value("id_str").toString();
-                if (!allAdd) {
+                if (pushOrder != PushAtOnce) {
                     filtering = false;
                     emit q->filtering(item);
                     if (filtering)
                         continue;
                 }
                 if (!ids.contains(id)) {
-                    if (!allAdd)
+                    if (pushOrder != PushAtOnce)
                         q->beginInsertRows(QModelIndex(), size - 1, size - 1);
                     dataManager->addData(q->dataType(), id, item, q->dataIsReliable());
                     ids.insert(size - 1, id);
                     size++;
-                    if (!allAdd) {
+                    if (pushOrder != PushAtOnce) {
                         q->endInsertRows();
                         end = true;
                     }
@@ -349,7 +348,7 @@ void AbstractTwitterModel::Private::timeout()
                 QString id_str = item.value(sortKey).toString();
                 if (!id_str.isEmpty() && !ids.contains(id_str)) {
                     bool done = false;
-                    if (!allAdd) {
+                    if (pushOrder != PushAtOnce) {
                         filtering = false;
                         emit q->filtering(item);
                         if (filtering)
@@ -360,12 +359,12 @@ void AbstractTwitterModel::Private::timeout()
 //                        DEBUG() << id << id.length();
 //                        DEBUG() << (ids.at(i).length() < id.length()) << (ids.at(i) < id) << (ids.at(i).length() < id.length() || ids.at(i) < id);
                         if (ids.at(i).length() < id_str.length() || (ids.at(i).length() == id_str.length() && ids.at(i) < id_str)) {
-                            if (!allAdd)
+                            if (pushOrder != PushAtOnce)
                                 q->beginInsertRows(QModelIndex(), i, i);
                             dataManager->addData(q->dataType(), id_str, item, q->dataIsReliable());
                             ids.insert(i, id_str);
                             size++;
-                            if (!allAdd) {
+                            if (pushOrder != PushAtOnce) {
                                 q->endInsertRows();
                                 end = true;
                             }
@@ -396,7 +395,7 @@ void AbstractTwitterModel::Private::timeout()
 
     }
 
-    if (allAdd)
+    if (pushOrder == PushAtOnce)
         q->endInsertRows();
 
     if (previousSize != ids.size()) {
@@ -432,7 +431,7 @@ void AbstractTwitterModel::Private::dataChanged(DataManager::DataType type, cons
         if (ids.contains(key)) {
 //            DEBUG() << DataManager::instance()->getData(type, key);
 //            DEBUG() << value;
-            stack.push(QPair<Private::Action, QVariant>(Update, value));
+            stack.append(QPair<Private::Action, QVariant>(Update, value));
         }
         q->dataChanged(key, value);
     }
@@ -459,6 +458,18 @@ void AbstractTwitterModel::setLoading(bool loading)
     if (d->isLoading == loading) return;
     d->isLoading = loading;
     emit loadingChanged(loading);
+}
+
+AbstractTwitterModel::PushOrder AbstractTwitterModel::pushOrder() const
+{
+    return d->pushOrder;
+}
+
+void AbstractTwitterModel::setPushOrder(PushOrder pushOrder)
+{
+    if (d->pushOrder == pushOrder) return;
+    d->pushOrder = pushOrder;
+    emit pushOrderChanged(pushOrder);
 }
 
 void AbstractTwitterModel::setParameters(const QVariantMap &parameters)
@@ -578,7 +589,7 @@ bool AbstractTwitterModel::isStreaming() const
 
 void AbstractTwitterModel::addData(const QVariantMap &value)
 {
-    d->stack.push(QPair<Private::Action, QVariant>(Private::Add, value));
+    d->stack.append(QPair<Private::Action, QVariant>(Private::Add, value));
     if (!d->timer.isActive()) {
         d->timer.start();
     }

@@ -14,12 +14,14 @@ class AbstractTwitterModel : public QAbstractListModel
     Q_OBJECT
     Q_PROPERTY(bool enabled READ isEnabled WRITE setEnabled NOTIFY enabledChanged DESIGNABLE false)
     Q_PROPERTY(bool loading READ isLoading NOTIFY loadingChanged DESIGNABLE false)
+    Q_PROPERTY(PushOrder pushOrder READ pushOrder WRITE setPushOrder NOTIFY pushOrderChanged DESIGNABLE false)
     Q_PROPERTY(QStringList idList READ idList NOTIFY idListChanged DESIGNABLE false)
     Q_PROPERTY(int size READ size NOTIFY sizeChanged DESIGNABLE false)
     Q_PROPERTY(bool streaming READ isStreaming NOTIFY streamingChanged DESIGNABLE false)
     Q_PROPERTY(QString sortKey READ sortKey WRITE setSortKey NOTIFY sortKeyChanged DESIGNABLE false)
     Q_PROPERTY(QString cacheKey READ cacheKey WRITE setCacheKey NOTIFY cacheKeyChanged DESIGNABLE false)
     Q_PROPERTY(QDeclarativeListProperty<QObject> childObjects READ childObjects DESIGNABLE false)
+    Q_ENUMS(PushOrder)
     Q_CLASSINFO("DefaultProperty", "childObjects")
     Q_DISABLE_COPY(AbstractTwitterModel)
 public:
@@ -29,10 +31,17 @@ public:
         AuthorizeByBody,
         AuthorizeByUrl
     };
+    enum PushOrder {
+        PushNewerToOlder,
+        PushOlderToNewer,
+        PushAtOnce
+    };
+
     explicit AbstractTwitterModel(QObject *parent = 0);
     
     bool isEnabled() const;
     virtual bool isLoading() const;
+    PushOrder pushOrder() const;
     const QStringList &idList() const;
     int size() const;
     const QString &sortKey() const;
@@ -53,12 +62,14 @@ public:
 public slots:
     void setEnabled(bool enabled);
     virtual void reload();
+    void setPushOrder(PushOrder pushOrder);
     void abort();
     void filter();
 
 signals:
     void enabledChanged(bool enabled);
     void loadingChanged(bool loading);
+    void pushOrderChanged(PushOrder pushOrder);
     void idListChanged(const QStringList &idList);
     void sizeChanged(int size);
     void streamingChanged();
