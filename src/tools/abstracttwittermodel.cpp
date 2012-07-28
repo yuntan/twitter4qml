@@ -64,7 +64,7 @@ private:
 AbstractTwitterModel::Private::Private(AbstractTwitterModel *parent)
     : QObject(parent)
     , enabled(true)
-    , pushOrder(PushAtOnce)
+    , pushOrder(PushNewerToOlder)
     , isLoading(false)
     , filtering(false)
     , q(parent)

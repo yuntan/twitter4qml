@@ -17,6 +17,7 @@ UserStream::UserStream(QObject *parent)
     : AbstractStatusesModel(parent)
     , d(new Private)
 {
+    setPushOrder(PushOlderToNewer);
 }
 
 UserStream::~UserStream()

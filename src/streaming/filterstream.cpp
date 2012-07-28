@@ -17,6 +17,7 @@ FilterStream::FilterStream(QObject *parent)
     , d(new Private)
 {
     connect(this, SIGNAL(trackChanged(QString)), this, SLOT(reload()), Qt::QueuedConnection);
+    setPushOrder(PushOlderToNewer);
 }
 
 FilterStream::~FilterStream()
