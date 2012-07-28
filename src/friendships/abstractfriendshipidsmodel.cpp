@@ -57,7 +57,7 @@ void AbstractFriendshipIdsModel::reload() {
 
 void AbstractFriendshipIdsModel::parseDone(const QVariant &data)
 {
-    DEBUG() << data;
+//    DEBUG() << data;
     if (data.type() == QVariant::Map) {
         QVariantMap object = data.toMap();
         if (object.contains("ids") && object.value("ids").type() == QVariant::List) {
