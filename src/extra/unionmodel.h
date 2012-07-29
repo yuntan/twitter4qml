@@ -24,6 +24,7 @@ public:
     QDeclarativeListProperty<QObject> childObjects();
 
     Q_INVOKABLE void addModel(QObject *model) const;
+    Q_INVOKABLE void clearModel() const;
     Q_INVOKABLE QVariantMap get(int index) const;
     const QStringList &idList() const;
     Q_INVOKABLE int size() { return rowCount(); }

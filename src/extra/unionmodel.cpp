@@ -20,13 +20,16 @@ public:
     static void appendFunction(QDeclarativeListProperty<QObject> *list, QObject *object);
     static int countFunction(QDeclarativeListProperty<QObject> *list);
     static QObject *atFunction(QDeclarativeListProperty<QObject> *list, int index);
+    static void clearFunction(QDeclarativeListProperty<QObject> *list);
     void append(QObject *object);
+    void clear();
 
 private slots:
     void dataChanged(const QModelIndex & topLeft, const QModelIndex & bottomRight);
     void rowsInserted(const QModelIndex &parent, int start, int end);
     void rowsAboutToBeRemoved(const QModelIndex & parent, int start, int end);
     void loadingChanged();
+    void childDestroyed(QObject *object);
 
 private:
     UnionModel *q;
@@ -60,6 +63,14 @@ QObject *UnionModel::Private::atFunction(QDeclarativeListProperty<QObject> *list
     return ret;
 }
 
+void UnionModel::Private::clearFunction(QDeclarativeListProperty<QObject> *list)
+{
+    UnionModel::Private *d = qobject_cast<UnionModel::Private *>(list->object);
+    if (d) {
+        d->clear();
+    }
+}
+
 void UnionModel::Private::append(QObject *object)
 {
     childObjects.append(object);
@@ -86,10 +97,28 @@ void UnionModel::Private::append(QObject *object)
                 }
             }
         }
+        connect(model, SIGNAL(destroyed(QObject*)), this, SLOT(childDestroyed(QObject*)));
         loadingChanged();
     } else {
         DEBUG() << object;
     }
+}
+
+void UnionModel::Private::childDestroyed(QObject *object)
+{
+    childObjects.removeAll(object);
+    AbstractTwitterModel *model = qobject_cast<AbstractTwitterModel *>(object);
+    if (model) {
+        models.removeAll(model);
+    }
+}
+
+void UnionModel::Private::clear()
+{
+    qDeleteAll(childObjects);
+    childObjects.clear();
+    qDeleteAll(models);
+    models.clear();
 }
 
 UnionModel::Private::Private(UnionModel *parent)
@@ -207,6 +236,11 @@ void UnionModel::addModel(QObject *model) const
     d->append(model);
 }
 
+void UnionModel::clearModel() const
+{
+    d->clear();
+}
+
 QVariantMap UnionModel::get(int index) const
 {
     QVariantMap ret;
@@ -234,7 +268,7 @@ int UnionModel::indexOf(const QString &id)
 
 QDeclarativeListProperty<QObject> UnionModel::childObjects()
 {
-    return QDeclarativeListProperty<QObject>(d, 0, &Private::appendFunction, &Private::countFunction, &Private::atFunction);
+    return QDeclarativeListProperty<QObject>(d, 0, &Private::appendFunction, &Private::countFunction, &Private::atFunction, &Private::clearFunction);
 }
 
 #include "unionmodel.moc"
