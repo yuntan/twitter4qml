@@ -11,8 +11,13 @@ void ShowDirectMessage::exec()
 {
     DataManager *manager = DataManager::instance();
     if (manager->contains(DataManager::DirectMessageData, id())) {
-        setData(manager->getData(DataManager::DirectMessageData, id()));
-        setLoading(false);
+        QVariantMap directMessage = manager->getData(DataManager::DirectMessageData, id());
+        if (directMessage.contains(QLatin1String("entities"))) {
+            setData(directMessage);
+            setLoading(false);
+        } else {
+            AbstractDirectMessageAction::exec();
+        }
     } else {
         AbstractDirectMessageAction::exec();
     }
