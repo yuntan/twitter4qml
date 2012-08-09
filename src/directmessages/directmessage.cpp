@@ -406,7 +406,7 @@ QVariantMap DirectMessage::parse(const QVariantMap &directMessage)
                             .arg(entity.value("url").toString());
                 }
             } else if (type == "user_mentions") {
-                richTextAfter = QString("<a class=\"screen_name\" href=\"user//:%1\" title=\"@%2\">@%2</a>")
+                richTextAfter = QString("<a class=\"screen_name\" href=\"user://%1\" title=\"@%2\">@%2</a>")
                         .arg(entity.value("id_str").toString())
                         .arg(entity.value("screen_name").toString());
             } else if (type == "hashtags") {
