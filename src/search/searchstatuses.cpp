@@ -270,14 +270,22 @@ QVariantMap SearchStatuses::parse(const QVariantMap &status)
             if (type == "urls") {
                 if (entity.contains("display_url")) {
                     plainTextAfter = entity.value("display_url").toString();
-                    richTextAfter = QString("<a class=\"link\" href=\"%1\" title=\"%2\">%3</a>")
-                            .arg(entity.value("expanded_url").toString())
-                            .arg(entity.value("url").toString())
-                            .arg(entity.value("display_url").toString());
+                    richTextAfter = QString("<a class=\"link\" href=\"")
+                            .append(entity.value("expanded_url").toString())
+                            .append("\" title=\"")
+                            .append(entity.value("url").toString())
+                            .append("\">")
+                            .append(entity.value("display_url").toString())
+                            .append("</a>");
                 } else {
                     plainTextAfter = entity.value("url").toString();
-                    richTextAfter = QString("<a class=\"link\" href=\"%1\" title=\"%1\">%1</a>")
-                            .arg(entity.value("url").toString());
+                    richTextAfter = QString("<a class=\"link\" href=\"")
+                            .append(entity.value("url").toString())
+                            .append("\" title=\"")
+                            .append(entity.value("url").toString())
+                            .append("\">")
+                            .append(entity.value("url").toString())
+                            .append("</a>");
                 }
             } else if (type == "user_mentions") {
                 richTextAfter = QString("<a class=\"screen_name\" href=\"user://%1\" title=\"@%2\">@%2</a>")
@@ -289,10 +297,13 @@ QVariantMap SearchStatuses::parse(const QVariantMap &status)
                         .arg(entity.value("text").toString());
             } else if (type == "media") {
                 plainTextAfter = entity.value("display_url").toString();
-                richTextAfter = QString("<a class=\"media\" href=\"%1\" title=\"%2\">%3</a>")
-                        .arg(entity.value("media_url").toString())
-                        .arg(entity.value("url").toString())
-                        .arg(entity.value("display_url").toString());
+                richTextAfter = QString("<a class=\"media\" href=\"")
+                        .append(entity.value("media_url").toString())
+                        .append("\" title=\"")
+                        .append(entity.value("url").toString())
+                        .append("\">")
+                        .append(entity.value("display_url").toString())
+                        .append("</a>");
                 media.append(entity.value("media_url"));
             } else {
                 DEBUG() << type << item;
