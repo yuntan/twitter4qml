@@ -8,7 +8,7 @@ class UserStream : public AbstractStatusesModel
     Q_OBJECT
     Q_PROPERTY(QString delimited READ delimited WRITE setDelimited NOTIFY delimitedChanged)
     Q_PROPERTY(QString replies READ replies WRITE setReplies NOTIFY repliesChanged)
-    Q_PROPERTY(QList<int> friends READ friends NOTIFY friendsChanged DESIGNABLE false)
+    Q_PROPERTY(QStringList friends READ friends NOTIFY friendsChanged DESIGNABLE false)
     Q_DISABLE_COPY(UserStream)
 public:
     explicit UserStream(QObject *parent = 0);
@@ -16,7 +16,7 @@ public:
     
     const QString &delimited() const;
     const QString &replies() const;
-    const QList<int> &friends() const;
+    const QStringList &friends() const;
 
 public slots:
     void setDelimited(const QString &delimited);
@@ -25,7 +25,7 @@ public slots:
 signals:
     void delimitedChanged(const QString &delimited);
     void repliesChanged(const QString &replies);
-    void friendsChanged(const QList<int> &friends);
+    void friendsChanged(const QStringList &friends);
 
     void followedBy(const QVariantMap &status);
     void favorited(const QVariantMap &status);

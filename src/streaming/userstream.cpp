@@ -8,7 +8,7 @@ public:
     Private();
     QString delimited;
     QString replies;
-    QList<int> friends;
+    QStringList friends;
 };
 
 UserStream::Private::Private() : delimited("length") {}
@@ -36,7 +36,7 @@ void UserStream::parseDone(const QVariant &result)
             d->friends.clear();
             QVariantList list = object.value("friends").toList();
             foreach (const QVariant &id, list) {
-                d->friends.append(id.toInt());
+                d->friends.append(id.toString());
             }
             emit friendsChanged(d->friends);
         } else if (object.keys().contains("event")) {
@@ -91,7 +91,7 @@ void UserStream::setReplies(const QString &replies)
     emit repliesChanged(replies);
 }
 
-const QList<int> &UserStream::friends() const
+const QStringList &UserStream::friends() const
 {
     return d->friends;
 }
