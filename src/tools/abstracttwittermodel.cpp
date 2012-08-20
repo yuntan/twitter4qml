@@ -301,6 +301,7 @@ void AbstractTwitterModel::Private::timeout()
             emit q->filtering(item);
 //            DEBUG() << item.value("user").toMap().value("screen_name").toString() << filtering;
             if (filtering) {
+                dataManager->addData(q->dataType(), item.value("id_str").toString(), item, q->dataIsReliable());
                 stack.takeAt(i);
                 size--;
             }
@@ -327,8 +328,10 @@ void AbstractTwitterModel::Private::timeout()
                 if (pushOrder != PushAtOnce) {
                     filtering = false;
                     emit q->filtering(item);
-                    if (filtering)
+                    if (filtering) {
+                        dataManager->addData(q->dataType(), id, item, q->dataIsReliable());
                         continue;
+                    }
                 }
                 if (!ids.contains(id)) {
                     if (pushOrder != PushAtOnce)
@@ -351,8 +354,10 @@ void AbstractTwitterModel::Private::timeout()
                     if (pushOrder != PushAtOnce) {
                         filtering = false;
                         emit q->filtering(item);
-                        if (filtering)
+                        if (filtering) {
+                            dataManager->addData(q->dataType(), id_str, item, q->dataIsReliable());
                             continue;
+                        }
                     }
                     for (int i = 0; i < size; i++) {
 //                        DEBUG() << ids.at(i) << ids.at(i).length();
