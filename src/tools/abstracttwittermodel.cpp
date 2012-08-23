@@ -301,7 +301,6 @@ void AbstractTwitterModel::Private::timeout()
             emit q->filtering(item);
 //            DEBUG() << item.value("user").toMap().value("screen_name").toString() << filtering;
             if (filtering) {
-                dataManager->addData(q->dataType(), item.value("id_str").toString(), item, q->dataIsReliable());
                 stack.takeAt(i);
                 size--;
             }
@@ -329,7 +328,6 @@ void AbstractTwitterModel::Private::timeout()
                     filtering = false;
                     emit q->filtering(item);
                     if (filtering) {
-                        dataManager->addData(q->dataType(), id, item, q->dataIsReliable());
                         continue;
                     }
                 }
@@ -355,7 +353,6 @@ void AbstractTwitterModel::Private::timeout()
                         filtering = false;
                         emit q->filtering(item);
                         if (filtering) {
-                            dataManager->addData(q->dataType(), id_str, item, q->dataIsReliable());
                             continue;
                         }
                     }

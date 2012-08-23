@@ -9,7 +9,13 @@ Mentions::Mentions(QObject *parent)
 void Mentions::dataAdded(const QString &key, const QVariantMap &value)
 {
     Q_UNUSED(key)
-    if (value.value("text").toString().contains(QString("@%1").arg(OAuthManager::instance().screenName()))) {
-        addData(value);
+    QVariantMap entities = value.value("entities").toMap();
+    QVariantList user_mentions = entities.value("user_mentions").toList();
+    QString idStr = OAuthManager::instance().userId();
+    foreach (const QVariant &user_mention, user_mentions) {
+        if (user_mention.toMap().value("id_str").toString() == idStr) {
+            addData(value);
+            break;
+        }
     }
 }
