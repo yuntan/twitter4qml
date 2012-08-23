@@ -116,8 +116,9 @@ void SavedSearches::dataAdded(const QString &key, const QVariantMap &value)
     addData(value);
 }
 
-void SavedSearches::dataAboutToBeRemoved(const QString &key)
+void SavedSearches::dataAboutToBeRemoved(const QString &key, const QVariantMap &value)
 {
+    Q_UNUSED(value)
     removeData(key);
 }
 

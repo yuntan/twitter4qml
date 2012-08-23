@@ -56,7 +56,7 @@ void DataManager::Private::add(DataType type, const QString &key, const QVariant
 void DataManager::Private::remove(DataType type, const QString &key)
 {
     if (data.value(type).contains(key)) {
-        emit q->dataAboutToBeRemoved(type, key);
+        emit q->dataAboutToBeRemoved(type, key, data.value(type).value(key));
         data[type].remove(key);
     }
 }

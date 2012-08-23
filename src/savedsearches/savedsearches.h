@@ -30,7 +30,7 @@ protected:
     void parseDone(const QVariant &result);
 
     void dataAdded(const QString &key, const QVariantMap &value);
-    void dataAboutToBeRemoved(const QString &key);
+    void dataAboutToBeRemoved(const QString &key, const QVariantMap &value);
 
 private:
     Q_DISABLE_COPY(SavedSearches)

@@ -47,7 +47,7 @@ private slots:
     void parsed(const QVariant &result);
     void timeout();
     void dataAdded(DataManager::DataType type, const QString &key, const QVariantMap &value);
-    void dataAboutToBeRemoved(DataManager::DataType type, const QString &key);
+    void dataAboutToBeRemoved(DataManager::DataType type, const QString &key, const QVariantMap &value);
     void dataChanged(DataManager::DataType type, const QString &key, const QVariantMap &value);
 
     void sortKeyChanged(const QString &sortKey);
@@ -77,7 +77,7 @@ AbstractTwitterModel::Private::Private(AbstractTwitterModel *parent)
     connect(&parser, SIGNAL(parsed(QVariant)), this, SLOT(parsed(QVariant)));
     metaObject()->invokeMethod(q, "reload", Qt::QueuedConnection);
     connect(DataManager::instance(), SIGNAL(dataAdded(DataManager::DataType,QString,QVariantMap)), this, SLOT(dataAdded(DataManager::DataType,QString,QVariantMap)));
-    connect(DataManager::instance(), SIGNAL(dataAboutToBeRemoved(DataManager::DataType,QString)), this, SLOT(dataAboutToBeRemoved(DataManager::DataType,QString)));
+    connect(DataManager::instance(), SIGNAL(dataAboutToBeRemoved(DataManager::DataType,QString,QVariantMap)), this, SLOT(dataAboutToBeRemoved(DataManager::DataType,QString,QVariantMap)));
     connect(DataManager::instance(), SIGNAL(dataChanged(DataManager::DataType,QString,QVariantMap)), this, SLOT(dataChanged(DataManager::DataType,QString,QVariantMap)));
     connect(q, SIGNAL(enabledChanged(bool)), this, SLOT(enabledChanged(bool)));
 }
@@ -423,8 +423,9 @@ void AbstractTwitterModel::Private::dataAdded(DataManager::DataType type, const 
     }
 }
 
-void AbstractTwitterModel::Private::dataAboutToBeRemoved(DataManager::DataType type, const QString &key)
+void AbstractTwitterModel::Private::dataAboutToBeRemoved(DataManager::DataType type, const QString &key, const QVariantMap &value)
 {
+    Q_UNUSED(value)
     if (q->dataType() == type) {
         q->dataAboutToBeRemoved(key);
     }

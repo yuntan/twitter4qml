@@ -31,7 +31,7 @@ public slots:
 
 signals:
     void dataAdded(DataManager::DataType type, const QString &key, const QVariantMap &value);
-    void dataAboutToBeRemoved(DataManager::DataType type, const QString &key);
+    void dataAboutToBeRemoved(DataManager::DataType type, const QString &key, const QVariantMap &value);
     void dataChanged(DataManager::DataType type, const QString &key, const QVariantMap &value);
 
 private:

@@ -46,6 +46,11 @@ public:
     int utcOffset;
     bool verified;
 
+private slots:
+    void dataAdded(DataManager::DataType type, const QString &key, const QVariantMap &value);
+    void dataAboutToBeRemoved(DataManager::DataType type, const QString &key, const QVariantMap &value);
+//    void dataChanged(DataManager::DataType type, const QString &key, const QVariantMap &value);
+
 private:
     VerifyCredentials *q;
 };
@@ -70,7 +75,36 @@ VerifyCredentials::Private::Private(VerifyCredentials *parent)
     , verified(false)
     , q(parent)
 {
+    connect(DataManager::instance(), SIGNAL(dataAdded(DataManager::DataType,QString,QVariantMap)), this, SLOT(dataAdded(DataManager::DataType,QString,QVariantMap)));
+    connect(DataManager::instance(), SIGNAL(dataAboutToBeRemoved(DataManager::DataType,QString,QVariantMap)), this, SLOT(dataAboutToBeRemoved(DataManager::DataType,QString,QVariantMap)));
+//    connect(DataManager::instance(), SIGNAL(dataChanged(DataManager::DataType,QString,QVariantMap)), this, SLOT(dataChanged(DataManager::DataType,QString,QVariantMap)));
 }
+
+void VerifyCredentials::Private::dataAdded(DataManager::DataType type, const QString &key, const QVariantMap &value)
+{
+    Q_UNUSED(key)
+    if (type != DataManager::StatusData) return;
+    if (value.value("user").toMap().value("id_str") == idStr) {
+        q->setStatusesCount(statusesCount + 1);
+    }
+}
+
+void VerifyCredentials::Private::dataAboutToBeRemoved(DataManager::DataType type, const QString &key, const QVariantMap &value)
+{
+    Q_UNUSED(key)
+    if (type != DataManager::StatusData) return;
+    if (value.value("user").toMap().value("id_str") == idStr) {
+        q->setStatusesCount(statusesCount - 1);
+    }
+}
+
+//void VerifyCredentials::Private::dataChanged(DataManager::DataType type, const QString &key, const QVariantMap &value)
+//{
+//    Q_UNUSED(key)
+//    if (type != DataManager::StatusData) return;
+//    if (value.value("favorited").toBool()) {
+//    }
+//}
 
 VerifyCredentials::VerifyCredentials(QObject *parent)
     : AbstractTwitterAction(parent)
