@@ -1,4 +1,0 @@
-CREATE TABLE IF NOT EXISTS Coordinates (
-    coordinates_id INTEGER PRIMARY KEY AUTOINCREMENT
-    , type TEXT NOT NULL
-);

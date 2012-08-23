@@ -230,19 +230,17 @@ void Status::Private::dataChanged(const QVariant &data)
             if (status.contains(key)) {
                 if (QLatin1String("favorited") == key) {
                     if (qobject_cast<AbstractFavoriteAction *>(sender())) {
-                        q->setProperty(key, !status.value(key).toBool());
-                    } else {
-                        q->setProperty(key, status.value(key));
+                        status[key] = !status.value(key).toBool();
                     }
-                } else {
-                    q->setProperty(key, status.value(key));
                 }
+                q->setProperty(key, status.value(key));
             } else {
                 q->setProperty(key, QVariant());
             }
         }
-        if (!qobject_cast<RetweetStatus *>(action))
+        if (!qobject_cast<RetweetStatus *>(action)) {
             DataManager::instance()->addData(DataManager::StatusData, q->idStr(), status);
+        }
         emit q->dataChanged();
         action->deleteLater();
     }

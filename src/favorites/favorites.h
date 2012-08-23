@@ -27,6 +27,7 @@ signals:
 
 protected:
     QUrl api() const { return QUrl("http://api.twitter.com/1/favorites.json"); }
+    void dataAdded(const QString &key, const QVariantMap &value);
     void dataChanged(const QString &key, const QVariantMap &value);
 };
 

@@ -5,11 +5,18 @@ Favorites::Favorites(QObject *parent)
 {
 }
 
+void Favorites::dataAdded(const QString &key, const QVariantMap &value)
+{
+    Q_UNUSED(key)
+    if (value.value("favorited").toBool()) {
+        addData(value);
+    }
+}
+
 void Favorites::dataChanged(const QString &key, const QVariantMap &value)
 {
-    bool favorited = value.value("favorited").toBool();
-    DEBUG() << favorited;
-    if (favorited) {
+    Q_UNUSED(key)
+    if (value.value("favorited").toBool()) {
         addData(value);
     } else {
         removeData(key);

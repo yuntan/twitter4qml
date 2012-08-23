@@ -237,5 +237,3 @@ OTHER_FILES += \
     $$PWD/tools/createdb/005.sql \
     $$PWD/tools/createdb/006.sql
 
-RESOURCES += \
-    $$PWD/twitter4qml.qrc
