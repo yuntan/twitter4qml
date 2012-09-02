@@ -41,6 +41,7 @@ public:
 
 public slots:
     void parse(const QByteArray &data);
+    void cancel();
 
 signals:
     void parsed(const QVariant &result);

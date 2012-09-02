@@ -1,4 +1,5 @@
 TEMPLATE = subdirs
 
-SUBDIRS += src tests
+#SUBDIRS += src
+SUBDIRS += tests
 

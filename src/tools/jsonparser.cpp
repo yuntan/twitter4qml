@@ -26,6 +26,8 @@
 
 #include "jsonparser.h"
 #include <QtCore/QThread>
+#include <QtCore/QReadLocker>
+#include <QtCore/QWriteLocker>
 
 class JSONParser::Private : public QObject
 {
@@ -35,9 +37,12 @@ public:
 
 public slots:
     void parse(const QByteArray &data);
+    void cancel();
 
 private:
     JSONParser *q;
+    QReadWriteLock lock;
+    bool cancelling;
 
     const char *parseValue(const char *ch, QVariant *value, bool *ok = 0);
     const char *parseNull(const char *ch, QVariant *value, bool *ok = 0);
@@ -53,23 +58,36 @@ public:
 
 JSONParser::Private::Private(JSONParser *parent)
     : q(parent)
+    , cancelling(false)
     , thread(new QThread(parent))
 {
 }
 
 void JSONParser::Private::parse(const QByteArray &data)
 {
+    {
+        QWriteLocker locker(&lock);
+        cancelling = false;
+    }
     const char *ch = data.constData();
     if (*ch != 0) {
         bool ok;
         QVariant value;
         ch = parseValue(ch, &value, &ok);
-        if (ok) {
-            QMetaObject::invokeMethod(q, "parsed", Qt::QueuedConnection, Q_ARG(QVariant, value));
-        } else {
-            QMetaObject::invokeMethod(q, "parsed", Qt::QueuedConnection, Q_ARG(QVariant, QVariant()));
+        QReadLocker locker(&lock);
+        if (!cancelling) {
+            if (ok) {
+                QMetaObject::invokeMethod(q, "parsed", Qt::QueuedConnection, Q_ARG(QVariant, value));
+            } else {
+                QMetaObject::invokeMethod(q, "parsed", Qt::QueuedConnection, Q_ARG(QVariant, QVariant()));
+            }
         }
     }
+}
+
+void JSONParser::Private::cancel() {
+    QWriteLocker locker(&lock);
+    cancelling = true;
 }
 
 const char *JSONParser::Private::parseValue(const char *ch, QVariant *value, bool *ok)
@@ -77,6 +95,8 @@ const char *JSONParser::Private::parseValue(const char *ch, QVariant *value, boo
     if (ok) *ok = false;
     bool break2 = false;
     while (*ch != 0 && !break2) {
+        QReadLocker locker(&lock);
+        if (cancelling) return ch;
         switch (*ch) {
         case ' ':
         case '\n':
@@ -411,6 +431,11 @@ JSONParser::~JSONParser()
 void JSONParser::parse(const QByteArray &data)
 {
     QMetaObject::invokeMethod(d, "parse", Qt::QueuedConnection, Q_ARG(QByteArray, data));
+}
+
+void JSONParser::cancel()
+{
+    d->cancel();
 }
 
 #include "jsonparser.moc"

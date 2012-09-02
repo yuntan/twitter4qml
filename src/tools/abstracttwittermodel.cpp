@@ -63,6 +63,7 @@ public:
 public slots:
     void reload();
     void abort();
+    void reset();
 
 private slots:
     void enabledChanged(bool enabled);
@@ -122,8 +123,7 @@ void AbstractTwitterModel::Private::authorizedChanged(bool isAuthorized)
     if (isAuthorized) {
         metaObject()->invokeMethod(q, "reload", Qt::QueuedConnection);
     } else {
-        // clear
-//        q->beginRemoveRows();
+        reset();
     }
 }
 void AbstractTwitterModel::Private::reload()
@@ -241,6 +241,21 @@ void AbstractTwitterModel::Private::abort()
         connection->abort();
         connection->deleteLater();
     }
+}
+
+void AbstractTwitterModel::Private::reset()
+{
+    abort();
+    parser.cancel();
+    if (timer.isActive()) timer.stop();
+    q->setPushOrder(PushNewerToOlder);
+    q->setSortKey(QString());
+    q->setCacheKey(QString());
+    q->setEnabled(true);
+    stack.clear();
+    q->beginRemoveRows(QModelIndex(), 0, ids.count());
+    ids.clear();
+    q->endRemoveRows();
 }
 
 void AbstractTwitterModel::Private::readData()
@@ -575,6 +590,13 @@ void AbstractTwitterModel::reload()
 void AbstractTwitterModel::abort()
 {
     d->abort();
+}
+
+void AbstractTwitterModel::reset()
+{
+    setLoading(true);
+    d->reset();
+    setLoading(false);
 }
 
 int AbstractTwitterModel::rowCount(const QModelIndex &parent) const

@@ -88,6 +88,7 @@ public:
 public slots:
     void setEnabled(bool enabled);
     virtual void reload();
+    virtual void reset();
     void setPushOrder(PushOrder pushOrder);
     void abort();
     void filter();
