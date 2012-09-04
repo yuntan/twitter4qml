@@ -87,18 +87,18 @@ void DirectMessage::Private::setLoading(bool l)
 
 void DirectMessage::Private::idStrChanged(const QString &id)
 {
-    createdAt.clear();
-    entities.clear();
-    recipient.clear();
-    recipientId.clear();
-    recipientScreenName.clear();
-    sender.clear();
-    senderId.clear();
-    senderScreenName.clear();
-    text.clear();
-    plainText.clear();
-    richText.clear();
-    media.clear();
+    q->setCreatedAt(QString());
+    q->setEntities(QVariantMap());
+    q->setRecipient(QVariantMap());
+    q->setRecipientId(QString());
+    q->setRecipientScreenName(QString());
+    q->setSender(QVariantMap());
+    q->setSenderId(QString());
+    q->setSenderScreenName(QString());
+    q->setText(QString());
+    q->setPlainText(QString());
+    q->setRichText(QString());
+    q->setMedia(QVariantList());
     if (id.isEmpty()) {
     } else {
         ShowDirectMessage *action = new ShowDirectMessage(this);

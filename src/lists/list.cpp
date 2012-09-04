@@ -93,17 +93,17 @@ void List::Private::setLoading(bool l)
 
 void List::Private::idStrChanged(const QString &id)
 {
-    createdAt.clear();
-    description.clear();
-    following = false;
-    fullName.clear();
-    memberCount = 0;
-    mode.clear();
-    name.clear();
-    slug.clear();
-    subscriberCount = 0;
-    uri.clear();
-    user.clear();
+    q->setCreatedAt(QString());
+    q->setDescription(QString());
+    q->setFollowing(false);
+    q->setFullName(QString());
+    q->setMemberCount(0);
+    q->setMode(QString());
+    q->setName(QString());
+    q->setSlug(QString());
+    q->setSubscriberCount(0);
+    q->setUri(QString());
+    q->setUser(QVariantMap());
 
     DEBUG() << id;
     if (id.isEmpty()) {

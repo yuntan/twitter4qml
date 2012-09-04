@@ -108,27 +108,28 @@ void Status::Private::setLoading(bool l)
 
 void Status::Private::idStrChanged(const QString &id)
 {
-    contributors.clear();
-    coordinates.clear();
-    createdAt.clear();
-    entities.clear();
-    favorited = false;
-    geo.clear();
-    inReplyToScreenName.clear();
-    inReplyToStatusIdStr.clear();
-    inReplyToUserIdStr.clear();
-    place.clear();
-    possiblySensitive = false;
-    retweetCount = 0;
-    retweeted = false;
-    retweetedStatus.clear();
-    source.clear();
-    text.clear();
-    plainText.clear();
-    richText.clear();
-    truncated = false;
-    user.clear();
-    media.clear();
+    q->setContributors(QVariantList());
+    q->setContributors(QVariantList());
+    q->setCoordinates(QVariantMap());
+    q->setEntities(QVariantMap());
+    q->setFavorited(false);
+    q->setGeo(QVariantMap());
+    q->setInReplyToScreenName(QString());
+    q->setInReplyToStatusIdStr(QString());
+    q->setInReplyToUserIdStr(QString());
+    q->setPlace(QVariantMap());
+    q->setPossiblySensitive(false);
+    q->setRetweetCount(0);
+    q->setRetweeted(false);
+    q->setRetweetedStatus(QVariantMap());
+    q->setSource(QString());
+    q->setText(QString());
+    q->setPlainText(QString());
+    q->setRichText(QString());
+    q->setTruncated(false);
+    q->setUser(QVariantMap());
+    q->setMedia(QVariantList());
+
     if (id.isEmpty()) {
     } else {
         ShowStatus *action = new ShowStatus(this);
