@@ -255,11 +255,6 @@ void Status::Private::dataChanged(const QVariant &data)
             if (!prop.isDesignable()) continue;
             const char *key = prop.name();
             if (status.contains(key)) {
-                if (QLatin1String("favorited") == key) {
-                    if (qobject_cast<AbstractFavoriteAction *>(sender())) {
-                        status[key] = !status.value(key).toBool();
-                    }
-                }
                 q->setProperty(key, status.value(key));
             } else {
                 q->setProperty(key, QVariant());
