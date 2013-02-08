@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -27,26 +27,32 @@
 #ifndef FOLLOWERS_H
 #define FOLLOWERS_H
 
-#include "abstractfriendshipidsmodel.h"
+#include "../users/abstractusersmodel.h"
 
-class Followers : public AbstractFriendshipIdsModel
+class Followers : public AbstractUsersModel
 {
     Q_OBJECT
-    Q_PROPERTY(QString user_id READ userId WRITE setUserId NOTIFY userIdChanged)
-    Q_PROPERTY(QString screen_name READ screenName WRITE setScreenName NOTIFY screenNameChanged)
-    Q_PROPERTY(QString cursor READ cursor WRITE setCursor NOTIFY cursorChanged)
-    Q_PROPERTY(bool stringify_ids READ stringifyIds WRITE setStringifyIds NOTIFY stringifyIdsChanged)
+    Q_PROPERTY(QString user_id READ id WRITE id NOTIFY idChanged)
+    Q_PROPERTY(QString screen_name READ screen_name WRITE screen_name NOTIFY screen_nameChanged)
+    Q_PROPERTY(QString cursor READ cursor WRITE cursor NOTIFY cursorChanged)
+    Q_PROPERTY(bool skip_status READ skip_status WRITE skip_status NOTIFY skip_statusChanged)
+    Q_PROPERTY(bool include_user_entities READ include_entities WRITE include_entities NOTIFY include_entitiesChanged)
+
 public:
     explicit Followers(QObject *parent = 0);
 
 signals:
-    void userIdChanged(const QString &userId);
-    void screenNameChanged(const QString &screenName);
+    void idChanged(const QString &id);
+    void screen_nameChanged(const QString &screen_name);
     void cursorChanged(const QString &cursor);
-    void stringifyIdsChanged(bool stringifyIds);
+    void skip_statusChanged(bool skip_status);
+    void include_entitiesChanged(bool include_entities);
 
 protected:
-    QUrl api() const { return QUrl("http://api.twitter.com/1/followers/ids.json"); }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/followers/list.json"); }
+
+private:
+    ADD_PROPERTY(bool, skip_status, bool)
 };
 
 #endif // FOLLOWERS_H

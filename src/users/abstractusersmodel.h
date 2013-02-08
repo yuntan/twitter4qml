@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,7 @@ class AbstractUsersModel : public AbstractTwitterModel
 public:
     enum Roles {
         ContributorsEnabledRole = Qt::UserRole + 1
-        , CreatedAtRole
+        , created_at_role
         , DefaultProfileRole
         , DefaultProfileImageRole
         , DescriptionRole
@@ -46,19 +46,19 @@ public:
         , FollowingRole
         , FriendsCountRole
         , GeoEnabledRole
-        , IdRole
-        , IdStrRole
+        , id_role
+        , id_str_role
         , IsTranslatorRole
         , LangRole
         , ListedCountRole
         , LocationRole
-        , NameRole
+        , name_role
         , NotificationsRole
         , ProfileBackgroundColorRole
-        , ProfileBackgroundImageUrlRole
+        , ProfileBackgroundImageurl_role
         , ProfileBackgroundImageUrlHttpsRole
         , ProfileBackgroundTileRole
-        , ProfileImageUrlRole
+        , ProfileImageurl_role
         , ProfileImageUrlHttpsRole
         , ProfileLinkColorRole
         , ProfileSidebarBorderColorRole
@@ -66,38 +66,15 @@ public:
         , ProfileTextColorRole
         , ProfileUseBackgroundImageRole
         , ProtectedRole
-        , ScreenNameRole
+        , screen_nameRole
         , ShowAllInlineMediaRole
         , StatusesCountRole
         , TimeZoneRole
-        , UrlRole
+        , url_role
         , UtcOffsetRole
         , VerifiedRole
     };
     explicit AbstractUsersModel(QObject *parent = 0);
-    ~AbstractUsersModel();
-
-    const QString &id() const;
-    void setId(const QString &Id);
-    const QString &screenName() const;
-    void setScreenName(const QString &screenName);
-    bool includeEntities() const;
-    void setIncludeEntities(bool includeEntities);
-    int count() const;
-    void setCount(int count);
-    int page() const;
-    void setPage(int page);
-    const QString &cursor() const;
-    void setCursor(const QString &cursor);
-
-    int nextCursor() const;
-    void setNextCursor(int nextCursor);
-    const QString &nextCursorStr() const;
-    void setNextCursorStr(const QString &nextCursorStr);
-    int previousCursor() const;
-    void setPreviousCursor(int previousCursor);
-    const QString &previousCursorStr() const;
-    void setPreviousCursorStr(const QString &previousCursorStr);
 
     DataManager::DataType dataType() const { return DataManager::UserData; }
 
@@ -106,16 +83,16 @@ public slots:
 
 signals:
     void idChanged(const QString &id);
-    void screenNameChanged(const QString &screenName);
-    void includeEntitiesChanged(bool includeEntities);
+    void screen_nameChanged(const QString &screen_name);
+    void include_entitiesChanged(bool include_entities);
     void countChanged(int count);
     void pageChanged(int page);
     void cursorChanged(const QString &cursor);
 
-    void nextCursorChanged(int nextCursor) const;
-    void nextCursorStrChanged(const QString &nextCursorStr) const;
-    void previousCursorChanged(int previousCursor) const;
-    void previousCursorStrChanged(const QString &previousCursorStr) const;
+    void next_cursorChanged(int next_cursor) const;
+    void next_cursor_strChanged(const QString &next_cursor_str) const;
+    void previous_cursorChanged(int previous_cursor) const;
+    void previous_cursor_strChanged(const QString &previous_cursor_str) const;
 
 protected:
     AuthorizeBy authenticationMethod() const { return AuthorizeByUrl; }
@@ -123,8 +100,17 @@ protected:
     void parseDone(const QVariant &result);
 
 private:
-    class Private;
-    Private *d;
+    ADD_PROPERTY(const QString &, id, QString)
+    ADD_PROPERTY(const QString &, screen_name, QString)
+    ADD_PROPERTY(bool, include_entities, bool)
+    ADD_PROPERTY(int, count, int)
+    ADD_PROPERTY(int, page, int)
+    ADD_PROPERTY(const QString &, cursor, QString)
+
+    ADD_PROPERTY(int, next_cursor, int)
+    ADD_PROPERTY(const QString &, next_cursor_str, QString)
+    ADD_PROPERTY(int, previous_cursor, int)
+    ADD_PROPERTY(const QString &, previous_cursor_str, QString)
 };
 
 #endif // ABSTRACTUSERSMODEL_H

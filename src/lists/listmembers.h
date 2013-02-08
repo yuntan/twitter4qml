@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -32,46 +32,48 @@
 class ListMembers : public AbstractUsersModel
 {
     Q_OBJECT
-    Q_PROPERTY(QString list_id READ id WRITE setId NOTIFY idChanged)
-    Q_PROPERTY(QString slug READ slug WRITE setSlug NOTIFY slugChanged)
-    Q_PROPERTY(QString owner_screen_name READ screenName WRITE setScreenName NOTIFY screenNameChanged)
-    Q_PROPERTY(QString cursor READ cursor WRITE setCursor NOTIFY cursorChanged)
+    Q_PROPERTY(QString list_id READ list_id WRITE list_id NOTIFY list_idChanged)
+    Q_PROPERTY(QString slug READ slug WRITE slug NOTIFY slugChanged)
+    Q_PROPERTY(QString owner_screen_name READ screen_name WRITE screen_name NOTIFY screen_nameChanged)
+    Q_PROPERTY(QString owner_id READ id WRITE id NOTIFY idChanged)
+    Q_PROPERTY(QString cursor READ cursor WRITE cursor NOTIFY cursorChanged)
+    Q_PROPERTY(bool include_entities READ include_entities WRITE include_entities NOTIFY include_entitiesChanged)
+    Q_PROPERTY(bool skip_status READ skip_status WRITE skip_status NOTIFY skip_statusChanged)
 
-    Q_PROPERTY(int next_cursor READ nextCursor NOTIFY nextCursorChanged DESIGNABLE false)
-    Q_PROPERTY(QString next_cursor_str READ nextCursorStr NOTIFY nextCursorStrChanged DESIGNABLE false)
-    Q_PROPERTY(int previous_cursor READ previousCursor NOTIFY previousCursorChanged DESIGNABLE false)
-    Q_PROPERTY(QString previous_cursor_str READ previousCursorStr NOTIFY previousCursorStrChanged DESIGNABLE false)
+    Q_PROPERTY(int next_cursor READ next_cursor NOTIFY next_cursorChanged DESIGNABLE false)
+    Q_PROPERTY(QString next_cursor_str READ next_cursor_str NOTIFY next_cursor_strChanged DESIGNABLE false)
+    Q_PROPERTY(int previous_cursor READ previous_cursor NOTIFY previous_cursorChanged DESIGNABLE false)
+    Q_PROPERTY(QString previous_cursor_str READ previous_cursor_str NOTIFY previous_cursor_strChanged DESIGNABLE false)
     Q_DISABLE_COPY(ListMembers)
 
 public:
     explicit ListMembers(QObject *parent = 0);
-    ~ListMembers();
-
-    const QString &slug() const;
-    void setSlug(const QString &slug);
 
 public slots:
     void reload();
 
 signals:
-    void idChanged(const QString &id);
-    void screenNameChanged(const QString &screenName);
-    void includeEntitiesChanged(bool includeEntities);
-    void cursorChanged(const QString &cursor);
+    void list_idChanged(const QString &list_id);
     void slugChanged(const QString &slug);
+    void screen_nameChanged(const QString &screen_name);
+    void idChanged(const QString &id);
+    void cursorChanged(const QString &cursor);
+    void include_entitiesChanged(bool include_entities);
+    void skip_statusChanged(bool skip_status);
 
-    void nextCursorChanged(int nextCursor) const;
-    void nextCursorStrChanged(const QString &nextCursorStr) const;
-    void previousCursorChanged(int previousCursor) const;
-    void previousCursorStrChanged(const QString &previousCursorStr) const;
+    void next_cursorChanged(int next_cursor) const;
+    void next_cursor_strChanged(const QString &next_cursor_str) const;
+    void previous_cursorChanged(int previous_cursor) const;
+    void previous_cursor_strChanged(const QString &previous_cursor_str) const;
 
 protected:
-    QUrl api() const { return QUrl("http://api.twitter.com/1/lists/members.json"); }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/lists/members.json"); }
     void parseDone(const QVariant &result);
 
 private:
-    class Private;
-    Private *d;
+    ADD_PROPERTY(const QString &, list_id, QString)
+    ADD_PROPERTY(const QString &, slug, QString)
+    ADD_PROPERTY(bool, skip_status, bool)
 };
 
 #endif // LISTMEMBERS_H

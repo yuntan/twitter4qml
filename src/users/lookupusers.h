@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -32,9 +32,9 @@
 class LookupUsers : public AbstractUsersModel
 {
     Q_OBJECT
-    Q_PROPERTY(QString user_id READ id WRITE setId NOTIFY idChanged)
-    Q_PROPERTY(QString screen_name READ screenName WRITE setScreenName NOTIFY screenNameChanged)
-    Q_PROPERTY(bool include_entities READ includeEntities WRITE setIncludeEntities NOTIFY includeEntitiesChanged)
+    Q_PROPERTY(QString screen_name READ screen_name WRITE screen_name NOTIFY screen_nameChanged)
+    Q_PROPERTY(QString user_id READ id WRITE id NOTIFY idChanged)
+    Q_PROPERTY(bool include_entities READ include_entities WRITE include_entities NOTIFY include_entitiesChanged)
     Q_DISABLE_COPY(LookupUsers)
 
 public:
@@ -44,12 +44,12 @@ public slots:
     void reload();
 
 signals:
+    void screen_nameChanged(const QString &screen_name);
     void idChanged(const QString &id);
-    void screenNameChanged(const QString &screenName);
-    void includeEntitiesChanged(bool includeEntities);
+    void include_entitiesChanged(bool include_entities);
 
 protected:
-    QUrl api() const { return QUrl("http://api.twitter.com/1/users/lookup.json"); }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/users/lookup.json"); }
 };
 
 #endif // LOOKUPUSERS_H

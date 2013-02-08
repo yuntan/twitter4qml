@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -30,66 +30,24 @@
 #include "../utils.h"
 #include <QtCore/QQueue>
 
-class SearchStatuses::Private
-{
-public:
-    Private();
-
-    QString query;
-    QString geocode;
-    QString lang;
-    QString locale;
-    int page;
-    QString resultType;
-    int rpp;
-    bool showUser;
-    QString until;
-    QString sinceId;
-    bool includeEntities;
-
-    float completedIn;
-    QString nextPage;
-    QString refreshUrl;
-};
-
-SearchStatuses::Private::Private()
-    : page(0)
-    , resultType("mixed")
-    , rpp(0)
-    , showUser(false)
-    , includeEntities(true)
-{
-}
-
 SearchStatuses::SearchStatuses(QObject *parent)
     : AbstractStatusesModel(parent)
-    , d(new Private)
+    , m_result_type("mixed")
+    , m_count(0)
+    , m_include_entities(true)
 {
-}
-
-SearchStatuses::~SearchStatuses()
-{
-    delete d;
 }
 
 void SearchStatuses::parseDone(const QVariant &result)
 {
     if (result.type() == QVariant::Map) {
         QVariantMap object = result.toMap();
-        if (object.contains("completed_in"))
-            setCompletedIn(object.value("completed_in").toFloat());
-        if (object.contains("max_id_str"))
-            setMaxId(object.value("max_id_str").toString());
-        if (object.contains("next_page"))
-            setNextPage(object.value("next_page").toString());
-        if (object.contains("page"))
-            setPage(object.value("page").toInt());
+        if (object.contains("search_metadata"))
+            search_metadata(object.value("search_metadata").toMap());
 //        if (object.contains("query"))
 //            setQ(object.value("query").toString());
-        if (object.contains("refresh_url"))
-            setRefreshUrl(object.value("refresh_url").toString());
-        if (object.contains("results") && object.value("results").type() == QVariant::List) {
-            QVariantList results = object.value("results").toList();
+        if (object.contains("statuses") && object.value("statuses").type() == QVariant::List) {
+            QVariantList results = object.value("statuses").toList();
             if (results.isEmpty()) {
                 emit loadingChanged(false);
             } else {
@@ -112,126 +70,6 @@ void SearchStatuses::dataAdded(const QString &key, const QVariantMap &value)
     if (value.value("text").toString().contains(QString(QByteArray::fromPercentEncoding(q().toUtf8())), Qt::CaseInsensitive)) {
         addData(value);
     }
-}
-
-const QString &SearchStatuses::q() const
-{
-    return d->query;
-}
-
-void SearchStatuses::setQ(const QString &q)
-{
-    if (d->query == q) return;
-    d->query = q;
-    emit qChanged(q);
-}
-
-const QString &SearchStatuses::geocode() const
-{
-    return d->geocode;
-}
-
-void SearchStatuses::setGeocode(const QString &geocode)
-{
-    if (d->geocode == geocode) return;
-    d->geocode = geocode;
-    emit geocodeChanged(geocode);
-}
-
-const QString &SearchStatuses::lang() const
-{
-    return d->lang;
-}
-
-void SearchStatuses::setLang(const QString &lang)
-{
-    if (d->lang == lang) return;
-    d->lang = lang;
-    emit langChanged(lang);
-}
-
-const QString &SearchStatuses::locale() const
-{
-    return d->locale;
-}
-
-void SearchStatuses::setLocale(const QString &locale)
-{
-    if (d->locale == locale) return;
-    d->locale = locale;
-    emit localeChanged(locale);
-}
-
-const QString &SearchStatuses::resultType() const
-{
-    return d->resultType;
-}
-
-void SearchStatuses::setResultType(const QString &resultType)
-{
-    if (d->resultType == resultType) return;
-    d->resultType = resultType;
-    emit resultTypeChanged(resultType);
-}
-
-bool SearchStatuses::showUser() const
-{
-    return d->showUser;
-}
-
-void SearchStatuses::setShowUser(bool showUser)
-{
-    if (d->showUser == showUser) return;
-    d->showUser = showUser;
-    emit showUserChanged(showUser);
-}
-
-const QString &SearchStatuses::until() const
-{
-    return d->until;
-}
-
-void SearchStatuses::setUntil(const QString &until)
-{
-    if (d->until == until) return;
-    d->until = until;
-    emit untilChanged(until);
-}
-
-float SearchStatuses::completedIn() const
-{
-    return d->completedIn;
-}
-
-void SearchStatuses::setCompletedIn(float completedIn)
-{
-    if (d->completedIn == completedIn) return;
-    d->completedIn = completedIn;
-    emit completedInChanged(completedIn);
-}
-
-const QString &SearchStatuses::nextPage() const
-{
-    return d->nextPage;
-}
-
-void SearchStatuses::setNextPage(const QString &nextPage)
-{
-    if (d->nextPage == nextPage) return;
-    d->nextPage = nextPage;
-    emit nextPageChanged(nextPage);
-}
-
-const QString &SearchStatuses::refreshUrl() const
-{
-    return d->refreshUrl;
-}
-
-void SearchStatuses::setRefreshUrl(const QString &refreshUrl)
-{
-    if (d->refreshUrl == refreshUrl) return;
-    d->refreshUrl = refreshUrl;
-    emit refreshUrlChanged(refreshUrl);
 }
 
 bool SearchStatuses::indicesGreaterThan(const QVariant &v1, const QVariant &v2)
@@ -266,8 +104,8 @@ QVariantMap SearchStatuses::parse(const QVariantMap &status)
     QString text = ret.value("text").toString();
     if (ret.contains("entities") && !ret.value("entities").isNull()) {
 //        DEBUG() << text;
-        QString plainText = text;
-        QString richText = text.replace(" ", "\t");
+        QString plain_text = text;
+        QString rich_text = text.replace(" ", "\t");
         QVariantList entitiesSortedByIndices;
         QVariantMap entities = ret.value("entities").toMap();
         foreach (const QString &key, entities.keys()) {
@@ -291,12 +129,12 @@ QVariantMap SearchStatuses::parse(const QVariantMap &status)
             int start = indices.first().toInt();
             int end = indices.last().toInt();
             QString type = entity.value("type").toString();
-            QString plainTextAfter;
-            QString richTextAfter;
+            QString plain_textAfter;
+            QString rich_textAfter;
             if (type == "urls") {
                 if (entity.contains("display_url")) {
-                    plainTextAfter = entity.value("display_url").toString();
-                    richTextAfter = QString("<a class=\"link\" href=\"")
+                    plain_textAfter = entity.value("display_url").toString();
+                    rich_textAfter = QString("<a class=\"link\" href=\"")
                             .append(entity.value("expanded_url").toString())
                             .append("\" title=\"")
                             .append(entity.value("url").toString())
@@ -304,8 +142,8 @@ QVariantMap SearchStatuses::parse(const QVariantMap &status)
                             .append(entity.value("display_url").toString())
                             .append("</a>");
                 } else {
-                    plainTextAfter = entity.value("url").toString();
-                    richTextAfter = QString("<a class=\"link\" href=\"")
+                    plain_textAfter = entity.value("url").toString();
+                    rich_textAfter = QString("<a class=\"link\" href=\"")
                             .append(entity.value("url").toString())
                             .append("\" title=\"")
                             .append(entity.value("url").toString())
@@ -314,16 +152,16 @@ QVariantMap SearchStatuses::parse(const QVariantMap &status)
                             .append("</a>");
                 }
             } else if (type == "user_mentions") {
-                richTextAfter = QString("<a class=\"screen_name\" href=\"user://%1\" title=\"@%2\">@%2</a>")
+                rich_textAfter = QString("<a class=\"screen_name\" href=\"user://%1\" title=\"@%2\">@%2</a>")
                         .arg(entity.value("id_str").toString())
                         .arg(entity.value("screen_name").toString());
             } else if (type == "hashtags") {
-                richTextAfter = QString("<a class=\"hash_tag\" href=\"search://#%1\" title=\"#%2\">#%2</a>")
+                rich_textAfter = QString("<a class=\"hash_tag\" href=\"search://#%1\" title=\"#%2\">#%2</a>")
                         .arg(entity.value("text").toString())
                         .arg(entity.value("text").toString());
             } else if (type == "media") {
-                plainTextAfter = entity.value("display_url").toString();
-                richTextAfter = QString("<a class=\"media\" href=\"")
+                plain_textAfter = entity.value("display_url").toString();
+                rich_textAfter = QString("<a class=\"media\" href=\"")
                         .append(entity.value("media_url").toString())
                         .append("\" title=\"")
                         .append(entity.value("url").toString())
@@ -334,17 +172,17 @@ QVariantMap SearchStatuses::parse(const QVariantMap &status)
             } else {
                 DEBUG() << type << item;
             }
-            if (!plainTextAfter.isNull())
-                plainText.replace(start, end - start, plainTextAfter);
-            if (!richTextAfter.isNull())
-                richText.replace(start, end - start, richTextAfter);
+            if (!plain_textAfter.isNull())
+                plain_text.replace(start, end - start, plain_textAfter);
+            if (!rich_textAfter.isNull())
+                rich_text.replace(start, end - start, rich_textAfter);
         }
 
 
 //        DEBUG() << ret.value("text").toString();
-        ret.insert("plain_text", escapeHtml(plainText));
+        ret.insert("plain_text", escapeHtml(plain_text));
 //        DEBUG() << ret.value("plain_text").toString();
-        ret.insert("rich_text", richText.replace("\n", "<br />").replace("\t", "&nbsp;").replace(QString::fromUtf8("　"), "&nbsp;&nbsp;&nbsp;&nbsp;"));
+        ret.insert("rich_text", rich_text.replace("\n", "<br />").replace("\t", "&nbsp;").replace(QString::fromUtf8("　"), "&nbsp;&nbsp;&nbsp;&nbsp;"));
 //        DEBUG() << ret.value("rich_text").toString();
         ret.insert("media", media);
     } else {

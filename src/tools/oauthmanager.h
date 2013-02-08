@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -44,8 +44,8 @@ class OAuthManager : public QObject
     Q_PROPERTY(QString consumerSecret READ consumerSecret WRITE setConsumerSecret NOTIFY consumerSecretChanged)
     Q_PROPERTY(QString token READ token WRITE setToken NOTIFY tokenChanged)
     Q_PROPERTY(QString tokenSecret READ tokenSecret WRITE setTokenSecret NOTIFY tokenSecretChanged)
-    Q_PROPERTY(QString userId READ userId WRITE setUserId NOTIFY userIdChanged)
-    Q_PROPERTY(QString screen_name READ screenName WRITE setScreenName NOTIFY screenNameChanged)
+    Q_PROPERTY(QString user_id READ user_id WRITE user_id NOTIFY user_idChanged)
+    Q_PROPERTY(QString screen_name READ screen_name WRITE screen_name NOTIFY screen_nameChanged)
 public:
     enum AuthorizeBy {
         AuthorizeByHeader,
@@ -62,8 +62,8 @@ public:
     const QString &consumerSecret() const;
     const QString &token() const;
     const QString &tokenSecret() const;
-    const QString &userId() const;
-    const QString &screenName() const;
+    const QString &user_id() const;
+    const QString &screen_name() const;
     bool isAuthorized() const;
 
     QNetworkReply *request(const QString &method, const QUrl &url, const QMultiMap<QString, QByteArray> &params, bool multiPart = false);
@@ -79,8 +79,8 @@ public slots:
     void setConsumerSecret(const QString &consumerSecret);
     void setToken(const QString &token);
     void setTokenSecret(const QString &tokenSecret);
-    void setUserId(const QString &userId);
-    void setScreenName(const QString &screenName);
+    void user_id(const QString &user_id);
+    void screen_name(const QString &screen_name);
     void setAuthorized(bool isAuthorized);
 
 signals:
@@ -89,8 +89,8 @@ signals:
     void consumerSecretChanged(const QString &consumerSecret);
     void tokenChanged(const QString &token);
     void tokenSecretChanged(const QString &tokenSecret);
-    void userIdChanged(const QString &userId);
-    void screenNameChanged(const QString &screenName);
+    void user_idChanged(const QString &user_id);
+    void screen_nameChanged(const QString &screen_name);
     void authorizedChanged(bool isAuthorized);
 
 private:

@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -44,11 +44,11 @@ public:
     Private(List *parent);
 
     bool loading;
-    QString createdAt;
+    QString created_at;
     QString description;
     bool following;
     QString fullName;
-    QString idStr;
+    QString id_str;
     int memberCount;
     QString mode;
     QString name;
@@ -65,7 +65,7 @@ public:
 
 private slots:
     void setLoading(bool loading);
-    void idStrChanged(const QString &idStr);
+    void id_strChanged(const QString &id_str);
     void dataChanged(const QVariant &data);
 
 private:
@@ -81,7 +81,7 @@ List::Private::Private(List *parent)
     , subscriberCount(0)
     , q(parent)
 {
-    connect(q, SIGNAL(idStrChanged(QString)), this, SLOT(idStrChanged(QString)));
+    connect(q, SIGNAL(id_strChanged(QString)), this, SLOT(id_strChanged(QString)));
 }
 
 void List::Private::setLoading(bool l)
@@ -91,25 +91,25 @@ void List::Private::setLoading(bool l)
     emit q->loadingChanged(l);
 }
 
-void List::Private::idStrChanged(const QString &id)
+void List::Private::id_strChanged(const QString &id)
 {
-    q->setCreatedAt(QString());
-    q->setDescription(QString());
-    q->setFollowing(false);
+    q->created_at(QString());
+    q->description(QString());
+    q->following(false);
     q->setFullName(QString());
     q->setMemberCount(0);
-    q->setMode(QString());
-    q->setName(QString());
-    q->setSlug(QString());
+    q->mode(QString());
+    q->name(QString());
+    q->slug(QString());
     q->setSubscriberCount(0);
     q->setUri(QString());
-    q->setUser(QVariantMap());
+    q->user(QVariantMap());
 
     DEBUG() << id;
     if (id.isEmpty()) {
     } else {
         ShowList *action = new ShowList(this);
-        action->setListId(id);
+        action->list_id(id);
         connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
         if (loading) {
             tasks.append(action);
@@ -123,9 +123,9 @@ void List::Private::idStrChanged(const QString &id)
 void List::Private::create(const QVariantMap &parameters)
 {
     CreateList *action = new CreateList(this);
-    action->setDescription(parameters.value("description").toString());
-    action->setMode(parameters.value("mode").toString());
-    action->setName(parameters.value("name").toString());
+    action->description(parameters.value("description").toString());
+    action->mode(parameters.value("mode").toString());
+    action->name(parameters.value("name").toString());
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
     if (loading) {
         tasks.append(action);
@@ -138,10 +138,10 @@ void List::Private::create(const QVariantMap &parameters)
 void List::Private::update(const QVariantMap &parameters)
 {
     UpdateList *action = new UpdateList(this);
-    action->setListId(idStr);
-    action->setDescription(parameters.value("description").toString());
-    action->setMode(parameters.value("mode").toString());
-    action->setName(parameters.value("name").toString());
+    action->list_id(id_str);
+    action->description(parameters.value("description").toString());
+    action->mode(parameters.value("mode").toString());
+    action->name(parameters.value("name").toString());
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
     if (loading) {
         tasks.append(action);
@@ -154,7 +154,7 @@ void List::Private::update(const QVariantMap &parameters)
 void List::Private::destroy()
 {
     DestroyList *action = new DestroyList(this);
-    action->setListId(idStr);
+    action->list_id(id_str);
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
     if (loading) {
         tasks.append(action);
@@ -167,7 +167,7 @@ void List::Private::destroy()
 void List::Private::subscribe()
 {
     SubscribeList *action = new SubscribeList(this);
-    action->setListId(idStr);
+    action->list_id(id_str);
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
     if (loading) {
         tasks.append(action);
@@ -180,7 +180,7 @@ void List::Private::subscribe()
 void List::Private::unsubscribe()
 {
     UnsubscribeList *action = new UnsubscribeList(this);
-    action->setListId(idStr);
+    action->list_id(id_str);
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
     if (loading) {
         tasks.append(action);
@@ -215,7 +215,7 @@ void List::Private::dataChanged(const QVariant &data)
                 q->setProperty(key, QVariant());
             }
         }
-        DataManager::instance()->addData(DataManager::ListData, q->idStr(), list);
+        DataManager::instance()->addData(DataManager::ListData, q->id_str(), list);
         emit q->dataChanged();
         action->deleteLater();
     }
@@ -264,16 +264,16 @@ bool List::loading() const
     return d->loading;
 }
 
-const QString &List::createdAt() const
+const QString &List::created_at() const
 {
-    return d->createdAt;
+    return d->created_at;
 }
 
-void List::setCreatedAt(const QString &createdAt)
+void List::created_at(const QString &created_at)
 {
-    if (d->createdAt == createdAt) return;
-    d->createdAt = createdAt;
-    emit createdAtChanged(createdAt);
+    if (d->created_at == created_at) return;
+    d->created_at = created_at;
+    emit created_atChanged(created_at);
 }
 
 const QString &List::description() const
@@ -281,7 +281,7 @@ const QString &List::description() const
     return d->description;
 }
 
-void List::setDescription(const QString &description)
+void List::description(const QString &description)
 {
     if (d->description == description) return;
     d->description = description;
@@ -293,7 +293,7 @@ bool List::following() const
     return d->following;
 }
 
-void List::setFollowing(bool following)
+void List::following(bool following)
 {
     if (d->following == following) return;
     d->following = following;
@@ -312,17 +312,17 @@ void List::setFullName(const QString &fullName)
     emit fullNameChanged(fullName);
 }
 
-const QString &List::idStr() const
+const QString &List::id_str() const
 {
-    return d->idStr;
+    return d->id_str;
 }
 
-void List::setIdStr(const QString &idStr)
+void List::id_str(const QString &id_str)
 {
-    if (d->idStr == idStr) return;
-    DEBUG() << d->idStr << idStr;
-    d->idStr = idStr;
-    emit idStrChanged(idStr);
+    if (d->id_str == id_str) return;
+    DEBUG() << d->id_str << id_str;
+    d->id_str = id_str;
+    emit id_strChanged(id_str);
 }
 
 int List::memberCount() const
@@ -342,7 +342,7 @@ const QString &List::mode() const
     return d->mode;
 }
 
-void List::setMode(const QString &mode)
+void List::mode(const QString &mode)
 {
     if (d->mode == mode) return;
     d->mode = mode;
@@ -354,7 +354,7 @@ const QString &List::name() const
     return d->name;
 }
 
-void List::setName(const QString &name)
+void List::name(const QString &name)
 {
     if (d->name == name) return;
     d->name = name;
@@ -366,7 +366,7 @@ const QString &List::slug() const
     return d->slug;
 }
 
-void List::setSlug(const QString &slug)
+void List::slug(const QString &slug)
 {
     if (d->slug == slug) return;
     d->slug = slug;
@@ -402,7 +402,7 @@ const QVariantMap &List::user() const
     return d->user;
 }
 
-void List::setUser(const QVariantMap &user)
+void List::user(const QVariantMap &user)
 {
     if (d->user == user) return;
     d->user = user;

@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -31,6 +31,17 @@
 #include <QtCore/QUrl>
 #include <QtCore/QVariantMap>
 
+#define ADD_PROPERTY(type, name, type2) \
+public: \
+    type name() const { return m_##name; } \
+    void name(type name) { \
+        if (m_##name == name) return; \
+        m_##name = name; \
+        emit name##Changed(name); \
+    } \
+private: \
+    type2 m_##name;
+
 class AbstractTwitterAction : public QObject
 {
     Q_OBJECT
@@ -39,7 +50,6 @@ class AbstractTwitterAction : public QObject
     Q_DISABLE_COPY(AbstractTwitterAction)
 public:
     enum AuthorizeBy {
-        AuthorizeByNothing,
         AuthorizeByHeader,
         AuthorizeByBody,
         AuthorizeByUrl

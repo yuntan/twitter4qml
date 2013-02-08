@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -34,6 +34,9 @@
 #include <QtCore/QStringList>
 #include <QtCore/QTimer>
 #include <QtCore/QUrl>
+#if QT_VERSION >= 0x050000
+#include <QtCore/QUrlQuery>
+#endif
 #include <QtCore/qnumeric.h>
 
 #include <QtNetwork/QNetworkReply>
@@ -59,6 +62,10 @@ public:
     QList<QObject *> childObjects;
     QTimer timer;
     bool filtering;
+
+#if QT_VERSION >= 0x050000
+    QHash<int, QByteArray> roleNames;
+#endif
 
 public slots:
     void reload();
@@ -91,8 +98,8 @@ private:
 AbstractTwitterModel::Private::Private(AbstractTwitterModel *parent)
     : QObject(parent)
     , enabled(true)
-    , pushOrder(PushNewerToOlder)
     , isLoading(false)
+    , pushOrder(PushNewerToOlder)
     , filtering(false)
     , q(parent)
 {
@@ -131,10 +138,8 @@ void AbstractTwitterModel::Private::reload()
     if (!enabled) return;
     if (isLoading) return;
     AuthorizeBy authenticationMethod = q->authenticationMethod();
-    if (authenticationMethod != AuthorizeByNothing && !OAuthManager::instance().isAuthorized())
-        authenticationMethod = AuthorizeByNothing;
+    if (!OAuthManager::instance().isAuthorized()) return;
 
-    QUrl url = q->api();
     QStringList body;
 
     QMap<QString, QByteArray> params;
@@ -149,37 +154,30 @@ void AbstractTwitterModel::Private::reload()
         bool ok;
         switch (value.type()) {
         case QVariant::Bool:
-            params.insert(key, value.toString().toAscii());
-            url.addEncodedQueryItem(QString(key).toUtf8().toPercentEncoding(), value.toString().toUtf8().toPercentEncoding());
+            params.insert(key, value.toString().toUtf8());
             body.append(QString("%1=%2").arg(key).arg(value.toString()));
         break;
         case QVariant::String:
             if (!value.toString().isEmpty()) {
                 params.insert(key, value.toString().toUtf8());
-                url.addEncodedQueryItem(QString(key).toUtf8().toPercentEncoding(), value.toString().toUtf8().toPercentEncoding());
                 body.append(QString("%1=%2").arg(key).arg(value.toString()));
             }
             break;
         case QVariant::Double:
             if (!qFuzzyCompare(value.toDouble(&ok), 0.0) && ok && !qIsNaN(value.toDouble())) {
                 QString val = QString::number(value.toDouble(), 'f');
-                DEBUG() << key << value << value.toDouble() << QString::number(value.toDouble(), 'f') << val;
-                params.insert(key, val.toAscii());
-                url.addEncodedQueryItem(QString(key).toUtf8().toPercentEncoding(), val.toAscii().toPercentEncoding());
+                params.insert(key, val.toUtf8());
                 body.append(QString("%1=%2").arg(key).arg(val));
             }
             break;
         case QVariant::Int:
             if (value.toInt(&ok) != 0 && ok) {
-                params.insert(key, value.toString().toAscii());
-                url.addEncodedQueryItem(QString(key).toUtf8().toPercentEncoding(), value.toString().toUtf8().toPercentEncoding());
+                params.insert(key, value.toString().toUtf8());
                 body.append(QString("%1=%2").arg(key).arg(value.toString()));
             }
             break;
         case QVariant::LongLong:
             if (value.toLongLong(&ok) != 0 && ok) {
-                params.insert(key, value.toString().toAscii());
-                url.addEncodedQueryItem(QString(key).toUtf8().toPercentEncoding(), value.toString().toUtf8().toPercentEncoding());
                 body.append(QString("%1=%2").arg(key).arg(value.toString()));
             }
             break;
@@ -195,19 +193,6 @@ void AbstractTwitterModel::Private::reload()
         acceptEncoding = "qcompress";
     QNetworkReply *reply = 0;
     switch (authenticationMethod) {
-    case AuthorizeByNothing:
-        if (q->httpMethod() == QLatin1String("GET")) {
-            QNetworkRequest request(url);
-            request.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::AlwaysNetwork);
-            request.setRawHeader("User-Agent", "Twitter4QML");
-            reply = OAuthManager::instance().networkAccessManager()->get(request);
-        } else if (q->httpMethod() == QLatin1String("POST")) {
-            QNetworkRequest request(q->api());
-            request.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::AlwaysNetwork);
-            request.setRawHeader("User-Agent", "Twitter4QML");
-            reply = OAuthManager::instance().networkAccessManager()->post(request, body.join("&").toUtf8());
-        }
-        break;
     case AuthorizeByHeader:
         OAuthManager::instance().setAuthorizeBy(OAuthManager::AuthorizeByHeader);
         reply = OAuthManager::instance().request(q->httpMethod(), q->api(), params, acceptEncoding);
@@ -300,7 +285,7 @@ void AbstractTwitterModel::Private::finished()
 void AbstractTwitterModel::Private::error(QNetworkReply::NetworkError error)
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
-    DEBUG() << error << reply->errorString() << reply->url();
+    DEBUG() << error << reply->errorString() << reply->url() << reply->readAll();
 }
 
 void AbstractTwitterModel::Private::parsed(const QVariant &result)
@@ -318,7 +303,7 @@ void AbstractTwitterModel::Private::parsed(const QVariant &result)
 
 void AbstractTwitterModel::Private::timeout()
 {
-//    DEBUG() << q->metaObject()->className() << stack.size();
+//    DEBUG() << q->metaObject()->className() << stack.size() << ids.size();
     if (stack.isEmpty()) {
         if (!q->isStreaming()) {
             q->setLoading(false);
@@ -483,12 +468,12 @@ void AbstractTwitterModel::Private::dataChanged(DataManager::DataType type, cons
 
 void AbstractTwitterModel::Private::sortKeyChanged(const QString &sortKey)
 {
-    // restore data
+    // TODO: restore data
 }
 
 void AbstractTwitterModel::Private::cacheKeyChanged(const QString &cacheKey)
 {
-    // restore data
+    // TODO: restore data
 }
 
 AbstractTwitterModel::AbstractTwitterModel(QObject *parent)
@@ -675,13 +660,25 @@ void AbstractTwitterModel::dataChanged(const QString &key, const QVariantMap &va
     Q_UNUSED(value)
 }
 
-QDeclarativeListProperty<QObject> AbstractTwitterModel::childObjects()
+AbstractTwitterModelListProperty AbstractTwitterModel::childObjects()
 {
-    return QDeclarativeListProperty<QObject>(this, d->childObjects);
+    return AbstractTwitterModelListProperty(this, d->childObjects);
 }
 
 void AbstractTwitterModel::filter() {
     d->filtering = true;
 }
+
+#if QT_VERSION >= 0x050000
+void AbstractTwitterModel::setRoleNames(const QHash<int, QByteArray> &roleNames)
+{
+    d->roleNames = roleNames;
+}
+
+QHash<int, QByteArray> AbstractTwitterModel::roleNames() const
+{
+    return d->roleNames;
+}
+#endif
 
 #include "abstracttwittermodel.moc"

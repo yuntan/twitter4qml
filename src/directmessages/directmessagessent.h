@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -32,24 +32,24 @@
 class DirectMessagesSent : public AbstractDirectMessagesModel
 {
     Q_OBJECT
-    Q_PROPERTY(QString since_id READ sinceId WRITE setSinceId NOTIFY sinceIdChanged)
-    Q_PROPERTY(QString max_id READ maxId WRITE setMaxId NOTIFY maxIdChanged)
-    Q_PROPERTY(int count READ count WRITE setCount NOTIFY countChanged)
-    Q_PROPERTY(int page READ page WRITE setPage NOTIFY pageChanged)
-    Q_PROPERTY(bool include_entities READ includeEntities WRITE setIncludeEntities NOTIFY includeEntitiesChanged)
+    Q_PROPERTY(QString since_id READ since_id WRITE since_id NOTIFY since_idChanged)
+    Q_PROPERTY(QString max_id READ max_id WRITE max_id NOTIFY max_idChanged)
+    Q_PROPERTY(int count READ count WRITE count NOTIFY countChanged)
+    Q_PROPERTY(int page READ page WRITE page NOTIFY pageChanged)
+    Q_PROPERTY(bool include_entities READ include_entities WRITE include_entities NOTIFY include_entitiesChanged)
     Q_DISABLE_COPY(DirectMessagesSent)
 public:
     explicit DirectMessagesSent(QObject *parent = 0);
 
 signals:
-    void sinceIdChanged(const QString &sinceId);
-    void maxIdChanged(const QString &maxId);
+    void since_idChanged(const QString &since_id);
+    void max_idChanged(const QString &max_id);
     void countChanged(int count);
     void pageChanged(int page);
-    void includeEntitiesChanged(bool includeEntities);
+    void include_entitiesChanged(bool include_entities);
 
 protected:
-    QUrl api() const { return QUrl("http://api.twitter.com/1/direct_messages/sent.json"); }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/direct_messages/sent.json"); }
     void dataAdded(const QString &key, const QVariantMap &value);
 };
 

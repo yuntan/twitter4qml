@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -32,32 +32,27 @@
 class Slugs : public AbstractTwitterModel
 {
     Q_OBJECT
-    Q_PROPERTY(QString lang READ lang WRITE setLang NOTIFY langChanged)
+    Q_PROPERTY(QString lang READ lang WRITE lang NOTIFY langChanged)
     Q_DISABLE_COPY(Slugs)
 public:
     enum Roles {
-        NameRole = Qt::UserRole + 1
-        , SlugRole
-        , SizeRole
+        name_role = Qt::UserRole + 1
+        , slug_role
+        , size_role
     };
     explicit Slugs(QObject *parent = 0);
-    ~Slugs();
-
-    const QString &lang() const;
-    void setLang(const QString &lang);
 
 signals:
     void langChanged(const QString &lang);
 
 protected:
-    AuthorizeBy authenticationMethod() const { return AuthorizeByNothing; }
+    AuthorizeBy authenticationMethod() const { return AuthorizeByUrl; }
     QString httpMethod() const { return "GET"; }
-    QUrl api() const { return QUrl("http://api.twitter.com/1/users/suggestions.json"); }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/users/suggestions.json"); }
     void parseDone(const QVariant &result);
 
 private:
-    class Private;
-    Private *d;
+    ADD_PROPERTY(const QString &, lang, QString)
 };
 
 #endif // SLUGS_H

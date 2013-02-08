@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -35,20 +35,10 @@ class AbstractIdsModel : public AbstractTwitterModel
     Q_DISABLE_COPY(AbstractIdsModel)
 public:
     enum Roles {
-        IdRole = Qt::UserRole + 1
-        , IdStrRole
+        id_role = Qt::UserRole + 1
+        , id_str_role
     };
     explicit AbstractIdsModel(QObject *parent = 0);
-    ~AbstractIdsModel();
-
-    const QString &id() const;
-    void setId(const QString &id);
-    int count() const;
-    void setCount(int count);
-    int page() const;
-    void setPage(int page);
-    bool stringifyIds() const;
-    void setStringifyIds(bool stringifyIds);
 
     DataManager::DataType dataType() const { return DataManager::NoData; }
 
@@ -56,7 +46,7 @@ signals:
     void idChanged(const QString &id);
     void countChanged(int count);
     void pageChanged(int page);
-    void stringifyIdsChanged(bool stringifyIds);
+    void stringify_idsChanged(bool stringify_ids);
 
 protected:
     AuthorizeBy authenticationMethod() const;
@@ -64,8 +54,10 @@ protected:
     void parseDone(const QVariant &result);
 
 private:
-    class Private;
-    Private *d;
+    ADD_PROPERTY(const QString &, id, QString)
+    ADD_PROPERTY(int, count, int)
+    ADD_PROPERTY(int, page, int)
+    ADD_PROPERTY(bool, stringify_ids, bool)
 };
 
 #endif // ABSTRACTIDSMODEL_H

@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -28,5 +28,6 @@
 
 RetweetsOfMe::RetweetsOfMe(QObject *parent)
     : AbstractStatusesModel(parent)
+    , m_include_user_entities(false)
 {
 }

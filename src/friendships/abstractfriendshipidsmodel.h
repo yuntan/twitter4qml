@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -32,50 +32,33 @@
 class AbstractFriendshipIdsModel : public AbstractTwitterModel
 {
     Q_OBJECT
-    Q_PROPERTY(int next_cursor READ nextCursor NOTIFY nextCursorChanged DESIGNABLE false)
-    Q_PROPERTY(QString next_cursor_str READ nextCursorStr NOTIFY nextCursorStrChanged DESIGNABLE false)
-    Q_PROPERTY(int previous_cursor READ previousCursor NOTIFY previousCursorChanged DESIGNABLE false)
-    Q_PROPERTY(QString previous_cursor_str READ previousCursorStr NOTIFY previousCursorStrChanged DESIGNABLE false)
+    Q_PROPERTY(int next_cursor READ next_cursor NOTIFY next_cursorChanged DESIGNABLE false)
+    Q_PROPERTY(QString next_cursor_str READ next_cursor_str NOTIFY next_cursor_strChanged DESIGNABLE false)
+    Q_PROPERTY(int previous_cursor READ previous_cursor NOTIFY previous_cursorChanged DESIGNABLE false)
+    Q_PROPERTY(QString previous_cursor_str READ previous_cursor_str NOTIFY previous_cursor_strChanged DESIGNABLE false)
     Q_DISABLE_COPY(AbstractFriendshipIdsModel)
 public:
     enum Roles {
-        IdRole = Qt::UserRole + 1
-        , IdStrRole
+        id_role = Qt::UserRole + 1
+        , id_str_role
     };
     explicit AbstractFriendshipIdsModel(QObject *parent = 0);
     ~AbstractFriendshipIdsModel();
-
-    const QString &userId() const;
-    void setUserId(const QString &userId);
-    const QString &screenName() const;
-    void setScreenName(const QString &screenName);
-    const QString &cursor() const;
-    void setCursor(const QString &cursor);
-    bool stringifyIds() const;
-    void setStringifyIds(bool stringifyIds);
-
-    int nextCursor() const;
-    void setNextCursor(int nextCursor);
-    const QString &nextCursorStr() const;
-    void setNextCursorStr(const QString &nextCursorStr);
-    int previousCursor() const;
-    void setPreviousCursor(int previousCursor);
-    const QString &previousCursorStr() const;
-    void setPreviousCursorStr(const QString &previousCursorStr);
 
 public slots:
     virtual void reload();
 
 signals:
-    void userIdChanged(const QString &userId);
-    void screenNameChanged(const QString &screenName);
+    void user_idChanged(const QString &user_id);
+    void screen_nameChanged(const QString &screen_name);
     void cursorChanged(const QString &cursor);
-    void stringifyIdsChanged(bool stringifyIds);
+    void stringify_idsChanged(bool stringify_ids);
+    void countChanged(int count);
 
-    void nextCursorChanged(int nextCursor) const;
-    void nextCursorStrChanged(const QString &nextCursorStr) const;
-    void previousCursorChanged(int previousCursor) const;
-    void previousCursorStrChanged(const QString &previousCursorStr) const;
+    void next_cursorChanged(int next_cursor) const;
+    void next_cursor_strChanged(const QString &next_cursor_str) const;
+    void previous_cursorChanged(int previous_cursor) const;
+    void previous_cursor_strChanged(const QString &previous_cursor_str) const;
 
 protected:
     AuthorizeBy authenticationMethod() const { return AuthorizeByUrl; }
@@ -85,6 +68,17 @@ protected:
 private:
     class Private;
     Private *d;
+
+    ADD_PROPERTY(const QString &, user_id, QString)
+    ADD_PROPERTY(const QString &, screen_name, QString)
+    ADD_PROPERTY(const QString &, cursor, QString)
+    ADD_PROPERTY(bool, stringify_ids, bool)
+    ADD_PROPERTY(int, count, int)
+
+    ADD_PROPERTY(int, next_cursor, int)
+    ADD_PROPERTY(const QString &, next_cursor_str, QString)
+    ADD_PROPERTY(int, previous_cursor, int)
+    ADD_PROPERTY(const QString &, previous_cursor_str, QString)
 };
 
 #endif // ABSTRACTFRIENDSHIPIDSMODEL_H

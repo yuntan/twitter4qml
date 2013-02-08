@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -46,30 +46,6 @@ class Status::Private : public QObject
 public:
     Private(Status *parent);
 
-    bool loading;
-    QVariantList contributors;
-    QVariantMap coordinates;
-    QString createdAt;
-    QVariantMap entities;
-    bool favorited;
-    QVariantMap geo;
-    QString idStr;
-    QString inReplyToScreenName;
-    QString inReplyToStatusIdStr;
-    QString inReplyToUserIdStr;
-    QVariantMap place;
-    bool possiblySensitive;
-    int retweetCount;
-    bool retweeted;
-    QVariantMap retweetedStatus;
-    QString source;
-    QString text;
-    QString plainText;
-    QString richText;
-    bool truncated;
-    QVariantMap user;
-    QVariantList media;
-
     void update(const QVariantMap &parameters);
     void retweet(const QVariantMap &parameters);
     void destroy();
@@ -77,8 +53,7 @@ public:
     void unfavorite();
 
 private slots:
-    void setLoading(bool loading);
-    void idStrChanged(const QString &idStr);
+    void id_strChanged(const QString &id_str);
     void dataChanged(const QVariant &data);
 
 private:
@@ -88,57 +63,44 @@ private:
 
 Status::Private::Private(Status *parent)
     : QObject(parent)
-    , loading(false)
-    , favorited(false)
-    , possiblySensitive(false)
-    , retweetCount(0)
-    , retweeted(false)
-    , truncated(false)
     , q(parent)
 {
-    connect(q, SIGNAL(idStrChanged(QString)), this, SLOT(idStrChanged(QString)));
+    connect(q, SIGNAL(id_strChanged(QString)), this, SLOT(id_strChanged(QString)));
 }
 
-void Status::Private::setLoading(bool l)
+void Status::Private::id_strChanged(const QString &id)
 {
-    if (loading == l) return;
-    loading = l;
-    emit q->loadingChanged(l);
-}
-
-void Status::Private::idStrChanged(const QString &id)
-{
-    q->setContributors(QVariantList());
-    q->setContributors(QVariantList());
-    q->setCoordinates(QVariantMap());
-    q->setEntities(QVariantMap());
-    q->setFavorited(false);
-    q->setGeo(QVariantMap());
-    q->setInReplyToScreenName(QString());
-    q->setInReplyToStatusIdStr(QString());
-    q->setInReplyToUserIdStr(QString());
-    q->setPlace(QVariantMap());
-    q->setPossiblySensitive(false);
-    q->setRetweetCount(0);
-    q->setRetweeted(false);
-    q->setRetweetedStatus(QVariantMap());
-    q->setSource(QString());
-    q->setText(QString());
-    q->setPlainText(QString());
-    q->setRichText(QString());
-    q->setTruncated(false);
-    q->setUser(QVariantMap());
-    q->setMedia(QVariantList());
+    q->contributors(QVariantList());
+    q->contributors(QVariantList());
+    q->coordinates(QVariantMap());
+    q->entities(QVariantMap());
+    q->favorited(false);
+    q->geo(QVariantMap());
+    q->in_reply_to_screen_name(QString());
+    q->in_reply_to_status_id_str(QString());
+    q->in_reply_to_user_id_str(QString());
+    q->place(QVariantMap());
+    q->possibly_sensitive(false);
+    q->retweet_count(0);
+    q->retweeted(false);
+    q->retweeted_status(QVariantMap());
+    q->source(QString());
+    q->text(QString());
+    q->plain_text(QString());
+    q->rich_text(QString());
+    q->truncated(false);
+    q->user(QVariantMap());
+    q->media(QVariantList());
 
     if (id.isEmpty()) {
     } else {
         ShowStatus *action = new ShowStatus(this);
-        action->setId(id);
+        action->id(id);
         connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
-        if (loading) {
+        if (q->m_loading) {
             tasks.append(action);
         } else {
-            setLoading(true);
+            q->loading(true);
             action->exec();
         }
     }
@@ -149,32 +111,32 @@ void Status::Private::update(const QVariantMap &parameters)
     AbstractTwitterAction *action = 0;
     if (parameters.contains("media") && !parameters.value("media").toList().isEmpty()) {
         UpdateStatusWithMedia *act = new UpdateStatusWithMedia(this);
-        act->setStatus(parameters.value("status").toString());
-        act->setLatitude(parameters.value("_lat").toDouble());
-        act->setLongitude(parameters.value("_long").toDouble());
-        act->setPlaceId(parameters.value("place_id").toString());
-        act->setMedia(parameters.value("media").toList());
-        act->setInReplyToStatusId(parameters.value("in_reply_to_status_id").toString());
-        act->setTrimUser(false);
-        act->setIncludeEntities(true);
+        act->status(parameters.value("status").toString());
+        act->latitude(parameters.value("_lat").toDouble());
+        act->longitude(parameters.value("_long").toDouble());
+        act->place_id(parameters.value("place_id").toString());
+        act->media(parameters.value("media").toList());
+        act->in_reply_to_status_id(parameters.value("in_reply_to_status_id").toString());
+        act->trim_user(false);
+        act->include_entities(true);
         connect(act, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
         action = act;
     } else {
         UpdateStatus *act = new UpdateStatus(this);
-        act->setStatus(parameters.value("status").toString());
-        act->setLatitude(parameters.value("_lat").toDouble());
-        act->setLongitude(parameters.value("_long").toDouble());
-        act->setPlaceId(parameters.value("place_id").toString());
-        act->setInReplyToStatusId(parameters.value("in_reply_to_status_id").toString());
-        act->setTrimUser(false);
-        act->setIncludeEntities(true);
+        act->status(parameters.value("status").toString());
+        act->latitude(parameters.value("_lat").toDouble());
+        act->longitude(parameters.value("_long").toDouble());
+        act->place_id(parameters.value("place_id").toString());
+        act->in_reply_to_status_id(parameters.value("in_reply_to_status_id").toString());
+        act->trim_user(false);
+        act->include_entities(true);
         connect(act, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
         action = act;
     }
-    if (loading) {
+    if (q->loading()) {
         tasks.append(action);
     } else {
-       setLoading(true);
+       q->loading(true);
        action->exec();
     }
 }
@@ -182,14 +144,14 @@ void Status::Private::update(const QVariantMap &parameters)
 void Status::Private::retweet(const QVariantMap &parameters)
 {
     RetweetStatus *action = new RetweetStatus(this);
-    action->setId(parameters.value("id").toString());
-    action->setTrimUser(true);
-    action->setIncludeEntities(true);
+    action->id(parameters.value("id").toString());
+    action->trim_user(true);
+    action->include_entities(true);
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
-    if (loading) {
+    if (q->loading()) {
         tasks.append(action);
     } else {
-       setLoading(true);
+       q->loading(true);
        action->exec();
     }
 }
@@ -197,13 +159,13 @@ void Status::Private::retweet(const QVariantMap &parameters)
 void Status::Private::destroy()
 {
     DestroyStatus *action = new DestroyStatus(this);
-    action->setId(idStr);
-    action->setIncludeEntities(true);
+    action->id(q->m_id_str);
+    action->include_entities(true);
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
-    if (loading) {
+    if (q->loading()) {
         tasks.append(action);
     } else {
-       setLoading(true);
+       q->loading(true);
        action->exec();
     }
 }
@@ -211,13 +173,13 @@ void Status::Private::destroy()
 void Status::Private::favorite()
 {
     AbstractFavoriteAction *action = new CreateFavorite(this);
-    action->setId(idStr);
-    action->setIncludeEntities(true);
+    action->id(q->m_id_str);
+    action->include_entities(true);
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
-    if (loading) {
+    if (q->loading()) {
         tasks.append(action);
     } else {
-       setLoading(true);
+       q->loading(true);
        action->exec();
     }
 }
@@ -225,13 +187,13 @@ void Status::Private::favorite()
 void Status::Private::unfavorite()
 {
     AbstractFavoriteAction *action = new DestroyFavorite(this);
-    action->setId(idStr);
-    action->setIncludeEntities(true);
+    action->id(q->m_id_str);
+    action->include_entities(true);
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
-    if (loading) {
+    if (q->loading()) {
         tasks.append(action);
     } else {
-       setLoading(true);
+       q->loading(true);
        action->exec();
     }
 }
@@ -240,11 +202,11 @@ void Status::Private::dataChanged(const QVariant &data)
 {
     if (qobject_cast<DestroyStatus *>(sender())) {
         DEBUG() << data;
-        q->setIdStr(QString());
+        q->id_str(QString());
         emit q->dataChanged();
         qDeleteAll(tasks);
         tasks.clear();
-        setLoading(false);
+        q->loading(false);
     }
     QObject *action = qobject_cast<QObject *>(sender());
     if (action) {
@@ -261,13 +223,13 @@ void Status::Private::dataChanged(const QVariant &data)
             }
         }
         if (!qobject_cast<RetweetStatus *>(action)) {
-            DataManager::instance()->addData(DataManager::StatusData, q->idStr(), status);
+            DataManager::instance()->addData(DataManager::StatusData, q->id_str(), status);
         }
         emit q->dataChanged();
         action->deleteLater();
     }
     if (tasks.isEmpty()) {
-        setLoading(false);
+        q->loading(false);
     } else {
         tasks.takeFirst()->exec();
     }
@@ -277,6 +239,12 @@ void Status::Private::dataChanged(const QVariant &data)
 Status::Status(QObject *parent)
     : QObject(parent)
     , d(new Private(this))
+    , m_loading(false)
+    , m_favorited(false)
+    , m_possibly_sensitive(false)
+    , m_retweet_count(0)
+    , m_retweeted(false)
+    , m_truncated(false)
 {
 }
 
@@ -303,275 +271,6 @@ void Status::favorite()
 void Status::unfavorite()
 {
     d->unfavorite();
-}
-
-bool Status::loading() const
-{
-    return d->loading;
-}
-
-const QVariantList &Status::contributors() const
-{
-    return d->contributors;
-}
-
-void Status::setContributors(const QVariantList &contributors)
-{
-    if (d->contributors == contributors) return;
-    d->contributors = contributors;
-    emit contributorsChanged(contributors);
-}
-
-const QVariantMap &Status::coordinates() const
-{
-    return d->coordinates;
-}
-
-void Status::setCoordinates(const QVariantMap &coordinates)
-{
-    if (d->coordinates == coordinates) return;
-    d->coordinates = coordinates;
-    emit coordinatesChanged(coordinates);
-}
-
-const QString &Status::createdAt() const
-{
-    return d->createdAt;
-}
-
-void Status::setCreatedAt(const QString &createdAt)
-{
-    if (d->createdAt == createdAt) return;
-    d->createdAt = createdAt;
-    emit createdAtChanged(createdAt);
-}
-
-const QVariantMap &Status::entities() const
-{
-    return d->entities;
-}
-
-void Status::setEntities(const QVariantMap &entities)
-{
-    if (d->entities == entities) return;
-    d->entities = entities;
-    emit entitiesChanged(entities);
-}
-
-bool Status::favorited() const
-{
-    return d->favorited;
-}
-
-void Status::setFavorited(bool favorited)
-{
-    if (d->favorited == favorited) return;
-    d->favorited = favorited;
-    emit favoritedChanged(favorited);
-}
-
-const QVariantMap &Status::geo() const
-{
-    return d->geo;
-}
-
-void Status::setGeo(const QVariantMap &geo)
-{
-    if (d->geo == geo) return;
-    d->geo = geo;
-    emit geoChanged(geo);
-}
-
-const QString &Status::idStr() const
-{
-    return d->idStr;
-}
-
-void Status::setIdStr(const QString &idStr)
-{
-    if (d->idStr == idStr) return;
-    d->idStr = idStr;
-    emit idStrChanged(idStr);
-}
-
-const QString &Status::inReplyToScreenName() const
-{
-    return d->inReplyToScreenName;
-}
-
-void Status::setInReplyToScreenName(const QString &inReplyToScreenName)
-{
-    if (d->inReplyToScreenName == inReplyToScreenName) return;
-    d->inReplyToScreenName = inReplyToScreenName;
-    emit inReplyToScreenNameChanged(inReplyToScreenName);
-}
-
-const QString &Status::inReplyToStatusIdStr() const
-{
-    return d->inReplyToStatusIdStr;
-}
-
-void Status::setInReplyToStatusIdStr(const QString &inReplyToStatusIdStr)
-{
-    if (d->inReplyToStatusIdStr == inReplyToStatusIdStr) return;
-    d->inReplyToStatusIdStr = inReplyToStatusIdStr;
-    emit inReplyToStatusIdStrChanged(inReplyToStatusIdStr);
-}
-
-const QString &Status::inReplyToUserIdStr() const
-{
-    return d->inReplyToUserIdStr;
-}
-
-void Status::setInReplyToUserIdStr(const QString &inReplyToUserIdStr)
-{
-    if (d->inReplyToUserIdStr == inReplyToUserIdStr) return;
-    d->inReplyToUserIdStr = inReplyToUserIdStr;
-    emit inReplyToUserIdStrChanged(inReplyToUserIdStr);
-}
-
-const QVariantMap &Status::place() const
-{
-    return d->place;
-}
-
-void Status::setPlace(const QVariantMap &place)
-{
-    if (d->place == place) return;
-    d->place = place;
-    emit placeChanged(place);
-}
-
-bool Status::possiblySensitive() const
-{
-    return d->possiblySensitive;
-}
-
-void Status::setPossiblySensitive(bool possiblySensitive)
-{
-    if (d->possiblySensitive == possiblySensitive) return;
-    d->possiblySensitive = possiblySensitive;
-    emit possiblySensitiveChanged(possiblySensitive);
-}
-
-int Status::retweetCount() const
-{
-    return d->retweetCount;
-}
-
-void Status::setRetweetCount(int retweetCount)
-{
-    if (d->retweetCount == retweetCount) return;
-    d->retweetCount = retweetCount;
-    emit retweetCountChanged(retweetCount);
-}
-
-bool Status::retweeted() const
-{
-    return d->retweeted;
-}
-
-void Status::setRetweeted(bool retweeted)
-{
-    if (d->retweeted == retweeted) return;
-    d->retweeted = retweeted;
-    emit retweetedChanged(retweeted);
-}
-
-const QVariantMap &Status::retweetedStatus() const
-{
-    return d->retweetedStatus;
-}
-
-void Status::setRetweetedStatus(const QVariantMap &retweetedStatus)
-{
-    if (d->retweetedStatus == retweetedStatus) return;
-    d->retweetedStatus = retweetedStatus;
-    emit retweetedStatusChanged(retweetedStatus);
-}
-
-const QString &Status::source() const
-{
-    return d->source;
-}
-
-void Status::setSource(const QString &source)
-{
-    if (d->source == source) return;
-    d->source = source;
-    emit sourceChanged(source);
-}
-
-const QString &Status::text() const
-{
-    return d->text;
-}
-
-void Status::setText(const QString &text)
-{
-    if (d->text == text) return;
-    d->text = text;
-    emit textChanged(text);
-}
-
-const QString &Status::plainText() const
-{
-    return d->plainText;
-}
-
-void Status::setPlainText(const QString &plainText)
-{
-    if (d->plainText == plainText) return;
-    d->plainText = plainText;
-    emit plainTextChanged(plainText);
-}
-
-const QString &Status::richText() const
-{
-    return d->richText;
-}
-
-void Status::setRichText(const QString &richText)
-{
-    if (d->richText == richText) return;
-    d->richText = richText;
-    emit richTextChanged(richText);
-}
-
-bool Status::truncated() const
-{
-    return d->truncated;
-}
-
-void Status::setTruncated(bool truncated)
-{
-    if (d->truncated == truncated) return;
-    d->truncated = truncated;
-    emit truncatedChanged(truncated);
-}
-
-const QVariantMap &Status::user() const
-{
-    return d->user;
-}
-
-void Status::setUser(const QVariantMap &user)
-{
-    if (d->user == user) return;
-    d->user = user;
-    emit userChanged(user);
-}
-
-const QVariantList &Status::media() const
-{
-    return d->media;
-}
-
-void Status::setMedia(const QVariantList &media)
-{
-    if (d->media == media) return;
-    d->media = media;
-    emit mediaChanged(media);
 }
 
 QVariantMap Status::data() const
@@ -612,8 +311,8 @@ QVariantMap Status::parse(const QVariantMap &status)
     QString text = ret.value("text").toString();
     if (ret.contains("entities") && !ret.value("entities").isNull()) {
 //        DEBUG() << text;
-        QString plainText = text;
-        QString richText = text.replace(" ", "\t");
+        QString plain_text = text;
+        QString rich_text = text.replace(" ", "\t");
         QVariantList entitiesSortedByIndices;
         QVariantMap entities = ret.value("entities").toMap();
         foreach (const QString &key, entities.keys()) {
@@ -637,12 +336,12 @@ QVariantMap Status::parse(const QVariantMap &status)
             int start = indices.first().toInt();
             int end = indices.last().toInt();
             QString type = entity.value("type").toString();
-            QString plainTextAfter;
-            QString richTextAfter;
+            QString plain_textAfter;
+            QString rich_textAfter;
             if (type == "urls") {
                 if (entity.contains("display_url")) {
-                    plainTextAfter = entity.value("display_url").toString();
-                    richTextAfter = QString("<a class=\"link\" href=\"")
+                    plain_textAfter = entity.value("display_url").toString();
+                    rich_textAfter = QString("<a class=\"link\" href=\"")
                             .append(entity.value("expanded_url").toString())
                             .append("\" title=\"")
                             .append(entity.value("url").toString())
@@ -650,8 +349,8 @@ QVariantMap Status::parse(const QVariantMap &status)
                             .append(entity.value("display_url").toString())
                             .append("</a>");
                 } else {
-                    plainTextAfter = entity.value("url").toString();
-                    richTextAfter = QString("<a class=\"link\" href=\"")
+                    plain_textAfter = entity.value("url").toString();
+                    rich_textAfter = QString("<a class=\"link\" href=\"")
                             .append(entity.value("url").toString())
                             .append("\" title=\"")
                             .append(entity.value("url").toString())
@@ -660,16 +359,16 @@ QVariantMap Status::parse(const QVariantMap &status)
                             .append("</a>");
                 }
             } else if (type == "user_mentions") {
-                richTextAfter = QString("<a class=\"screen_name\" href=\"user://%1\" title=\"@%2\">@%2</a>")
+                rich_textAfter = QString("<a class=\"screen_name\" href=\"user://%1\" title=\"@%2\">@%2</a>")
                         .arg(entity.value("id_str").toString())
                         .arg(entity.value("screen_name").toString());
             } else if (type == "hashtags") {
-                richTextAfter = QString("<a class=\"hash_tag\" href=\"search://#%1\" title=\"#%2\">#%2</a>")
+                rich_textAfter = QString("<a class=\"hash_tag\" href=\"search://#%1\" title=\"#%2\">#%2</a>")
                         .arg(entity.value("text").toString())
                         .arg(entity.value("text").toString());
             } else if (type == "media") {
-                plainTextAfter = entity.value("display_url").toString();
-                richTextAfter = QString("<a class=\"media\" href=\"")
+                plain_textAfter = entity.value("display_url").toString();
+                rich_textAfter = QString("<a class=\"media\" href=\"")
                         .append(entity.value("media_url").toString())
                         .append("\" title=\"")
                         .append(entity.value("url").toString())
@@ -680,17 +379,17 @@ QVariantMap Status::parse(const QVariantMap &status)
             } else {
                 DEBUG() << type << item;
             }
-            if (!plainTextAfter.isNull())
-                plainText.replace(start, end - start, plainTextAfter);
-            if (!richTextAfter.isNull())
-                richText.replace(start, end - start, richTextAfter);
+            if (!plain_textAfter.isNull())
+                plain_text.replace(start, end - start, plain_textAfter);
+            if (!rich_textAfter.isNull())
+                rich_text.replace(start, end - start, rich_textAfter);
         }
 
 
 //        DEBUG() << ret.value("text").toString();
-        ret.insert("plain_text", escapeHtml(plainText));
+        ret.insert("plain_text", escapeHtml(plain_text));
 //        DEBUG() << ret.value("plain_text").toString();
-        ret.insert("rich_text", richText.replace("\n", "<br />").replace("\t", "&nbsp;").replace(QString::fromUtf8("　"), "&nbsp;&nbsp;&nbsp;&nbsp;"));
+        ret.insert("rich_text", rich_text.replace("\n", "<br />").replace("\t", "&nbsp;").replace(QString::fromUtf8("　"), "&nbsp;&nbsp;&nbsp;&nbsp;"));
 //        DEBUG() << ret.value("rich_text").toString();
         ret.insert("media", media);
     } else {

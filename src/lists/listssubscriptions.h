@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -32,32 +32,32 @@
 class ListsSubscriptions : public AbstractListsModel
 {
     Q_OBJECT
-    Q_PROPERTY(QString user_id READ userId WRITE setUserId NOTIFY userIdChanged)
-    Q_PROPERTY(QString screen_name READ screenName WRITE setScreenName NOTIFY screenNameChanged)
-    Q_PROPERTY(int count READ count WRITE setCount NOTIFY countChanged)
-    Q_PROPERTY(QString cursor READ cursor WRITE setCursor NOTIFY cursorChanged)
+    Q_PROPERTY(QString user_id READ user_id WRITE user_id NOTIFY user_idChanged)
+    Q_PROPERTY(QString screen_name READ screen_name WRITE screen_name NOTIFY screen_nameChanged)
+    Q_PROPERTY(int count READ count WRITE count NOTIFY countChanged)
+    Q_PROPERTY(QString cursor READ cursor WRITE cursor NOTIFY cursorChanged)
 
-    Q_PROPERTY(int next_cursor READ nextCursor NOTIFY nextCursorChanged DESIGNABLE false)
-    Q_PROPERTY(QString next_cursor_str READ nextCursorStr NOTIFY nextCursorStrChanged DESIGNABLE false)
-    Q_PROPERTY(int previous_cursor READ previousCursor NOTIFY previousCursorChanged DESIGNABLE false)
-    Q_PROPERTY(QString previous_cursor_str READ previousCursorStr NOTIFY previousCursorStrChanged DESIGNABLE false)
+    Q_PROPERTY(int next_cursor READ next_cursor NOTIFY next_cursorChanged DESIGNABLE false)
+    Q_PROPERTY(QString next_cursor_str READ next_cursor_str NOTIFY next_cursor_strChanged DESIGNABLE false)
+    Q_PROPERTY(int previous_cursor READ previous_cursor NOTIFY previous_cursorChanged DESIGNABLE false)
+    Q_PROPERTY(QString previous_cursor_str READ previous_cursor_str NOTIFY previous_cursor_strChanged DESIGNABLE false)
     Q_DISABLE_COPY(ListsSubscriptions)
 public:
     ListsSubscriptions(QObject *parent = 0);
 
 signals:
-    void userIdChanged(const QString &userId);
-    void screenNameChanged(const QString &screenName);
+    void user_idChanged(const QString &user_id);
+    void screen_nameChanged(const QString &screen_name);
     void countChanged(int count);
     void cursorChanged(const QString &cursor);
 
-    void nextCursorChanged(int nextCursor) const;
-    void nextCursorStrChanged(const QString &nextCursorStr) const;
-    void previousCursorChanged(int previousCursor) const;
-    void previousCursorStrChanged(const QString &previousCursorStr) const;
+    void next_cursorChanged(int next_cursor) const;
+    void next_cursor_strChanged(const QString &next_cursor_str) const;
+    void previous_cursorChanged(int previous_cursor) const;
+    void previous_cursor_strChanged(const QString &previous_cursor_str) const;
 
 protected:
-    QUrl api() const { return QUrl("http://api.twitter.com/1/lists/subscriptions.json"); }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/lists/subscriptions.json"); }
     void parseDone(const QVariant &result);
 };
 

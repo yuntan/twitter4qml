@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -32,9 +32,10 @@
 class ShowStatus : public AbstractStatusAction
 {
     Q_OBJECT
-    Q_PROPERTY(QString _id READ id WRITE setId NOTIFY idChanged DESIGNABLE false)
-    Q_PROPERTY(bool trim_user READ trimUser WRITE setTrimUser NOTIFY trimUserChanged)
-    Q_PROPERTY(bool include_entities READ includeEntities WRITE setIncludeEntities NOTIFY includeEntitiesChanged)
+    Q_PROPERTY(QString _id READ id WRITE id NOTIFY idChanged)
+    Q_PROPERTY(bool trim_user READ trim_user WRITE trim_user NOTIFY trim_userChanged)
+    Q_PROPERTY(bool include_my_retweet READ include_my_retweet WRITE include_my_retweet NOTIFY include_my_retweetChanged)
+    Q_PROPERTY(bool include_entities READ include_entities WRITE include_entities NOTIFY include_entitiesChanged)
     Q_DISABLE_COPY(ShowStatus)
 public:
     explicit ShowStatus(QObject *parent = 0);
@@ -44,12 +45,15 @@ public slots:
 
 signals:
     void idChanged(const QString &id);
-    void trimUserChanged(bool trimUser);
-    void includeEntitiesChanged(bool includeEntities);
+    void trim_userChanged(bool trim_user);
+    void include_my_retweetChanged(bool include_my_retweet);
+    void include_entitiesChanged(bool include_entities);
 
 protected:
-    QUrl api() const { return QUrl(QString("http://api.twitter.com/1/statuses/show/%1.json").arg(id())); }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/statuses/show.json"); }
     QString httpMethod() const { return "GET"; }
+
+    ADD_PROPERTY(bool, include_my_retweet, bool)
 };
 
 #endif // SHOWSTATUS_H

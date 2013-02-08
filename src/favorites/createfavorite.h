@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,7 @@ public:
     explicit CreateFavorite(QObject *parent = 0);
 
 protected:
-    QUrl api() const { return QUrl(QString("http://api.twitter.com/1/favorites/create/%1.json").arg(id())); }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/favorites/create.json"); }
 };
 
 #endif // CREATEFAVORITE_H

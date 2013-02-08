@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -70,9 +70,8 @@ AbstractTwitterAction::Private::Private(AbstractTwitterAction *parent)
 void AbstractTwitterAction::Private::exec()
 {
     if (isLoading) return;
-    if (q->authenticationMethod() != AuthorizeByNothing && !OAuthManager::instance().isAuthorized()) return;
+    if (!OAuthManager::instance().isAuthorized()) return;
 
-    QUrl url = q->api();
     QStringList body;
 
     QMultiMap<QString, QByteArray> params;
@@ -87,37 +86,31 @@ void AbstractTwitterAction::Private::exec()
         bool ok;
         switch (value.type()) {
         case QVariant::Bool:
-            params.insert(key, value.toString().toAscii());
-            url.addEncodedQueryItem(QString(key).toUtf8().toPercentEncoding(), value.toString().toUtf8().toPercentEncoding());
+            params.insert(key, value.toString().toUtf8());
             body.append(QString("%1=%2").arg(key).arg(value.toString()));
             break;
         case QVariant::String:
             if (!value.toString().isNull()) {
                 params.insert(key, value.toString().toUtf8());
-                url.addEncodedQueryItem(QString(key).toUtf8().toPercentEncoding(), value.toString().toUtf8().toPercentEncoding());
                 body.append(QString("%1=%2").arg(key).arg(value.toString()));
             }
             break;
         case QVariant::Double:
             if (!qFuzzyCompare(value.toDouble(&ok), 0.0) && ok && !qIsNaN(value.toDouble())) {
                 QString val = QString::number(value.toDouble(), 'f');
-                DEBUG() << key << value << value.toDouble() << QString::number(value.toDouble(), 'f') << val;
-                params.insert(key, val.toAscii());
-                url.addEncodedQueryItem(QString(key).toUtf8().toPercentEncoding(), val.toAscii().toPercentEncoding());
+                params.insert(key, val.toUtf8());
                 body.append(QString("%1=%2").arg(key).arg(val));
             }
             break;
         case QVariant::Int:
             if (value.toInt() > 0) {
-                params.insert(key, value.toString().toAscii());
-                url.addEncodedQueryItem(QString(key).toUtf8().toPercentEncoding(), value.toString().toUtf8().toPercentEncoding());
+                params.insert(key, value.toString().toUtf8());
                 body.append(QString("%1=%2").arg(key).arg(value.toString()));
             }
             break;
         case QVariant::LongLong:
             if (value.toLongLong() > 0) {
-                params.insert(key, value.toString().toAscii());
-                url.addEncodedQueryItem(QString(key).toUtf8().toPercentEncoding(), value.toString().toUtf8().toPercentEncoding());
+                params.insert(key, value.toString().toUtf8());
                 body.append(QString("%1=%2").arg(key).arg(value.toString()));
             }
             break;
@@ -134,22 +127,8 @@ void AbstractTwitterAction::Private::exec()
         }
     }
 
-//    DEBUG() << url;
     QNetworkReply *reply = 0;
     switch (q->authenticationMethod()) {
-    case AuthorizeByNothing:
-        if (q->httpMethod() == QLatin1String("GET")) {
-            QNetworkRequest request(url);
-            request.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::AlwaysNetwork);
-            request.setRawHeader("User-Agent", "Twitter4QML");
-            reply = OAuthManager::instance().networkAccessManager()->get(request);
-        } else if (q->httpMethod() == QLatin1String("POST")) {
-            QNetworkRequest request(q->api());
-            request.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::AlwaysNetwork);
-            request.setRawHeader("User-Agent", "Twitter4QML");
-            reply = OAuthManager::instance().networkAccessManager()->post(request, body.join("&").toUtf8());
-        }
-        break;
     case AuthorizeByHeader:
         OAuthManager::instance().setAuthorizeBy(OAuthManager::AuthorizeByHeader);
         reply = OAuthManager::instance().request(q->httpMethod(), q->api(), params, q->isMultiPart());

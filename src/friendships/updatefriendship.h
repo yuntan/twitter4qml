@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -32,37 +32,29 @@
 class UpdateFriendship : public AbstractTwitterAction
 {
     Q_OBJECT
-    Q_PROPERTY(QString user_id READ userId WRITE setUserId NOTIFY userIdChanged)
-    Q_PROPERTY(QString screen_name READ screenName WRITE setScreenName NOTIFY screenNameChanged)
-    Q_PROPERTY(bool device READ device WRITE setDevice NOTIFY deviceChanged)
-    Q_PROPERTY(bool retweets READ retweets WRITE setRetweets NOTIFY retweetsChanged)
+    Q_PROPERTY(QString user_id READ user_id WRITE user_id NOTIFY user_idChanged)
+    Q_PROPERTY(QString screen_name READ screen_name WRITE screen_name NOTIFY screen_nameChanged)
+    Q_PROPERTY(bool device READ device WRITE device NOTIFY deviceChanged)
+    Q_PROPERTY(bool retweets READ retweets WRITE retweets NOTIFY retweetsChanged)
 public:
     explicit UpdateFriendship(QVariantMap parameters, QObject *parent = 0);
-    ~UpdateFriendship();
-
-    const QString &userId() const;
-    void setUserId(const QString &userId);
-    const QString &screenName() const;
-    void setScreenName(const QString &screenName);
-    bool device() const;
-    void setDevice(bool device);
-    bool retweets() const;
-    void setRetweets(bool retweets);
 
 signals:
-    void userIdChanged(const QString &userId);
-    void screenNameChanged(const QString &screenName);
+    void user_idChanged(const QString &user_id);
+    void screen_nameChanged(const QString &screen_name);
     void deviceChanged(bool device);
     void retweetsChanged(bool retweets);
 
 protected:
-    QUrl api() const { return QUrl("http://api.twitter.com/1/friendships/update.json"); }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/friendships/update.json"); }
     AuthorizeBy authenticationMethod() const { return AuthorizeByUrl; }
     QString httpMethod() const { return "POST"; }
 
 private:
-    class Private;
-    Private *d;
+    ADD_PROPERTY(const QString &, user_id, QString)
+    ADD_PROPERTY(const QString &, screen_name, QString)
+    ADD_PROPERTY(bool, device, bool)
+    ADD_PROPERTY(bool, retweets, bool)
 };
 
 #endif // UPDATEFRIENDSHIP_H

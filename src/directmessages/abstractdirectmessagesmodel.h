@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -35,42 +35,30 @@ class AbstractDirectMessagesModel : public AbstractTwitterModel
     Q_DISABLE_COPY(AbstractDirectMessagesModel)
 public:
     enum Roles {
-        CreatedAtRole = Qt::UserRole + 1
+        created_at_role = Qt::UserRole + 1
         , EntitiesRole
-        , IdRole
-        , IdStrRole
+        , id_role
+        , id_str_role
         , RecipientRole
-        , RecipientIdRole
-        , RecipientScreenNameRole
+        , Recipientid_role
+        , Recipientscreen_nameRole
         , SenderRole
-        , SenderIdRole
-        , SenderScreenNameRole
+        , Senderid_role
+        , Senderscreen_nameRole
         , TextRole
-        , PlainTextRole
-        , RichTextRole
+        , plain_textRole
+        , rich_textRole
     };
     explicit AbstractDirectMessagesModel(QObject *parent = 0);
-    ~AbstractDirectMessagesModel();
-
-    const QString &sinceId() const;
-    void setSinceId(const QString &sinceId);
-    const QString &maxId() const;
-    void setMaxId(const QString &maxId);
-    int count() const;
-    void setCount(int count);
-    int page() const;
-    void setPage(int page);
-    bool includeEntities() const;
-    void setIncludeEntities(bool includeEntities);
 
     DataManager::DataType dataType() const { return DataManager::DirectMessageData; }
 
 signals:
-    void sinceIdChanged(const QString &sinceId);
-    void maxIdChanged(const QString &maxId);
+    void since_idChanged(const QString &since_id);
+    void max_idChanged(const QString &max_id);
     void countChanged(int count);
     void pageChanged(int page);
-    void includeEntitiesChanged(bool includeEntities);
+    void include_entitiesChanged(bool include_entities);
 
 protected:
     AuthorizeBy authenticationMethod() const;
@@ -78,8 +66,11 @@ protected:
     void parseDone(const QVariant &result);
 
 private:
-    class Private;
-    Private *d;
+    ADD_PROPERTY(const QString &, since_id, QString)
+    ADD_PROPERTY(const QString &, max_id, QString)
+    ADD_PROPERTY(int, count, int)
+    ADD_PROPERTY(int, page, int)
+    ADD_PROPERTY(bool, include_entities, bool)
 };
 
 #endif // ABSTRACTDIRECTMESSAGESMODEL_H

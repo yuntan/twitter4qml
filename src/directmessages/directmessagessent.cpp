@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,7 @@ DirectMessagesSent::DirectMessagesSent(QObject *parent)
 void DirectMessagesSent::dataAdded(const QString &key, const QVariantMap &value)
 {
     Q_UNUSED(key)
-    if (value.value("sender").toMap().value("id_str").toString() == OAuthManager::instance().userId()) {
+    if (value.value("sender").toMap().value("id_str").toString() == OAuthManager::instance().user_id()) {
         addData(value);
     }
 }

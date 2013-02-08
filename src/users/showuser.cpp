@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -35,8 +35,8 @@ ShowUser::ShowUser(QObject *parent)
 void ShowUser::exec()
 {
     DataManager *manager = DataManager::instance();
-    if (!userId().isEmpty() && manager->contains(DataManager::UserData, userId())) {
-        QVariantMap user = manager->getData(DataManager::UserData, userId());
+    if (!user_id().isEmpty() && manager->contains(DataManager::UserData, user_id())) {
+        QVariantMap user = manager->getData(DataManager::UserData, user_id());
         if (user.value("description").isNull()) {
             AbstractUserAction::exec();
         } else {

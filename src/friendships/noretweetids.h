@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -32,26 +32,20 @@
 class NoRetweetIds : public AbstractIdsModel
 {
     Q_OBJECT
-    Q_PROPERTY(bool stringify_ids READ stringifyIds WRITE setStringifyIds NOTIFY stringifyIdsChanged)
+    Q_PROPERTY(bool stringify_ids READ stringify_ids WRITE stringify_ids NOTIFY stringify_idsChanged)
 public:
     explicit NoRetweetIds(QObject *parent = 0);
-    ~NoRetweetIds();
-
-    bool stringifyIds() const;
-    void setStringifyIds(bool stringifyIds);
 
 signals:
-    void stringifyIdsChanged(bool stringifyIds);
+    void stringify_idsChanged(bool stringify_ids);
 
 protected:
-    QUrl api() const { return QUrl("http://api.twitter.com/1/friendships/no_retweet_ids.json"); }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/friendships/no_retweet_ids.json"); }
     AuthorizeBy authenticationMethod() const { return AuthorizeByUrl; }
     void parseDone(const QVariant &result);
 
 private:
     Q_DISABLE_COPY(NoRetweetIds)
-    class Private;
-    Private *d;
 };
 
 #endif // NORETWEETIDS_H

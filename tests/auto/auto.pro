@@ -1,4 +1,2 @@
 TEMPLATE = subdirs
-
-SUBDIRS += \ 
-    search/search
+SUBDIRS = cpp

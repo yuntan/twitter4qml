@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -32,23 +32,34 @@
 
 #include "twitter4qml_global.h"
 
+#define ADD_PROPERTY(type, name, type2) \
+public: \
+    type name() const { return m_##name; } \
+    void name(type name) { \
+        if (m_##name == name) return; \
+        m_##name = name; \
+        emit name##Changed(name); \
+    } \
+private: \
+    type2 m_##name;
+
 class DirectMessage : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool loading READ loading NOTIFY loadingChanged DESIGNABLE false)
-    Q_PROPERTY(QString created_at READ createdAt WRITE setCreatedAt NOTIFY createdAtChanged)
-    Q_PROPERTY(QVariantMap entities READ entities WRITE setEntities NOTIFY entitiesChanged)
-    Q_PROPERTY(QString id_str READ idStr WRITE setIdStr NOTIFY idStrChanged)
-    Q_PROPERTY(QVariantMap recipient READ recipient WRITE setRecipient NOTIFY recipientChanged)
-    Q_PROPERTY(QString recipient_id READ recipientId WRITE setRecipientId NOTIFY recipientIdChanged)
-    Q_PROPERTY(QString recipient_screen_name READ recipientScreenName WRITE setRecipientScreenName NOTIFY recipientScreenNameChanged)
-    Q_PROPERTY(QVariantMap sender READ sender WRITE setSender NOTIFY senderChanged)
-    Q_PROPERTY(QString sender_id READ senderId WRITE setSenderId NOTIFY senderIdChanged)
-    Q_PROPERTY(QString sender_screen_name READ senderScreenName WRITE setSenderScreenName NOTIFY senderScreenNameChanged)
-    Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
-    Q_PROPERTY(QString plain_text READ plainText WRITE setPlainText NOTIFY plainTextChanged)
-    Q_PROPERTY(QString rich_text READ richText WRITE setRichText NOTIFY richTextChanged)
-    Q_PROPERTY(QVariantList media READ media WRITE setMedia NOTIFY mediaChanged)
+    Q_PROPERTY(QString created_at READ created_at WRITE created_at NOTIFY created_atChanged)
+    Q_PROPERTY(QVariantMap entities READ entities WRITE entities NOTIFY entitiesChanged)
+    Q_PROPERTY(QString id_str READ id_str WRITE id_str NOTIFY id_strChanged)
+    Q_PROPERTY(QVariantMap recipient READ recipient WRITE recipient NOTIFY recipientChanged)
+    Q_PROPERTY(QString recipient_id READ recipient_id WRITE recipient_id NOTIFY recipient_idChanged)
+    Q_PROPERTY(QString recipient_screen_name READ recipient_screen_name WRITE recipient_screen_name NOTIFY recipient_screen_nameChanged)
+    Q_PROPERTY(QVariantMap sender READ sender WRITE sender NOTIFY senderChanged)
+    Q_PROPERTY(QString sender_id READ sender_id WRITE sender_id NOTIFY sender_idChanged)
+    Q_PROPERTY(QString sender_screen_name READ sender_screen_name WRITE sender_screen_name NOTIFY sender_screen_nameChanged)
+    Q_PROPERTY(QString text READ text WRITE text NOTIFY textChanged)
+    Q_PROPERTY(QString plain_text READ plain_text WRITE plain_text NOTIFY plain_textChanged)
+    Q_PROPERTY(QString rich_text READ rich_text WRITE rich_text NOTIFY rich_textChanged)
+    Q_PROPERTY(QVariantList media READ media WRITE media NOTIFY mediaChanged)
     Q_PROPERTY(QVariantMap data READ data NOTIFY dataChanged DESIGNABLE false)
     Q_DISABLE_COPY(DirectMessage)
 public:
@@ -58,19 +69,6 @@ public:
     static bool indicesGreaterThan(const QVariant &v1, const QVariant &v2);
 
     bool loading() const;
-    const QString &createdAt() const;
-    const QVariantMap &entities() const;
-    const QString &idStr() const;
-    const QVariantMap &recipient() const;
-    const QString &recipientId() const;
-    const QString &recipientScreenName() const;
-    const QVariantMap &sender() const;
-    const QString &senderId() const;
-    const QString &senderScreenName() const;
-    const QString &text() const;
-    const QString &plainText() const;
-    const QString &richText() const;
-    const QVariantList &media() const;
     QVariantMap data() const;
 
     Q_INVOKABLE void newDirectMessage(QVariantMap parameters);
@@ -78,41 +76,40 @@ public:
 
     Q_INVOKABLE void debug() const;
 
-public slots:
-    void setCreatedAt(const QString &createdAt);
-    void setEntities(const QVariantMap &entities);
-    void setIdStr(const QString &idStr);
-    void setRecipient(const QVariantMap &recipient);
-    void setRecipientId(const QString &recipientId);
-    void setRecipientScreenName(const QString &recipientScreenName);
-    void setSender(const QVariantMap &sender);
-    void setSenderId(const QString &senderId);
-    void setSenderScreenName(const QString &senderScreenName);
-    void setText(const QString &text);
-    void setPlainText(const QString &plainText);
-    void setRichText(const QString &richText);
-    void setMedia(const QVariantList &media);
-
 signals:
     void loadingChanged(bool loading);
-    void createdAtChanged(const QString &createdAt);
+    void created_atChanged(const QString &created_at);
     void entitiesChanged(const QVariantMap &entities);
-    void idStrChanged(const QString &idStr);
+    void id_strChanged(const QString &id_str);
     void recipientChanged(const QVariantMap &recipient);
-    void recipientIdChanged(const QString &recipientId);
-    void recipientScreenNameChanged(const QString &recipientScreenName);
+    void recipient_idChanged(const QString &recipient_id);
+    void recipient_screen_nameChanged(const QString &recipient_screen_name);
     void senderChanged(const QVariantMap &sender);
-    void senderIdChanged(const QString &senderId);
-    void senderScreenNameChanged(const QString &senderScreenName);
+    void sender_idChanged(const QString &sender_id);
+    void sender_screen_nameChanged(const QString &sender_screen_name);
     void textChanged(const QString &text);
-    void plainTextChanged(const QString &plainText);
-    void richTextChanged(const QString &richText);
+    void plain_textChanged(const QString &plain_text);
+    void rich_textChanged(const QString &rich_text);
     void mediaChanged(const QVariantList &media) const;
     void dataChanged();
 
 private:
     class Private;
     Private *d;
+
+    ADD_PROPERTY(const QString &, created_at, QString)
+    ADD_PROPERTY(const QVariantMap &, entities, QVariantMap)
+    ADD_PROPERTY(const QString &, id_str, QString)
+    ADD_PROPERTY(const QVariantMap &, recipient, QVariantMap)
+    ADD_PROPERTY(const QString &, recipient_id, QString)
+    ADD_PROPERTY(const QString &, recipient_screen_name, QString)
+    ADD_PROPERTY(const QVariantMap &, sender, QVariantMap)
+    ADD_PROPERTY(const QString &, sender_id, QString)
+    ADD_PROPERTY(const QString &, sender_screen_name, QString)
+    ADD_PROPERTY(const QString &, text, QString)
+    ADD_PROPERTY(const QString &, plain_text, QString)
+    ADD_PROPERTY(const QString &, rich_text, QString)
+    ADD_PROPERTY(const QVariantList &, media, QVariantList)
 };
 
 #endif // DIRECTMESSAGE_H

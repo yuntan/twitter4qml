@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -35,23 +35,16 @@ class AbstractUserAction : public AbstractTwitterAction
     Q_DISABLE_COPY(AbstractUserAction)
 public:
     explicit AbstractUserAction(QObject *parent = 0);
-    ~AbstractUserAction();
-
-    const QString &userId() const;
-    void setUserId(const QString &userId);
-    const QString &screenName() const;
-    void setScreenName(const QString &screenName);
-    bool includeEntities() const;
-    void setIncludeEntities(bool includeEntities);
 
 signals:
-    void userIdChanged(const QString &userId);
-    void screenNameChanged(const QString &screenName);
-    void includeEntitiesChanged(bool includeEntities);
+    void user_idChanged(const QString &user_id);
+    void screen_nameChanged(const QString &screen_name);
+    void include_entitiesChanged(bool include_entities);
 
 private:
-    class Private;
-    Private *d;
+    ADD_PROPERTY(const QString &, user_id, QString)
+    ADD_PROPERTY(const QString &, screen_name, QString)
+    ADD_PROPERTY(bool, include_entities, bool)
 };
 
 #endif // ABSTRACTUSERACTION_H

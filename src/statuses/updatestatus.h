@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -32,14 +32,14 @@
 class UpdateStatus : public AbstractStatusAction
 {
     Q_OBJECT
-    Q_PROPERTY(QString status READ status WRITE setStatus NOTIFY statusChanged)
-    Q_PROPERTY(QString in_reply_to_status_id READ inReplyToStatusId WRITE setInReplyToStatusId NOTIFY inReplyToStatusIdChanged)
-    Q_PROPERTY(double _lat READ latitude WRITE setLatitude NOTIFY latitudeChanged)
-    Q_PROPERTY(double _long READ longitude WRITE setLongitude NOTIFY longitudeChanged)
-    Q_PROPERTY(QString place_id READ placeId WRITE setPlaceId NOTIFY placeIdChanged)
-    Q_PROPERTY(QString display_coordinates READ displayCoordinates WRITE setDisplayCoordinates NOTIFY displayCoordinatesChanged)
-    Q_PROPERTY(bool trim_user READ trimUser WRITE setTrimUser NOTIFY trimUserChanged)
-    Q_PROPERTY(bool include_entities READ includeEntities WRITE setIncludeEntities NOTIFY includeEntitiesChanged)
+    Q_PROPERTY(QString status READ status WRITE status NOTIFY statusChanged)
+    Q_PROPERTY(QString in_reply_to_status_id READ in_reply_to_status_id WRITE in_reply_to_status_id NOTIFY in_reply_to_status_idChanged)
+    Q_PROPERTY(double _lat READ latitude WRITE latitude NOTIFY latitudeChanged)
+    Q_PROPERTY(double _long READ longitude WRITE longitude NOTIFY longitudeChanged)
+    Q_PROPERTY(QString place_id READ place_id WRITE place_id NOTIFY place_idChanged)
+    Q_PROPERTY(QString display_coordinates READ display_coordinates WRITE display_coordinates NOTIFY display_coordinatesChanged)
+    Q_PROPERTY(bool trim_user READ trim_user WRITE trim_user NOTIFY trim_userChanged)
+//    Q_PROPERTY(bool include_entities READ include_entities WRITE include_entities NOTIFY include_entitiesChanged)
 
     Q_DISABLE_COPY(UpdateStatus)
 public:
@@ -47,16 +47,23 @@ public:
     
 signals:
     void statusChanged(const QString &status);
-    void inReplyToStatusIdChanged(const QString &inReplyToStatusId);
+    void in_reply_to_status_idChanged(const QString &in_reply_to_status_id);
     void latitudeChanged(double latitude);
     void longitudeChanged(double longitude);
-    void placeIdChanged(const QString &placeId);
-    void displayCoordinatesChanged(const QString &displayCoordinates);
-    void trimUserChanged(bool trimUser);
-    void includeEntitiesChanged(bool includeEntities);
+    void place_idChanged(const QString &place_id);
+    void display_coordinatesChanged(const QString &display_coordinates);
+    void trim_userChanged(bool trim_user);
+//    void include_entitiesChanged(bool include_entities);
 
 protected:
-    QUrl api() const { return QUrl("http://api.twitter.com/1/statuses/update.json"); }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/statuses/update.json"); }
+
+    ADD_PROPERTY(const QString &, status, QString)
+    ADD_PROPERTY(const QString &, in_reply_to_status_id, QString)
+    ADD_PROPERTY(double, latitude, double)
+    ADD_PROPERTY(double, longitude, double)
+    ADD_PROPERTY(const QString &, place_id, QString)
+    ADD_PROPERTY(const QString &, display_coordinates, QString)
 };
 
 #endif // UPDATESTATUS_H

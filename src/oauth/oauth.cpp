@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -61,13 +61,13 @@ OAuth::Private::Private(OAuth *parent)
     connect(&OAuthManager::instance(), SIGNAL(consumerSecretChanged(QString)), q, SIGNAL(consumerSecretChanged(QString)));
     connect(&OAuthManager::instance(), SIGNAL(tokenChanged(QString)), q, SIGNAL(tokenChanged(QString)));
     connect(&OAuthManager::instance(), SIGNAL(tokenSecretChanged(QString)), q, SIGNAL(tokenSecretChanged(QString)));
-    connect(&OAuthManager::instance(), SIGNAL(userIdChanged(QString)), q, SIGNAL(userIdChanged(QString)));
-    connect(&OAuthManager::instance(), SIGNAL(screenNameChanged(QString)), q, SIGNAL(screenNameChanged(QString)));
+    connect(&OAuthManager::instance(), SIGNAL(user_idChanged(QString)), q, SIGNAL(user_idChanged(QString)));
+    connect(&OAuthManager::instance(), SIGNAL(screen_nameChanged(QString)), q, SIGNAL(screen_nameChanged(QString)));
 
     connect(q, SIGNAL(tokenChanged(QString)), this, SLOT(updateStatus()));
     connect(q, SIGNAL(tokenSecretChanged(QString)), this, SLOT(updateStatus()));
-    connect(q, SIGNAL(userIdChanged(QString)), this, SLOT(updateStatus()));
-    connect(q, SIGNAL(screenNameChanged(QString)), this, SLOT(updateStatus()));
+    connect(q, SIGNAL(user_idChanged(QString)), this, SLOT(updateStatus()));
+    connect(q, SIGNAL(screen_nameChanged(QString)), this, SLOT(updateStatus()));
 }
 
 void OAuth::Private::setState(State s)
@@ -83,8 +83,8 @@ void OAuth::Private::updateStatus()
     if (state == Unauthorized
             && !OAuthManager::instance().token().isEmpty()
             && !OAuthManager::instance().tokenSecret().isEmpty()
-            && !OAuthManager::instance().userId().isEmpty()
-            && !OAuthManager::instance().screenName().isEmpty()
+            && !OAuthManager::instance().user_id().isEmpty()
+            && !OAuthManager::instance().screen_name().isEmpty()
             ) {
         setState(Authorized);
     }
@@ -180,24 +180,24 @@ void OAuth::setTokenSecret(const QString &tokenSecret)
     OAuthManager::instance().setTokenSecret(tokenSecret);
 }
 
-const QString &OAuth::userId() const
+const QString &OAuth::user_id() const
 {
-    return OAuthManager::instance().userId();
+    return OAuthManager::instance().user_id();
 }
 
-void OAuth::setUserId(const QString &userId)
+void OAuth::user_id(const QString &user_id)
 {
-    OAuthManager::instance().setUserId(userId);
+    OAuthManager::instance().user_id(user_id);
 }
 
-const QString &OAuth::screenName() const
+const QString &OAuth::screen_name() const
 {
-    return OAuthManager::instance().screenName();
+    return OAuthManager::instance().screen_name();
 }
 
-void OAuth::setScreenName(const QString &screenName)
+void OAuth::screen_name(const QString &screen_name)
 {
-    OAuthManager::instance().setScreenName(screenName);
+    OAuthManager::instance().screen_name(screen_name);
 }
 
 void OAuth::request_token(const QString &callback)
@@ -246,8 +246,8 @@ void OAuth::unauthorize()
     DEBUG();
     OAuthManager::instance().setToken(QString());
     OAuthManager::instance().setTokenSecret(QString());
-    OAuthManager::instance().setUserId(QString());
-    OAuthManager::instance().setScreenName(QString());
+    OAuthManager::instance().user_id(QString());
+    OAuthManager::instance().screen_name(QString());
     d->setState(Unauthorized);
     DEBUG();
 }

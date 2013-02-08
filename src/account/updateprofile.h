@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -33,43 +33,33 @@ class UpdateProfile : public AbstractTwitterAction
 {
     Q_OBJECT
     Q_DISABLE_COPY(UpdateProfile)
-    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
-    Q_PROPERTY(QString url READ url WRITE setUrl NOTIFY urlChanged)
-    Q_PROPERTY(QString location READ location WRITE setLocation NOTIFY locationChanged)
-    Q_PROPERTY(QString description READ description WRITE setDescription NOTIFY descriptionChanged)
-    Q_PROPERTY(bool include_entities READ includeEntities WRITE setIncludeEntities NOTIFY includeEntitiesChanged)
-    Q_PROPERTY(bool skip_status READ skipStatus WRITE setSkipStatus NOTIFY skipStatusChanged)
+    Q_PROPERTY(QString name READ name WRITE name NOTIFY nameChanged)
+    Q_PROPERTY(QString url READ url WRITE url NOTIFY urlChanged)
+    Q_PROPERTY(QString location READ location WRITE location NOTIFY locationChanged)
+    Q_PROPERTY(QString description READ description WRITE description NOTIFY descriptionChanged)
+    Q_PROPERTY(bool include_entities READ include_entities WRITE include_entities NOTIFY include_entitiesChanged)
+    Q_PROPERTY(bool skip_status READ skip_status WRITE skip_status NOTIFY skip_statusChanged)
 public:
     explicit UpdateProfile(QObject *parent = 0);
-    ~UpdateProfile();
-
-    const QString &name() const;
-    void setName(const QString &name);
-    const QString &url() const;
-    void setUrl(const QString &url);
-    const QString &location() const;
-    void setLocation(const QString &location);
-    const QString &description() const;
-    void setDescription(const QString &description);
-    bool includeEntities() const;
-    void setIncludeEntities(bool includeEntities);
-    bool skipStatus() const;
-    void setSkipStatus(bool skipStatus);
 
 signals:
     void nameChanged(const QString &name);
     void urlChanged(const QString &url);
     void locationChanged(const QString &location);
     void descriptionChanged(const QString &description);
-    void includeEntitiesChanged(bool includeEntities);
-    void skipStatusChanged(bool skipStatus);
+    void include_entitiesChanged(bool include_entities);
+    void skip_statusChanged(bool skip_status);
 
 protected:
-    QUrl api() const { return QUrl("http://api.twitter.com/1/account/update_profile.json"); }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/account/update_profile.json"); }
 
 private:
-    class Private;
-    Private *d;
+    ADD_PROPERTY(const QString &, name, QString)
+    ADD_PROPERTY(const QString &, url, QString)
+    ADD_PROPERTY(const QString &, location, QString)
+    ADD_PROPERTY(const QString &, description, QString)
+    ADD_PROPERTY(bool, include_entities, bool)
+    ADD_PROPERTY(bool, skip_status, bool)
 };
 
 #endif // UPDATEPROFILE_H

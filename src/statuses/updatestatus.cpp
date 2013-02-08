@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -28,5 +28,7 @@
 
 UpdateStatus::UpdateStatus(QObject *parent)
     : AbstractStatusAction(parent)
+    , m_latitude(0)
+    , m_longitude(0)
 {
 }

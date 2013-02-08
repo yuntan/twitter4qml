@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -43,26 +43,13 @@ public:
     Private(DirectMessage *parent);
 
     bool loading;
-    QString createdAt;
-    QVariantMap entities;
-    QString idStr;
-    QVariantMap recipient;
-    QString recipientId;
-    QString recipientScreenName;
-    QVariantMap sender;
-    QString senderId;
-    QString senderScreenName;
-    QString text;
-    QString plainText;
-    QString richText;
-    QVariantList media;
 
     void create(const QVariantMap &parameters);
     void destroy();
 
 private slots:
     void setLoading(bool loading);
-    void idStrChanged(const QString &idStr);
+    void id_strChanged(const QString &id_str);
     void dataChanged(const QVariant &data);
 
 private:
@@ -75,7 +62,7 @@ DirectMessage::Private::Private(DirectMessage *parent)
     , loading(false)
     , q(parent)
 {
-    connect(q, SIGNAL(idStrChanged(QString)), this, SLOT(idStrChanged(QString)));
+    connect(q, SIGNAL(id_strChanged(QString)), this, SLOT(id_strChanged(QString)));
 }
 
 void DirectMessage::Private::setLoading(bool l)
@@ -85,24 +72,24 @@ void DirectMessage::Private::setLoading(bool l)
     emit q->loadingChanged(l);
 }
 
-void DirectMessage::Private::idStrChanged(const QString &id)
+void DirectMessage::Private::id_strChanged(const QString &id)
 {
-    q->setCreatedAt(QString());
-    q->setEntities(QVariantMap());
-    q->setRecipient(QVariantMap());
-    q->setRecipientId(QString());
-    q->setRecipientScreenName(QString());
-    q->setSender(QVariantMap());
-    q->setSenderId(QString());
-    q->setSenderScreenName(QString());
-    q->setText(QString());
-    q->setPlainText(QString());
-    q->setRichText(QString());
-    q->setMedia(QVariantList());
+    q->created_at(QString());
+    q->entities(QVariantMap());
+    q->recipient(QVariantMap());
+    q->recipient_id(QString());
+    q->recipient_screen_name(QString());
+    q->sender(QVariantMap());
+    q->sender_id(QString());
+    q->sender_screen_name(QString());
+    q->text(QString());
+    q->plain_text(QString());
+    q->rich_text(QString());
+    q->media(QVariantList());
     if (id.isEmpty()) {
     } else {
         ShowDirectMessage *action = new ShowDirectMessage(this);
-        action->setId(id);
+        action->id(id);
         connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
         if (loading) {
             tasks.append(action);
@@ -116,8 +103,8 @@ void DirectMessage::Private::idStrChanged(const QString &id)
 void DirectMessage::Private::create(const QVariantMap &parameters)
 {
     NewDirectMessage *action = new NewDirectMessage(this);
-    action->setUserId(parameters.value("user_id").toString());
-    action->setText(parameters.value("text").toString());
+    action->user_id(parameters.value("user_id").toString());
+    action->text(parameters.value("text").toString());
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
     if (loading) {
         tasks.append(action);
@@ -130,8 +117,8 @@ void DirectMessage::Private::create(const QVariantMap &parameters)
 void DirectMessage::Private::destroy()
 {
     DestroyDirectMessage *action = new DestroyDirectMessage(this);
-    action->setId(idStr);
-    action->setIncludeEntities(true);
+    action->id(q->id_str());
+    action->include_entities(true);
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
     if (loading) {
         tasks.append(action);
@@ -145,7 +132,7 @@ void DirectMessage::Private::dataChanged(const QVariant &data)
 {
     if (qobject_cast<DestroyDirectMessage *>(QObject::sender())) {
         DEBUG() << data;
-        q->setIdStr(QString());
+        q->id_str(QString());
         emit q->dataChanged();
         qDeleteAll(tasks);
         tasks.clear();
@@ -165,7 +152,7 @@ void DirectMessage::Private::dataChanged(const QVariant &data)
                 q->setProperty(key, QVariant());
             }
         }
-        DataManager::instance()->addData(DataManager::DirectMessageData, q->idStr(), directMessage);
+        DataManager::instance()->addData(DataManager::DirectMessageData, q->id_str(), directMessage);
         emit q->dataChanged();
         action->deleteLater();
     }
@@ -196,162 +183,6 @@ void DirectMessage::destroyDirectMessage()
 bool DirectMessage::loading() const
 {
     return d->loading;
-}
-
-const QString &DirectMessage::createdAt() const
-{
-    return d->createdAt;
-}
-
-void DirectMessage::setCreatedAt(const QString &createdAt)
-{
-    if (d->createdAt == createdAt) return;
-    d->createdAt = createdAt;
-    emit createdAtChanged(createdAt);
-}
-
-const QVariantMap &DirectMessage::entities() const
-{
-    return d->entities;
-}
-
-void DirectMessage::setEntities(const QVariantMap &entities)
-{
-    if (d->entities == entities) return;
-    d->entities = entities;
-    emit entitiesChanged(entities);
-}
-
-const QString &DirectMessage::idStr() const
-{
-    return d->idStr;
-}
-
-void DirectMessage::setIdStr(const QString &idStr)
-{
-    if (d->idStr == idStr) return;
-    d->idStr = idStr;
-    emit idStrChanged(idStr);
-}
-
-const QVariantMap &DirectMessage::recipient() const
-{
-    return d->recipient;
-}
-
-void DirectMessage::setRecipient(const QVariantMap &recipient)
-{
-    if (d->recipient == recipient) return;
-    d->recipient = recipient;
-    emit recipientChanged(recipient);
-}
-
-const QString &DirectMessage::recipientId() const
-{
-    return d->recipientId;
-}
-
-void DirectMessage::setRecipientId(const QString &recipientId)
-{
-    if (d->recipientId == recipientId) return;
-    d->recipientId = recipientId;
-    emit recipientIdChanged(recipientId);
-}
-
-const QString &DirectMessage::recipientScreenName() const
-{
-    return d->recipientScreenName;
-}
-
-void DirectMessage::setRecipientScreenName(const QString &recipientScreenName)
-{
-    if (d->recipientScreenName == recipientScreenName) return;
-    d->recipientScreenName = recipientScreenName;
-    emit recipientScreenNameChanged(recipientScreenName);
-}
-
-const QVariantMap &DirectMessage::sender() const
-{
-    return d->sender;
-}
-
-void DirectMessage::setSender(const QVariantMap &sender)
-{
-    if (d->sender == sender) return;
-    d->sender = sender;
-    emit senderChanged(sender);
-}
-
-const QString &DirectMessage::senderId() const
-{
-    return d->senderId;
-}
-
-void DirectMessage::setSenderId(const QString &senderId)
-{
-    if (d->senderId == senderId) return;
-    d->senderId = senderId;
-    emit senderIdChanged(senderId);
-}
-
-const QString &DirectMessage::senderScreenName() const
-{
-    return d->senderScreenName;
-}
-
-void DirectMessage::setSenderScreenName(const QString &senderScreenName)
-{
-    if (d->senderScreenName == senderScreenName) return;
-    d->senderScreenName = senderScreenName;
-    emit senderScreenNameChanged(senderScreenName);
-}
-
-const QString &DirectMessage::text() const
-{
-    return d->text;
-}
-
-void DirectMessage::setText(const QString &text)
-{
-    if (d->text == text) return;
-    d->text = text;
-    emit textChanged(text);
-}
-
-const QString &DirectMessage::plainText() const
-{
-    return d->plainText;
-}
-
-void DirectMessage::setPlainText(const QString &plainText)
-{
-    if (d->plainText == plainText) return;
-    d->plainText = plainText;
-    emit plainTextChanged(plainText);
-}
-
-const QString &DirectMessage::richText() const
-{
-    return d->richText;
-}
-
-void DirectMessage::setRichText(const QString &richText)
-{
-    if (d->richText == richText) return;
-    d->richText = richText;
-    emit richTextChanged(richText);
-}
-
-const QVariantList &DirectMessage::media() const
-{
-    return d->media;
-}
-
-void DirectMessage::setMedia(const QVariantList &media)
-{
-    if (d->media == media) return;
-    d->media = media;
-    emit mediaChanged(media);
 }
 
 QVariantMap DirectMessage::data() const
@@ -392,8 +223,8 @@ QVariantMap DirectMessage::parse(const QVariantMap &directMessage)
 
     QString text = ret.value("text").toString();
     if (ret.contains("entities") && !ret.value("entities").isNull()) {
-        QString plainText = text;
-        QString richText = text.replace(" ", "\t");
+        QString plain_text = text;
+        QString rich_text = text.replace(" ", "\t");
         QVariantList entitiesSortedByIndices;
         QVariantMap entities = ret.value("entities").toMap();
         foreach (const QString &key, entities.keys()) {
@@ -417,12 +248,12 @@ QVariantMap DirectMessage::parse(const QVariantMap &directMessage)
             int start = indices.first().toInt();
             int end = indices.last().toInt();
             QString type = entity.value("type").toString();
-            QString plainTextAfter;
-            QString richTextAfter;
+            QString plain_textAfter;
+            QString rich_textAfter;
             if (type == "urls") {
                 if (entity.contains("display_url")) {
-                    plainTextAfter = entity.value("display_url").toString();
-                    richTextAfter = QString("<a class=\"link\" href=\"")
+                    plain_textAfter = entity.value("display_url").toString();
+                    rich_textAfter = QString("<a class=\"link\" href=\"")
                             .append(entity.value("expanded_url").toString())
                             .append("\" title=\"")
                             .append(entity.value("url").toString())
@@ -430,8 +261,8 @@ QVariantMap DirectMessage::parse(const QVariantMap &directMessage)
                             .append(entity.value("display_url").toString())
                             .append("</a>");
                 } else {
-                    plainTextAfter = entity.value("url").toString();
-                    richTextAfter = QString("<a class=\"link\" href=\"")
+                    plain_textAfter = entity.value("url").toString();
+                    rich_textAfter = QString("<a class=\"link\" href=\"")
                             .append(entity.value("url").toString())
                             .append("\" title=\"")
                             .append(entity.value("url").toString())
@@ -440,16 +271,16 @@ QVariantMap DirectMessage::parse(const QVariantMap &directMessage)
                             .append("</a>");
                 }
             } else if (type == "user_mentions") {
-                richTextAfter = QString("<a class=\"screen_name\" href=\"user://%1\" title=\"@%2\">@%2</a>")
+                rich_textAfter = QString("<a class=\"screen_name\" href=\"user://%1\" title=\"@%2\">@%2</a>")
                         .arg(entity.value("id_str").toString())
                         .arg(entity.value("screen_name").toString());
             } else if (type == "hashtags") {
-                richTextAfter = QString("<a class=\"hash_tag\" href=\"search://#%1\" title=\"#%2\">#%2</a>")
+                rich_textAfter = QString("<a class=\"hash_tag\" href=\"search://#%1\" title=\"#%2\">#%2</a>")
                         .arg(entity.value("text").toString())
                         .arg(entity.value("text").toString());
             } else if (type == "media") {
-                plainTextAfter = entity.value("display_url").toString();
-                richTextAfter = QString("<a class=\"media\" href=\"")
+                plain_textAfter = entity.value("display_url").toString();
+                rich_textAfter = QString("<a class=\"media\" href=\"")
                         .append(entity.value("media_url").toString())
                         .append("\" title=\"")
                         .append(entity.value("url").toString())
@@ -460,13 +291,13 @@ QVariantMap DirectMessage::parse(const QVariantMap &directMessage)
             } else {
                 DEBUG() << type << item;
             }
-            if (!plainTextAfter.isNull())
-                plainText.replace(start, end - start, plainTextAfter);
-            if (!richTextAfter.isNull())
-                richText.replace(start, end - start, richTextAfter);
+            if (!plain_textAfter.isNull())
+                plain_text.replace(start, end - start, plain_textAfter);
+            if (!rich_textAfter.isNull())
+                rich_text.replace(start, end - start, rich_textAfter);
         }
-        ret.insert("plain_text", escapeHtml(plainText));
-        ret.insert("rich_text", richText.replace("\n", "<br />").replace("\t", "&nbsp;").replace(QString::fromUtf8("　"), "&nbsp;&nbsp;&nbsp;&nbsp;"));
+        ret.insert("plain_text", escapeHtml(plain_text));
+        ret.insert("rich_text", rich_text.replace("\n", "<br />").replace("\t", "&nbsp;").replace(QString::fromUtf8("　"), "&nbsp;&nbsp;&nbsp;&nbsp;"));
         ret.insert("media", media);
     } else {
         DEBUG() << text;

@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -32,17 +32,17 @@
 class Outgoing : public AbstractFriendshipIdsModel
 {
     Q_OBJECT
-    Q_PROPERTY(QString cursor READ cursor WRITE setCursor NOTIFY cursorChanged)
-    Q_PROPERTY(bool stringifyIds READ stringifyIds WRITE setStringifyIds NOTIFY stringifyIdsChanged)
+    Q_PROPERTY(QString cursor READ cursor WRITE cursor NOTIFY cursorChanged)
+    Q_PROPERTY(bool stringify_ids READ stringify_ids WRITE stringify_ids NOTIFY stringify_idsChanged)
 public:
     explicit Outgoing(QObject *parent = 0);
 
 signals:
     void cursorChanged(const QString &cursor);
-    void stringifyIdsChanged(bool stringifyIds);
+    void stringify_idsChanged(bool stringify_ids);
 
 protected:
-    QUrl api() const { return QUrl("http://api.twitter.com/1/friendships/outgoing.json"); }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/friendships/outgoing.json"); }
 };
 
 #endif // OUTGOING_H

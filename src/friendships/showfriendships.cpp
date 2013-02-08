@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -33,12 +33,6 @@ class ShowFriendships::Private : public QObject
 public:
     Private(ShowFriendships *parent);
 
-    QString sourceId;
-    QString sourceScreenName;
-    QString targetId;
-    QString targetScreenName;
-    QVariantMap relationship;
-
 private slots:
     void changed();
 
@@ -51,10 +45,10 @@ ShowFriendships::Private::Private(ShowFriendships *parent)
     : QObject(parent)
     , q(parent)
 {
-    connect(q, SIGNAL(sourceIdChanged(QString)), this, SLOT(changed()));
-    connect(q, SIGNAL(sourceScreenNameChanged(QString)), this, SLOT(changed()));
-    connect(q, SIGNAL(targetIdChanged(QString)), this, SLOT(changed()));
-    connect(q, SIGNAL(targetScreenNameChanged(QString)), this, SLOT(changed()));
+    connect(q, SIGNAL(source_idChanged(QString)), this, SLOT(changed()));
+    connect(q, SIGNAL(source_screen_nameChanged(QString)), this, SLOT(changed()));
+    connect(q, SIGNAL(target_idChanged(QString)), this, SLOT(changed()));
+    connect(q, SIGNAL(target_screen_nameChanged(QString)), this, SLOT(changed()));
 
     timer.setInterval(0);
     timer.setSingleShot(true);
@@ -64,7 +58,7 @@ ShowFriendships::Private::Private(ShowFriendships *parent)
 void ShowFriendships::Private::changed()
 {
     if (timer.isActive()) return;
-    q->setRelationship(QVariantMap());
+    q->relationship(QVariantMap());
     timer.start();
 }
 
@@ -77,69 +71,9 @@ ShowFriendships::ShowFriendships(QObject *parent)
 
 void ShowFriendships::exec()
 {
-    if (sourceId().isEmpty() && sourceScreenName().isEmpty()) return;
-    if (targetId().isEmpty() && targetScreenName().isEmpty()) return;
+    if (source_id().isEmpty() && source_screen_name().isEmpty()) return;
+    if (target_id().isEmpty() && target_screen_name().isEmpty()) return;
     AbstractTwitterAction::exec();
-}
-
-const QString &ShowFriendships::sourceId() const
-{
-    return d->sourceId;
-}
-
-void ShowFriendships::setSourceId(const QString &sourceId)
-{
-    if (d->sourceId == sourceId) return;
-    d->sourceId = sourceId;
-    emit sourceIdChanged(sourceId);
-}
-
-const QString &ShowFriendships::sourceScreenName() const
-{
-    return d->sourceScreenName;
-}
-
-void ShowFriendships::setSourceScreenName(const QString &sourceScreenName)
-{
-    if (d->sourceScreenName == sourceScreenName) return;
-    d->sourceScreenName = sourceScreenName;
-    emit sourceScreenNameChanged(sourceScreenName);
-}
-
-const QString &ShowFriendships::targetId() const
-{
-    return d->targetId;
-}
-
-void ShowFriendships::setTargetId(const QString &targetId)
-{
-    if (d->targetId == targetId) return;
-    d->targetId = targetId;
-    emit targetIdChanged(targetId);
-}
-
-const QString &ShowFriendships::targetScreenName() const
-{
-    return d->targetScreenName;
-}
-
-void ShowFriendships::setTargetScreenName(const QString &targetScreenName)
-{
-    if (d->targetScreenName == targetScreenName) return;
-    d->targetScreenName = targetScreenName;
-    emit targetScreenNameChanged(targetScreenName);
-}
-
-const QVariantMap &ShowFriendships::relationship() const
-{
-    return d->relationship;
-}
-
-void ShowFriendships::setRelationship(const QVariantMap &relationship)
-{
-    if (d->relationship == relationship) return;
-    d->relationship = relationship;
-    emit relationshipChanged(relationship);
 }
 
 #include "showfriendships.moc"

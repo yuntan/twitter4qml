@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -30,10 +30,27 @@
 #include <QtCore/QAbstractListModel>
 #include <QtCore/QStringList>
 #include <QtCore/QUrl>
+#if QT_VERSION >= 0x050000
+#include <QtQml/QQmlListProperty>
+typedef QQmlListProperty<QObject> AbstractTwitterModelListProperty;
+#else
 #include <QtDeclarative/QDeclarativeListProperty>
+typedef QDeclarativeListProperty<QObject> AbstractTwitterModelListProperty;
+#endif
 
 #include "twitter4qml_global.h"
 #include "datamanager.h"
+
+#define ADD_PROPERTY(type, name, type2) \
+public: \
+    type name() const { return m_##name; } \
+    void name(type name) { \
+        if (m_##name == name) return; \
+        m_##name = name; \
+        emit name##Changed(name); \
+    } \
+private: \
+    type2 m_##name;
 
 class AbstractTwitterModel : public QAbstractListModel
 {
@@ -46,13 +63,12 @@ class AbstractTwitterModel : public QAbstractListModel
     Q_PROPERTY(bool streaming READ isStreaming NOTIFY streamingChanged DESIGNABLE false)
     Q_PROPERTY(QString sortKey READ sortKey WRITE setSortKey NOTIFY sortKeyChanged DESIGNABLE false)
     Q_PROPERTY(QString cacheKey READ cacheKey WRITE setCacheKey NOTIFY cacheKeyChanged DESIGNABLE false)
-    Q_PROPERTY(QDeclarativeListProperty<QObject> childObjects READ childObjects DESIGNABLE false)
+    Q_PROPERTY(AbstractTwitterModelListProperty childObjects READ childObjects DESIGNABLE false)
     Q_ENUMS(PushOrder)
     Q_CLASSINFO("DefaultProperty", "childObjects")
     Q_DISABLE_COPY(AbstractTwitterModel)
 public:
     enum AuthorizeBy {
-        AuthorizeByNothing,
         AuthorizeByHeader,
         AuthorizeByBody,
         AuthorizeByUrl
@@ -80,10 +96,13 @@ public:
 
     Q_INVOKABLE QVariantMap get(int index) const;
     Q_INVOKABLE int indexOf(const QString &id) const;
-    QDeclarativeListProperty<QObject> childObjects();
-
+    AbstractTwitterModelListProperty childObjects();
     virtual DataManager::DataType dataType() const { return DataManager::NoData; }
     virtual bool dataIsReliable() const { return true; }
+
+#if QT_VERSION >= 0x050000
+    QHash<int, QByteArray> roleNames() const;
+#endif
 
 public slots:
     void setEnabled(bool enabled);
@@ -123,6 +142,10 @@ protected:
     virtual void dataAboutToBeRemoved(const QString &key);
     virtual void dataChanged(const QString &key, const QVariantMap &value);
     using QAbstractListModel::dataChanged;
+
+#if QT_VERSION >= 0x050000
+    void setRoleNames(const QHash<int, QByteArray> &roleNames);
+#endif
 
 private:
     class Private;

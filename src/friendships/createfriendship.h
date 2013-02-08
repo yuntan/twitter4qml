@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -32,7 +32,7 @@
 class CreateFriendship : public AbstractFriendshipAction
 {
     Q_OBJECT
-    Q_PROPERTY(bool follow READ follow WRITE setFollow NOTIFY followChanged)
+    Q_PROPERTY(bool follow READ follow WRITE follow NOTIFY followChanged)
     Q_DISABLE_COPY(CreateFriendship)
 public:
     explicit CreateFriendship(QObject *parent = 0);
@@ -41,7 +41,7 @@ signals:
     void followChanged(bool follow);
 
 protected:
-    QUrl api() const { return QUrl("http://api.twitter.com/1/friendships/create.json"); }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/friendships/create.json"); }
 };
 
 #endif // CREATEFRIENDSHIP_H

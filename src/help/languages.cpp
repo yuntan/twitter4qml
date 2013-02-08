@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -30,9 +30,9 @@ Languages::Languages(QObject *parent)
     : AbstractTwitterModel(parent)
 {
     QHash<int, QByteArray> roles;
-    roles[CodeRole] = "code";
-    roles[NameRole] = "name";
-    roles[StatusRole] = "status";
+    roles[code_role] = "code";
+    roles[name_role] = "name";
+    roles[status_role] = "status";
     setRoleNames(roles);
 }
 

@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -26,26 +26,14 @@
 
 #include "slugs.h"
 
-class Slugs::Private
-{
-public:
-    QString lang;
-};
-
 Slugs::Slugs(QObject *parent)
     : AbstractTwitterModel(parent)
-    , d(new Private)
 {
     QHash<int, QByteArray> roles;
-    roles[NameRole] = "name";
-    roles[SlugRole] = "slug";
-    roles[SizeRole] = "size";
+    roles[name_role] = "name";
+    roles[slug_role] = "slug";
+    roles[size_role] = "size";
     setRoleNames(roles);
-}
-
-Slugs::~Slugs()
-{
-    delete d;
 }
 
 void Slugs::parseDone(const QVariant &result)
@@ -62,16 +50,4 @@ void Slugs::parseDone(const QVariant &result)
             }
         }
     }
-}
-
-const QString &Slugs::lang() const
-{
-    return d->lang;
-}
-
-void Slugs::setLang(const QString &lang)
-{
-    if (d->lang == lang) return;
-    d->lang = lang;
-    emit langChanged(lang);
 }

@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -32,9 +32,9 @@
 class ShowUser : public AbstractUserAction
 {
     Q_OBJECT
-    Q_PROPERTY(QString user_id READ userId WRITE setUserId NOTIFY userIdChanged)
-    Q_PROPERTY(QString screen_name READ screenName WRITE setScreenName NOTIFY screenNameChanged)
-    Q_PROPERTY(bool include_entities READ includeEntities WRITE setIncludeEntities NOTIFY includeEntitiesChanged)
+    Q_PROPERTY(QString user_id READ user_id WRITE user_id NOTIFY user_idChanged)
+    Q_PROPERTY(QString screen_name READ screen_name WRITE screen_name NOTIFY screen_nameChanged)
+    Q_PROPERTY(bool include_entities READ include_entities WRITE include_entities NOTIFY include_entitiesChanged)
     Q_DISABLE_COPY(ShowUser)
 public:
     explicit ShowUser(QObject *parent = 0);
@@ -43,12 +43,12 @@ public slots:
     void exec();
 
 signals:
-    void userIdChanged(const QString &userId);
-    void screenNameChanged(bool screenName);
-    void includeEntitiesChanged(bool includeEntities);
+    void user_idChanged(const QString &user_id);
+    void screen_nameChanged(bool screen_name);
+    void include_entitiesChanged(bool include_entities);
 
 protected:
-    QUrl api() const { return QUrl("http://api.twitter.com/1/users/show.json"); }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/users/show.json"); }
     QString httpMethod() const { return "GET"; }
 };
 

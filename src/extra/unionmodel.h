@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -29,13 +29,19 @@
 
 #include <QtCore/QAbstractListModel>
 #include <QtCore/QStringList>
+#if QT_VERSION >= 0x050000
+#include <QtQml/QQmlListProperty>
+typedef QQmlListProperty<QObject> UnionModelListProperty;
+#else
 #include <QtDeclarative/QDeclarativeListProperty>
+typedef QDeclarativeListProperty<QObject> UnionModelListProperty;
+#endif
 
 class UnionModel : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(bool loading READ isLoading NOTIFY loadingChanged DESIGNABLE false)
-    Q_PROPERTY(QDeclarativeListProperty<QObject> childObjects READ childObjects DESIGNABLE false)
+    Q_PROPERTY(UnionModelListProperty childObjects READ childObjects DESIGNABLE false)
     Q_PROPERTY(QStringList idList READ idList NOTIFY idListChanged DESIGNABLE false)
     Q_PROPERTY(int size READ size NOTIFY sizeChanged DESIGNABLE false)
     Q_CLASSINFO("DefaultProperty", "childObjects")
@@ -47,7 +53,7 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
     
     virtual bool isLoading() const;
-    QDeclarativeListProperty<QObject> childObjects();
+    UnionModelListProperty childObjects();
 
     Q_INVOKABLE void addModel(QObject *model) const;
     Q_INVOKABLE void clearModel() const;
@@ -56,6 +62,10 @@ public:
     Q_INVOKABLE int size() { return rowCount(); }
     Q_INVOKABLE int indexOf(const QString &id);
 
+#if QT_VERSION >= 0x050000
+    QHash<int, QByteArray> roleNames() const;
+#endif
+
 public slots:
     void reload();
 
@@ -63,6 +73,11 @@ signals:
     void loadingChanged(bool loading);
     void idListChanged(const QStringList &idList);
     void sizeChanged();
+
+protected:
+#if QT_VERSION >= 0x050000
+    void setRoleNames(const QHash<int, QByteArray> &roleNames);
+#endif
 
 private:
     class Private;

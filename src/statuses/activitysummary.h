@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -32,7 +32,7 @@
 class ActivitySummary : public AbstractTwitterAction
 {
     Q_OBJECT
-    Q_PROPERTY(QString _id READ id WRITE setId NOTIFY idChanged DESIGNABLE false)
+    Q_PROPERTY(QString _id READ id WRITE id NOTIFY idChanged DESIGNABLE false)
     Q_PROPERTY(QVariantList favoriters READ favoriters WRITE setFavoriters NOTIFY favoritersChanged DESIGNABLE false USER true)
     Q_PROPERTY(QString favoriters_count READ favoritersCount WRITE setFavoritersCount NOTIFY favoritersCountChanged DESIGNABLE false USER true)
     Q_PROPERTY(QVariantList repliers READ repliers WRITE setRepliers NOTIFY repliersChanged DESIGNABLE false USER true)
@@ -53,7 +53,7 @@ public:
 
 public slots:
     void exec();
-    void setId(const QString &id);
+    void id(const QString &id);
     void setFavoriters(const QVariantList &favoriters);
     void setFavoritersCount(const QString &favoritersCount);
     void setRepliers(const QVariantList &repliers);

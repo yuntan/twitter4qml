@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,7 @@ LookupUsers::LookupUsers(QObject *parent)
 
 void LookupUsers::reload()
 {
-    if (!id().isEmpty() || !screenName().isEmpty()) {
+    if (!id().isEmpty() || !screen_name().isEmpty()) {
         AbstractTwitterModel::reload();
     }
 }

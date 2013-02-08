@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -58,7 +58,7 @@ void SavedSearches::Private::create(const QVariantMap &parameters)
 {
     DEBUG() << parameters;
     CreateSavedSearch *action = new CreateSavedSearch(this);
-    action->setQuery(parameters.value("query").toString());
+    action->query(parameters.value("query").toString());
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
     if (loading) {
         tasks.append(action);
@@ -72,7 +72,7 @@ void SavedSearches::Private::destroy(const QVariantMap &parameters)
 {
     DEBUG() << parameters;
     DestroySavedSearch *action = new DestroySavedSearch(this);
-    action->setId(parameters.value("id").toString());
+    action->id(parameters.value("id").toString());
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
     if (loading) {
         tasks.append(action);
@@ -117,12 +117,12 @@ SavedSearches::SavedSearches(QObject *parent)
     , d(new Private(this))
 {
     QHash<int, QByteArray> roles;
-    roles[CreatedAtRole] = "created_at";
-    roles[IdRole] = "id";
-    roles[IdStrRole] = "id_str";
-    roles[NameRole] = "name";
-    roles[PositionRole] = "position";
-    roles[QueryRole] = "query";
+    roles[created_at_role] = "created_at";
+    roles[id_role] = "id";
+    roles[id_str_role] = "id_str";
+    roles[name_role] = "name";
+    roles[position_role] = "position";
+    roles[query_role] = "query";
     setRoleNames(roles);
 }
 

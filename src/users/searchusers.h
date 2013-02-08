@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -32,10 +32,10 @@
 class SearchUsers : public AbstractUsersModel
 {
     Q_OBJECT
-    Q_PROPERTY(QString q READ id WRITE setId NOTIFY idChanged)
-    Q_PROPERTY(int page READ page WRITE setPage NOTIFY pageChanged)
-    Q_PROPERTY(int per_page READ count WRITE setCount NOTIFY countChanged)
-    Q_PROPERTY(bool include_entities READ includeEntities WRITE setIncludeEntities NOTIFY includeEntitiesChanged)
+    Q_PROPERTY(QString q READ id WRITE id NOTIFY idChanged)
+    Q_PROPERTY(int page READ page WRITE page NOTIFY pageChanged)
+    Q_PROPERTY(int count READ count WRITE count NOTIFY countChanged)
+    Q_PROPERTY(bool include_entities READ include_entities WRITE include_entities NOTIFY include_entitiesChanged)
     Q_DISABLE_COPY(SearchUsers)
 
 public:
@@ -48,10 +48,10 @@ signals:
     void idChanged(const QString &id);
     void pageChanged(int page);
     void countChanged(int count);
-    void includeEntitiesChanged(bool includeEntities);
+    void include_entitiesChanged(bool include_entities);
 
 protected:
-    QUrl api() const { return QUrl("http://api.twitter.com/1/users/search.json"); }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/users/search.json"); }
 };
 
 #endif // SEARCHUSERS_H

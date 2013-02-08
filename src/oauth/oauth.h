@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -38,8 +38,8 @@ class OAuth : public QObject
     Q_PROPERTY(QString consumer_secret READ consumerSecret WRITE setConsumerSecret NOTIFY consumerSecretChanged)
     Q_PROPERTY(QString token READ token WRITE setToken NOTIFY tokenChanged)
     Q_PROPERTY(QString token_secret READ tokenSecret WRITE setTokenSecret NOTIFY tokenSecretChanged)
-    Q_PROPERTY(QString user_id READ userId WRITE setUserId NOTIFY userIdChanged)
-    Q_PROPERTY(QString screen_name READ screenName WRITE setScreenName NOTIFY screenNameChanged)
+    Q_PROPERTY(QString user_id READ user_id WRITE user_id NOTIFY user_idChanged)
+    Q_PROPERTY(QString screen_name READ screen_name WRITE screen_name NOTIFY screen_nameChanged)
 public:
     enum State {
         Unauthorized,
@@ -65,11 +65,11 @@ public:
     const QString &tokenSecret() const;
     void setTokenSecret(const QString &tokenSecret);
 
-    const QString &userId() const;
-    void setUserId(const QString &userId);
+    const QString &user_id() const;
+    void user_id(const QString &user_id);
 
-    const QString &screenName() const;
-    void setScreenName(const QString &screenName);
+    const QString &screen_name() const;
+    void screen_name(const QString &screen_name);
 
 public slots:
     void request_token(const QString &callback = QString());
@@ -83,8 +83,8 @@ signals:
     void consumerSecretChanged(const QString &consumerSecret);
     void tokenChanged(const QString &token);
     void tokenSecretChanged(const QString &tokenSecret);
-    void userIdChanged(const QString &userId);
-    void screenNameChanged(const QString &screenName);
+    void user_idChanged(const QString &user_id);
+    void screen_nameChanged(const QString &screen_name);
 
 private:
     class Private;

@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -36,54 +36,35 @@ class AbstractListsModel : public AbstractTwitterModel
 
 public:
     enum Roles {
-        CreatedAtRole = Qt::UserRole + 1
+        created_at_role = Qt::UserRole + 1
         , DescriptionRole
         , FollowingRole
-        , FullNameRole
-        , IdRole
-        , IdStrRole
+        , full_name_role
+        , id_role
+        , id_str_role
         , MemberCountRole
         , ModeRole
-        , NameRole
-        , SlugRole
+        , name_role
+        , slug_role
         , SubscriberCountRole
         , UriRole
         , UserRole
     };
 
     explicit AbstractListsModel(QObject *parent = 0);
-    ~AbstractListsModel();
-
-    const QString &userId() const;
-    void setUserId(const QString &userId);
-    const QString &screenName() const;
-    void setScreenName(const QString &screenName);
-    int count() const;
-    void setCount(int count);
-    const QString &cursor() const;
-    void setCursor(const QString &cursor);
-
-    int nextCursor() const;
-    void setNextCursor(int nextCursor);
-    const QString &nextCursorStr() const;
-    void setNextCursorStr(const QString &nextCursorStr);
-    int previousCursor() const;
-    void setPreviousCursor(int previousCursor);
-    const QString &previousCursorStr() const;
-    void setPreviousCursorStr(const QString &previousCursorStr);
 
     DataManager::DataType dataType() const { return DataManager::ListData; }
 
 signals:
-    void userIdChanged(const QString &userId);
-    void screenNameChanged(const QString &screenName);
+    void user_idChanged(const QString &user_id);
+    void screen_nameChanged(const QString &screen_name);
     void countChanged(int count);
     void cursorChanged(const QString &cursor);
 
-    void nextCursorChanged(int nextCursor) const;
-    void nextCursorStrChanged(const QString &nextCursorStr) const;
-    void previousCursorChanged(int previousCursor) const;
-    void previousCursorStrChanged(const QString &previousCursorStr) const;
+    void next_cursorChanged(int next_cursor) const;
+    void next_cursor_strChanged(const QString &next_cursor_str) const;
+    void previous_cursorChanged(int previous_cursor) const;
+    void previous_cursor_strChanged(const QString &previous_cursor_str) const;
 
 protected:
     AuthorizeBy authenticationMethod() const;
@@ -91,8 +72,15 @@ protected:
     void parseDone(const QVariant &result);
 
 private:
-    class Private;
-    Private *d;
+    ADD_PROPERTY(const QString &, user_id, QString)
+    ADD_PROPERTY(const QString &, screen_name, QString)
+    ADD_PROPERTY(int, count, int)
+    ADD_PROPERTY(const QString &, cursor, QString)
+
+    ADD_PROPERTY(int, next_cursor, int)
+    ADD_PROPERTY(const QString &, next_cursor_str, QString)
+    ADD_PROPERTY(int, previous_cursor, int)
+    ADD_PROPERTY(const QString &, previous_cursor_str, QString)
 };
 
 #endif // ABSTRACTLISTSMODEL_H

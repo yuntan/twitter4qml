@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -32,22 +32,31 @@
 class UpdateList : public AbstractListAction
 {
     Q_OBJECT
-    Q_PROPERTY(QString list_id READ listId WRITE setListId NOTIFY listIdChanged)
-    Q_PROPERTY(QString description READ description WRITE setDescription NOTIFY descriptionChanged)
-    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
-    Q_PROPERTY(QString mode READ mode WRITE setMode NOTIFY modeChanged)
+    Q_PROPERTY(QString list_id READ list_id WRITE list_id NOTIFY list_idChanged)
+    Q_PROPERTY(QString slug READ slug WRITE slug NOTIFY slugChanged)
+    Q_PROPERTY(QString name READ name WRITE name NOTIFY nameChanged)
+    Q_PROPERTY(QString mode READ mode WRITE mode NOTIFY modeChanged)
+    Q_PROPERTY(QString description READ description WRITE description NOTIFY descriptionChanged)
+    Q_PROPERTY(QString owner_screen_name READ owner_screen_name WRITE owner_screen_name NOTIFY owner_screen_nameChanged)
+    Q_PROPERTY(QString owner_id READ owner_id WRITE owner_id NOTIFY owner_idChanged)
     Q_DISABLE_COPY(UpdateList)
 public:
     explicit UpdateList(QObject *parent = 0);
 
+public slots:
+    void exec();
+
 signals:
-    void listIdChanged(const QString &listId);
-    void descriptionChanged(const QString &description);
-    void modeChanged(const QString &mode);
+    void list_idChanged(const QString &list_id);
+    void slugChanged(const QString &slug);
     void nameChanged(const QString &name);
+    void modeChanged(const QString &mode);
+    void descriptionChanged(const QString &description);
+    void owner_screen_nameChanged(const QString &owner_screen_name);
+    void owner_idChanged(const QString &owner_id);
 
 protected:
-    QUrl api() const { return QUrl("http://api.twitter.com/1/lists/update.json"); }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/lists/update.json"); }
 };
 
 #endif // UPDATELIST_H

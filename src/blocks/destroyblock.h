@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -32,18 +32,18 @@
 class DestroyBlock : public AbstractBlockAction
 {
     Q_OBJECT
-    Q_PROPERTY(bool include_entities READ includeEntities WRITE setIncludeEntities NOTIFY includeEntitiesChanged)
-    Q_PROPERTY(bool skip_status READ skipStatus WRITE setSkipStatus NOTIFY skipStatusChanged)
+    Q_PROPERTY(bool include_entities READ include_entities WRITE include_entities NOTIFY include_entitiesChanged)
+    Q_PROPERTY(bool skip_status READ skip_status WRITE skip_status NOTIFY skip_statusChanged)
     Q_DISABLE_COPY(DestroyBlock)
 public:
     explicit DestroyBlock(QObject *parent = 0);
 
 signals:
-    void includeEntitiesChanged(bool includeEntities);
-    void skipStatusChanged(bool skipStatus);
+    void include_entitiesChanged(bool include_entities);
+    void skip_statusChanged(bool skip_status);
 
 protected:
-    QUrl api() const { return QUrl("http://api.twitter.com/1/blocks/destroy.json"); }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/blocks/destroy.json"); }
 };
 
 #endif // DESTROYBLOCK_H

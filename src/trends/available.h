@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -32,43 +32,24 @@
 class Available : public AbstractTwitterModel
 {
     Q_OBJECT
-    Q_PROPERTY(double _lat READ latitude WRITE setLatitude NOTIFY latitudeChanged)
-    Q_PROPERTY(double _long READ longitude WRITE setLongitude NOTIFY longitudeChanged)
     Q_DISABLE_COPY(Available)
 public:
     enum Roles {
-        CountryRole = Qt::UserRole + 1
-        , CountryCodeRole
-        , NameRole
-        , ParentIdRole
-        , PlaceTypeRole
-        , UrlRole
-        , WoeidRole
+        country_role = Qt::UserRole + 1
+        , country_code_role
+        , name_role
+        , parentid_role
+        , place_type_role
+        , url_role
+        , woeid_role
     };
     explicit Available(QObject *parent = 0);
-    ~Available();
-
-    double latitude() const;
-    void setLatitude(double latitude);
-    double longitude() const;
-    void setLongitude(double longitude);
-
-public slots:
-    void reload();
-
-signals:
-    void latitudeChanged(double latitude);
-    void longitudeChanged(double longitude);
 
 protected:
-    AuthorizeBy authenticationMethod() const { return AuthorizeByNothing; }
+    AuthorizeBy authenticationMethod() const { return AuthorizeByUrl; }
     QString httpMethod() const { return "GET"; }
-    QUrl api() const { return QUrl("http://api.twitter.com/1/trends/available.json"); }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/trends/available.json"); }
     void parseDone(const QVariant &result);
-
-private:
-    class Private;
-    Private *d;
 };
 
 #endif // AVAILABLE_H

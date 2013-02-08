@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -33,20 +33,20 @@
 class NewDirectMessage : public AbstractDirectMessageAction
 {
     Q_OBJECT
-    Q_PROPERTY(QString user_id READ userId WRITE setUserId NOTIFY userIdChanged)
-    Q_PROPERTY(QString screen_name READ screenName WRITE setScreenName NOTIFY screenNameChanged)
-    Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
+    Q_PROPERTY(QString user_id READ user_id WRITE user_id NOTIFY user_idChanged)
+    Q_PROPERTY(QString screen_name READ screen_name WRITE screen_name NOTIFY screen_nameChanged)
+    Q_PROPERTY(QString text READ text WRITE text NOTIFY textChanged)
     Q_DISABLE_COPY(NewDirectMessage)
 public:
     explicit NewDirectMessage(QObject *parent = 0);
 
 signals:
-    void userIdChanged(const QString &userId);
-    void screenNameChanged(const QString &screenName);
+    void user_idChanged(const QString &user_id);
+    void screen_nameChanged(const QString &screen_name);
     void textChanged(const QString &text);
 
 protected:
-    QUrl api() const { return QUrl("http://api.twitter.com/1/direct_messages/new.json"); }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/direct_messages/new.json"); }
 };
 
 #endif // NEWDIRECTMESSAGE_H

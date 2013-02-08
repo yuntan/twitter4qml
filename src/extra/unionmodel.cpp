@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -43,10 +43,13 @@ public:
     QList<AbstractTwitterModel *> models;
     QStringList ids;
     DataManager::DataType dataType;
-    static void appendFunction(QDeclarativeListProperty<QObject> *list, QObject *object);
-    static int countFunction(QDeclarativeListProperty<QObject> *list);
-    static QObject *atFunction(QDeclarativeListProperty<QObject> *list, int index);
-    static void clearFunction(QDeclarativeListProperty<QObject> *list);
+#if QT_VERSION >= 0x050000
+    QHash<int, QByteArray> roleNames;
+#endif
+    static void appendFunction(UnionModelListProperty *list, QObject *object);
+    static int countFunction(UnionModelListProperty *list);
+    static QObject *atFunction(UnionModelListProperty *list, int index);
+    static void clearFunction(UnionModelListProperty *list);
     void append(QObject *object);
     void clear();
 
@@ -61,7 +64,7 @@ private:
     UnionModel *q;
 };
 
-void UnionModel::Private::appendFunction(QDeclarativeListProperty<QObject> *list, QObject *object)
+void UnionModel::Private::appendFunction(UnionModelListProperty *list, QObject *object)
 {
     UnionModel::Private *d = qobject_cast<UnionModel::Private *>(list->object);
     if (d) {
@@ -69,7 +72,7 @@ void UnionModel::Private::appendFunction(QDeclarativeListProperty<QObject> *list
     }
 }
 
-int UnionModel::Private::countFunction(QDeclarativeListProperty<QObject> *list)
+int UnionModel::Private::countFunction(UnionModelListProperty *list)
 {
     int ret = -1;
     UnionModel::Private *d = qobject_cast<UnionModel::Private *>(list->object);
@@ -79,7 +82,7 @@ int UnionModel::Private::countFunction(QDeclarativeListProperty<QObject> *list)
     return ret;
 }
 
-QObject *UnionModel::Private::atFunction(QDeclarativeListProperty<QObject> *list, int index)
+QObject *UnionModel::Private::atFunction(UnionModelListProperty *list, int index)
 {
     QObject *ret = 0;
     UnionModel::Private *d = qobject_cast<UnionModel::Private *>(list->object);
@@ -89,7 +92,7 @@ QObject *UnionModel::Private::atFunction(QDeclarativeListProperty<QObject> *list
     return ret;
 }
 
-void UnionModel::Private::clearFunction(QDeclarativeListProperty<QObject> *list)
+void UnionModel::Private::clearFunction(UnionModelListProperty *list)
 {
     UnionModel::Private *d = qobject_cast<UnionModel::Private *>(list->object);
     if (d) {
@@ -292,9 +295,21 @@ int UnionModel::indexOf(const QString &id)
     return d->ids.indexOf(id);
 }
 
-QDeclarativeListProperty<QObject> UnionModel::childObjects()
+UnionModelListProperty UnionModel::childObjects()
 {
-    return QDeclarativeListProperty<QObject>(d, 0, &Private::appendFunction, &Private::countFunction, &Private::atFunction, &Private::clearFunction);
+    return UnionModelListProperty(d, 0, &Private::appendFunction, &Private::countFunction, &Private::atFunction, &Private::clearFunction);
 }
+
+#if QT_VERSION >= 0x050000
+void UnionModel::setRoleNames(const QHash<int, QByteArray> &roleNames)
+{
+    d->roleNames = roleNames;
+}
+
+QHash<int, QByteArray> UnionModel::roleNames() const
+{
+    return d->roleNames;
+}
+#endif
 
 #include "unionmodel.moc"

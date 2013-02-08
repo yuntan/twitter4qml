@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -32,37 +32,38 @@
 class UserTimeline : public AbstractStatusesModel
 {
     Q_OBJECT
-    Q_PROPERTY(QString user_id READ userId WRITE setUserId NOTIFY userIdChanged)
-    Q_PROPERTY(QString screen_name READ screenName WRITE setScreenName NOTIFY screenNameChanged)
-    Q_PROPERTY(QString since_id READ sinceId WRITE setSinceId NOTIFY sinceIdChanged)
-    Q_PROPERTY(int count READ count WRITE setCount NOTIFY countChanged)
-    Q_PROPERTY(QString max_id READ maxId WRITE setMaxId NOTIFY maxIdChanged)
-    Q_PROPERTY(int page READ page WRITE setPage NOTIFY pageChanged)
-    Q_PROPERTY(bool trim_user READ trimUser WRITE setTrimUser NOTIFY trimUserChanged)
-    Q_PROPERTY(bool include_rts READ includeRts WRITE setIncludeRts NOTIFY includeRtsChanged)
-    Q_PROPERTY(bool exclude_replies READ excludeReplies WRITE setExcludeReplies NOTIFY excludeRepliesChanged)
-    Q_PROPERTY(bool include_entities READ includeEntities WRITE setIncludeEntities NOTIFY includeEntitiesChanged)
-    Q_PROPERTY(bool contributor_details READ contributorDetails WRITE setContributorDetails NOTIFY contributorDetailsChanged)
+    Q_PROPERTY(QString user_id READ user_id WRITE user_id NOTIFY user_idChanged)
+    Q_PROPERTY(QString screen_name READ screen_name WRITE screen_name NOTIFY screen_nameChanged)
+    Q_PROPERTY(QString since_id READ since_id WRITE since_id NOTIFY since_idChanged)
+    Q_PROPERTY(int count READ count WRITE count NOTIFY countChanged)
+    Q_PROPERTY(QString max_id READ max_id WRITE max_id NOTIFY max_idChanged)
+    Q_PROPERTY(bool trim_user READ trim_user WRITE trim_user NOTIFY trim_userChanged)
+    Q_PROPERTY(bool exclude_replies READ exclude_replies WRITE exclude_replies NOTIFY exclude_repliesChanged)
+//    Q_PROPERTY(bool include_entities READ include_entities WRITE include_entities NOTIFY include_entitiesChanged)
+    Q_PROPERTY(bool contributor_details READ contributor_details WRITE contributor_details NOTIFY contributor_detailsChanged)
+    Q_PROPERTY(bool include_rts READ include_rts WRITE include_rts NOTIFY include_rtsChanged)
     Q_DISABLE_COPY(UserTimeline)
 public:
     explicit UserTimeline(QObject *parent = 0);
 
 signals:
-    void userIdChanged(const QString &userId);
-    void screenNameChanged(const QString &screenName);
-    void sinceIdChanged(const QString &sinceId);
+    void user_idChanged(const QString &user_id);
+    void screen_nameChanged(const QString &screen_name);
+    void since_idChanged(const QString &since_id);
     void countChanged(int count);
-    void maxIdChanged(const QString &maxId);
-    void pageChanged(int page);
-    void trimUserChanged(bool trimUser);
-    void includeRtsChanged(bool includeRts);
-    void excludeRepliesChanged(bool excludeReplies);
-    void includeEntitiesChanged(bool includeEntities);
-    void contributorDetailsChanged(bool contributorDetails);
+    void max_idChanged(const QString &max_id);
+    void trim_userChanged(bool trim_user);
+    void exclude_repliesChanged(bool exclude_replies);
+//    void include_entitiesChanged(bool include_entities);
+    void contributor_detailsChanged(bool contributor_details);
+    void include_rtsChanged(bool include_rts);
 
 protected:
-    QUrl api() const { return QUrl("http://api.twitter.com/1/statuses/user_timeline.json"); }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/statuses/user_timeline.json"); }
     void dataAdded(const QString &key, const QVariantMap &value);
+
+    ADD_PROPERTY(bool, exclude_replies, bool)
+    ADD_PROPERTY(bool, include_rts, bool)
 };
 
 #endif // USERTIMELINE_H

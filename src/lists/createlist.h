@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -32,20 +32,20 @@
 class CreateList : public AbstractListAction
 {
     Q_OBJECT
-    Q_PROPERTY(QString description READ description WRITE setDescription NOTIFY descriptionChanged)
-    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
-    Q_PROPERTY(QString mode READ mode WRITE setMode NOTIFY modeChanged)
+    Q_PROPERTY(QString name READ name WRITE name NOTIFY nameChanged)
+    Q_PROPERTY(QString mode READ mode WRITE mode NOTIFY modeChanged)
+    Q_PROPERTY(QString description READ description WRITE description NOTIFY descriptionChanged)
     Q_DISABLE_COPY(CreateList)
 public:
     explicit CreateList(QObject *parent = 0);
 
 signals:
-    void descriptionChanged(const QString &description);
-    void modeChanged(const QString &mode);
     void nameChanged(const QString &name);
+    void modeChanged(const QString &mode);
+    void descriptionChanged(const QString &description);
 
 protected:
-    QUrl api() const { return QUrl("http://api.twitter.com/1/lists/create.json"); }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/lists/create.json"); }
 };
 
 #endif // CREATELIST_H

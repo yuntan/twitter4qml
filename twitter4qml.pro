@@ -1,5 +1,4 @@
 TEMPLATE = subdirs
-
-#SUBDIRS += src
-SUBDIRS += tests
+CONFIG += ordered
+SUBDIRS = src examples tests
 

@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -29,6 +29,8 @@
 
 UserTimeline::UserTimeline(QObject *parent)
     : AbstractStatusesModel(parent)
+    , m_exclude_replies(false)
+    , m_include_rts(true)
 {
 }
 
@@ -36,9 +38,9 @@ void UserTimeline::dataAdded(const QString &key, const QVariantMap &value)
 {
     Q_UNUSED(key)
     QString id_str = value.value("user").toMap().value("id_str").toString();
-    if (userId().isEmpty() && id_str == OAuthManager::instance().userId()) {
+    if (user_id().isEmpty() && id_str == OAuthManager::instance().user_id()) {
         addData(value);
-    } else if (id_str == userId()) {
+    } else if (id_str == user_id()) {
         addData(value);
     }
 }

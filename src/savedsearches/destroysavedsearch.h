@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -32,24 +32,19 @@
 class DestroySavedSearch : public AbstractTwitterAction
 {
     Q_OBJECT
-    Q_PROPERTY(QString _id READ id WRITE setId NOTIFY idChanged DESIGNABLE false)
+    Q_PROPERTY(QString _id READ id WRITE id NOTIFY idChanged DESIGNABLE false)
     Q_DISABLE_COPY(DestroySavedSearch)
 public:
     DestroySavedSearch(QObject *parent = 0);
-    ~DestroySavedSearch();
-
-    const QString &id() const;
-    void setId(const QString &id);
 
 signals:
     void idChanged(const QString &id);
 
 protected:
-    QUrl api() const { return QUrl(QString("http://api.twitter.com/1/saved_searches/destroy/%1.json").arg(id())); }
+    QUrl api() const { return QUrl(QString("https://api.twitter.com/1.1/saved_searches/destroy/%1.json").arg(id())); }
 
 private:
-    class Private;
-    Private *d;
+    ADD_PROPERTY(const QString &, id, QString)
 };
 
 #endif // DESTROYSAVEDSEARCH_H

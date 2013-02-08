@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -26,22 +26,9 @@
 
 #include "suggestions.h"
 
-class Suggestions::Private
-{
-public:
-    QString slug;
-    QString lang;
-};
-
 Suggestions::Suggestions(QObject *parent)
     : AbstractUsersModel(parent)
-    , d(new Private)
 {
-}
-
-Suggestions::~Suggestions()
-{
-    delete d;
 }
 
 void Suggestions::parseDone(const QVariant &result)
@@ -51,28 +38,4 @@ void Suggestions::parseDone(const QVariant &result)
         QVariantMap map = result.toMap();
         AbstractUsersModel::parseDone(map.value("users"));
     }
-}
-
-const QString &Suggestions::slug() const
-{
-    return d->slug;
-}
-
-void Suggestions::setSlug(const QString &slug)
-{
-    if (d->slug == slug) return;
-    d->slug = slug;
-    emit slugChanged(slug);
-}
-
-const QString &Suggestions::lang() const
-{
-    return d->lang;
-}
-
-void Suggestions::setLang(const QString &lang)
-{
-    if (d->lang == lang) return;
-    d->lang = lang;
-    emit langChanged(lang);
 }

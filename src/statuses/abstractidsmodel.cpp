@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -26,36 +26,15 @@
 
 #include "abstractidsmodel.h"
 
-class AbstractIdsModel::Private
-{
-public:
-    Private();
-
-    QString id;
-    int count;
-    int page;
-    bool stringifyIds;
-};
-
-AbstractIdsModel::Private::Private()
-    : count(0)
-    , page(0)
-    , stringifyIds(true)
-{
-}
-
 AbstractIdsModel::AbstractIdsModel(QObject *parent)
     : AbstractTwitterModel(parent)
-    , d(new Private)
+    , m_count(0)
+    , m_page(0)
+    , m_stringify_ids(true)
 {
     QHash<int, QByteArray> roles;
-    roles[IdStrRole] = "id_str";
+    roles[id_str_role] = "id_str";
     setRoleNames(roles);
-}
-
-AbstractIdsModel::~AbstractIdsModel()
-{
-    delete d;
 }
 
 AbstractTwitterModel::AuthorizeBy AbstractIdsModel::authenticationMethod() const
@@ -90,52 +69,4 @@ void AbstractIdsModel::parseDone(const QVariant &result)
     } else {
         DEBUG() << result.type() << result;
     }
-}
-
-const QString &AbstractIdsModel::id() const
-{
-    return d->id;
-}
-
-void AbstractIdsModel::setId(const QString &id)
-{
-    if (d->id == id) return;
-    d->id = id;
-    emit idChanged(id);
-}
-
-int AbstractIdsModel::count() const
-{
-    return d->count;
-}
-
-void AbstractIdsModel::setCount(int count)
-{
-    if (d->count == count) return;
-    d->count = count;
-    emit countChanged(count);
-}
-
-int AbstractIdsModel::page() const
-{
-    return d->page;
-}
-
-void AbstractIdsModel::setPage(int page)
-{
-    if (d->page == page) return;
-    d->page = page;
-    emit pageChanged(page);
-}
-
-bool AbstractIdsModel::stringifyIds() const
-{
-    return d->stringifyIds;
-}
-
-void AbstractIdsModel::setStringifyIds(bool stringifyIds)
-{
-    if (d->stringifyIds == stringifyIds) return;
-    d->stringifyIds = stringifyIds;
-    emit stringifyIdsChanged(stringifyIds);
 }

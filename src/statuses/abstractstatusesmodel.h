@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -37,77 +37,42 @@ public:
     enum Roles {
         ContributorsRole = Qt::UserRole + 1
         , CoordinatesRole
-        , CreatedAtRole
+        , created_at_role
         , EntitiesRole
         , FavoritedRole
         , GeoRole
-        , IdRole
-        , IdStrRole
-        , InReplyToScreenNameRole
-        , InReplyToStatusIdRole
-        , InReplyToUserIdRole
+        , id_role
+        , id_str_role
+        , in_reply_to_screen_nameRole
+        , in_reply_to_status_idRole
+        , InReplyTouser_idRole
         , PlaceRole
-        , PossiblySensitiveRole
-        , RetweetCountRole
+        , possibly_sensitiveRole
+        , retweet_countRole
         , RetweetedRole
-        , RetweetedStatusRole
+        , retweeted_statusRole
         , SourceRole
         , TextRole
-        , PlainTextRole
-        , RichTextRole
+        , plain_textRole
+        , rich_textRole
         , TruncatedRole
         , UserRole
         , MediaRole
     };
     explicit AbstractStatusesModel(QObject *parent = 0);
-    ~AbstractStatusesModel();
-
-    const QString &userId() const;
-    void setUserId(const QString &userId);
-    const QString &screenName() const;
-    void setScreenName(const QString &screenName);
-    const QString &id() const;
-    void setId(const QString &id);
-    int count() const;
-    void setCount(int count);
-    const QString &sinceId() const;
-    void setSinceId(const QString &sinceId);
-    const QString &maxId() const;
-    void setMaxId(const QString &maxId);
-    int page() const;
-    void setPage(int page);
-    bool trimUser() const;
-    void setTrimUser(bool trimUser);
-    bool includeRts() const;
-    void setIncludeRts(bool includeRts);
-    bool excludeReplies() const;
-    void setExcludeReplies(bool excludeReplies);
-    bool includeEntities() const;
-    void setIncludeEntities(bool includeEntities);
-    bool contributorDetails() const;
-    void setContributorDetails(bool contributorDetails);
-    const QString &listId() const;
-    void setListId(const QString &listId);
-    int perPage() const;
-    void setPerPage(int perPage);
 
     DataManager::DataType dataType() const { return DataManager::StatusData; }
 
 signals:
-    void userIdChanged(const QString &userId);
-    void screenNameChanged(const QString &screenName);
+    void user_idChanged(const QString &user_id);
+    void screen_nameChanged(const QString &screen_name);
     void idChanged(const QString &id);
     void countChanged(int count);
-    void sinceIdChanged(const QString &sinceId);
-    void maxIdChanged(const QString &maxId);
-    void pageChanged(int page);
-    void trimUserChanged(bool trimUser);
-    void includeRtsChanged(bool includeRts);
-    void excludeRepliesChanged(bool excludeReplies);
-    void includeEntitiesChanged(bool includeEntities);
-    void contributorDetailsChanged(bool contributorDetails);
-    void listIdChanged(const QString &listId);
-    void perPageChanged(int perPage);
+    void since_idChanged(const QString &since_id);
+    void max_idChanged(const QString &max_id);
+    void trim_userChanged(bool trim_user);
+    void include_entitiesChanged(bool include_entities);
+    void contributor_detailsChanged(bool contributor_details);
 
 protected:
     AuthorizeBy authenticationMethod() const { return AuthorizeByUrl; }
@@ -115,8 +80,15 @@ protected:
     void parseDone(const QVariant &result);
 
 private:
-    class Private;
-    Private *d;
+    ADD_PROPERTY(const QString &, user_id, QString)
+    ADD_PROPERTY(const QString &, screen_name, QString)
+    ADD_PROPERTY(const QString &, id, QString)
+    ADD_PROPERTY(int, count, int)
+    ADD_PROPERTY(const QString &, since_id, QString)
+    ADD_PROPERTY(const QString &, max_id, QString)
+    ADD_PROPERTY(bool, trim_user, bool)
+    ADD_PROPERTY(bool, include_entities, bool)
+    ADD_PROPERTY(bool, contributor_details, bool)
 };
 
 #endif // ABSTRACTSTATUSESMODEL_H

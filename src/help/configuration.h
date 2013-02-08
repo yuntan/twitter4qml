@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -32,45 +32,38 @@
 class Configuration : public AbstractTwitterAction
 {
     Q_OBJECT
-    Q_PROPERTY(QString characters_reserved_per_media READ charactersReservedPerMedia WRITE setCharactersReservedPerMedia NOTIFY charactersReservedPerMediaChanged DESIGNABLE false USER true)
-    Q_PROPERTY(QVariantList non_username_paths READ nonUsernamePaths WRITE setNonUsernamePath NOTIFY nonUsernamePathsChanged DESIGNABLE false USER true)
-    Q_PROPERTY(int max_media_per_upload READ maxMediaPerUpload WRITE setMaxMediaPerUpload NOTIFY maxMediaPerUploadChanged DESIGNABLE false USER true)
-    Q_PROPERTY(int photo_size_limit READ photoSizeLimit WRITE setPhotoSizeLimit NOTIFY photoSizeLimitChanged DESIGNABLE false USER true)
-    Q_PROPERTY(int short_url_length READ shortUrlLength WRITE setShortUrlLength NOTIFY shortUrlLengthChanged DESIGNABLE false USER true)
-    Q_PROPERTY(int short_url_length_https READ shortUrlLengthHttps WRITE setShortUrlLengthHttps NOTIFY shortUrlLengthHttpsChanged DESIGNABLE false USER true)
+    Q_PROPERTY(QString characters_reserved_per_media READ characters_reserved_per_media WRITE characters_reserved_per_media NOTIFY characters_reserved_per_mediaChanged DESIGNABLE false USER true)
+    Q_PROPERTY(QVariantList non_username_paths READ non_username_paths WRITE non_username_paths NOTIFY non_username_pathsChanged DESIGNABLE false USER true)
+    Q_PROPERTY(int max_media_per_upload READ max_media_per_upload WRITE max_media_per_upload NOTIFY max_media_per_uploadChanged DESIGNABLE false USER true)
+    Q_PROPERTY(int photo_size_limit READ photo_size_limit WRITE photo_size_limit NOTIFY photo_size_limitChanged DESIGNABLE false USER true)
+    Q_PROPERTY(int short_url_length READ short_url_length WRITE short_url_length NOTIFY short_url_lengthChanged DESIGNABLE false USER true)
+    Q_PROPERTY(int short_url_length_https READ short_url_length_https WRITE short_url_length_https NOTIFY short_url_length_httpsChanged DESIGNABLE false USER true)
+    Q_PROPERTY(QVariantMap photo_sizes READ photo_sizes WRITE photo_sizes NOTIFY photo_sizesChanged DESIGNABLE false USER true)
 public:
     explicit Configuration(QObject *parent = 0);
-    ~Configuration();
-
-    const QString &charactersReservedPerMedia() const;
-    void setCharactersReservedPerMedia(const QString &charactersReservedPerMedia);
-    const QVariantList &nonUsernamePaths() const;
-    void setNonUsernamePath(const QVariantList &nonUsernamePaths);
-    int maxMediaPerUpload() const;
-    void setMaxMediaPerUpload(int maxMediaPerUpload);
-    int photoSizeLimit() const;
-    void setPhotoSizeLimit(int photoSizeLimit);
-    int shortUrlLength() const;
-    void setShortUrlLength(int shortUrlLength);
-    int shortUrlLengthHttps() const;
-    void setShortUrlLengthHttps(int shortUrlLengthHttps);
 
 signals:
-    void charactersReservedPerMediaChanged(const QString &charactersReservedPerMedia);
-    void nonUsernamePathsChanged(const QVariantList &nonUsernamePaths);
-    void maxMediaPerUploadChanged(int maxMediaPerUpload);
-    void photoSizeLimitChanged(int photoSizeLimit);
-    void shortUrlLengthChanged(int shortUrlLength);
-    void shortUrlLengthHttpsChanged(int shortUrlLengthHttps);
+    void characters_reserved_per_mediaChanged(const QString &characters_reserved_per_media);
+    void non_username_pathsChanged(const QVariantList &non_username_paths);
+    void max_media_per_uploadChanged(int max_media_per_upload);
+    void photo_size_limitChanged(int photo_size_limit);
+    void short_url_lengthChanged(int short_url_length);
+    void short_url_length_httpsChanged(int short_url_length_https);
+    void photo_sizesChanged(const QVariantMap &photo_sizes);
 
 protected:
     AuthorizeBy authenticationMethod() const { return AuthorizeByUrl; }
     QString httpMethod() const { return "GET"; }
-    QUrl api() const { return QUrl("http://api.twitter.com/1/help/configuration.json"); }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/help/configuration.json"); }
 
 private:
-    class Private;
-    Private *d;
+    ADD_PROPERTY(const QString &, characters_reserved_per_media, QString)
+    ADD_PROPERTY(const QVariantList &, non_username_paths, QVariantList)
+    ADD_PROPERTY(int, max_media_per_upload, int)
+    ADD_PROPERTY(int, photo_size_limit, int)
+    ADD_PROPERTY(int, short_url_length, int)
+    ADD_PROPERTY(int, short_url_length_https, int)
+    ADD_PROPERTY(const QVariantMap &, photo_sizes, QVariantMap)
 };
 
 #endif // CONFIGURATION_H

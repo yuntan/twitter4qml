@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -26,26 +26,14 @@
 
 #include "listmembers.h"
 
-class ListMembers::Private
-{
-public:
-    QString slug;
-};
-
 ListMembers::ListMembers(QObject *parent)
     : AbstractUsersModel(parent)
-    , d(new Private)
 {
-}
-
-ListMembers::~ListMembers()
-{
-    delete d;
 }
 
 void ListMembers::reload()
 {
-    if (!id().isEmpty() || (!screenName().isEmpty() && !slug().isEmpty())) {
+    if (!list_id().isEmpty() || ((!id().isEmpty() || !screen_name().isEmpty()) && !slug().isEmpty())) {
         AbstractUsersModel::reload();
     }
 }
@@ -58,24 +46,12 @@ void ListMembers::parseDone(const QVariant &result)
             AbstractUsersModel::parseDone(object.value("users"));
         }
         if (object.contains("next_cursor"))
-            setNextCursor(object.value("next_cursor").toInt());
+            next_cursor(object.value("next_cursor").toInt());
         if (object.contains("next_cursor_str"))
-            setNextCursorStr(object.value("next_cursor_str").toString());
+            next_cursor_str(object.value("next_cursor_str").toString());
         if (object.contains("previous_cursor"))
-            setPreviousCursor(object.value("previous_cursor").toInt());
+            previous_cursor(object.value("previous_cursor").toInt());
         if (object.contains("previous_cursor_str"))
-            setPreviousCursorStr(object.value("previous_cursor_str").toString());
+            previous_cursor_str(object.value("previous_cursor_str").toString());
     }
-}
-
-const QString &ListMembers::slug() const
-{
-    return d->slug;
-}
-
-void ListMembers::setSlug(const QString &slug)
-{
-    if (d->slug == slug) return;
-    d->slug = slug;
-    emit slugChanged(slug);
 }

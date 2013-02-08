@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -29,14 +29,17 @@
 
 ShowList::ShowList(QObject *parent)
     : AbstractListAction(parent)
+    , m_following(false)
+    , m_member_count(0)
+    , m_subscriber_count(0)
 {
 }
 
 void ShowList::exec()
 {
     DataManager *manager = DataManager::instance();
-    if (manager->contains(DataManager::ListData, listId())) {
-        setData(manager->getData(DataManager::ListData, listId()));
+    if (manager->contains(DataManager::ListData, list_id())) {
+        setData(manager->getData(DataManager::ListData, list_id()));
         setLoading(false);
     } else {
         AbstractListAction::exec();

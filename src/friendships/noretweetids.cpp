@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -26,42 +26,13 @@
 
 #include "noretweetids.h"
 
-class NoRetweetIds::Private
-{
-public:
-    Private();
-    bool stringifyIds;
-};
-
-NoRetweetIds::Private::Private()
-    : stringifyIds(true)
-{}
-
 NoRetweetIds::NoRetweetIds(QObject *parent)
     : AbstractIdsModel(parent)
-    , d(new Private)
 {
-}
-
-NoRetweetIds::~NoRetweetIds()
-{
-    delete d;
 }
 
 void NoRetweetIds::parseDone(const QVariant &result)
 {
-    DEBUG() << result;
+//    DEBUG() << result;
     AbstractIdsModel::parseDone(result);
-}
-
-bool NoRetweetIds::stringifyIds() const
-{
-    return d->stringifyIds;
-}
-
-void NoRetweetIds::setStringifyIds(bool stringifyIds)
-{
-    if (d->stringifyIds == stringifyIds) return;
-    d->stringifyIds = stringifyIds;
-    emit stringifyIdsChanged(stringifyIds);
 }

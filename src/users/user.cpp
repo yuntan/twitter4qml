@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -30,7 +30,6 @@
 #include "../friendships/destroyfriendship.h"
 #include "../blocks/createblock.h"
 #include "../blocks/destroyblock.h"
-#include "../blocks/blockexists.h"
 #include "../blocks/reportforspam.h"
 
 #include "../tools/datamanager.h"
@@ -44,39 +43,39 @@ public:
     Private(User *parent);
 
     bool loading;
-    bool contributorsEnabled;
-    QString createdAt;
+    bool contributors_enabled;
+    QString created_at;
     QString description;
-    int favouritesCount;
-    bool followRequestSent;
-    int followersCount;
+    int favourites_count;
+    bool follow_request_sent;
+    int followers_count;
     bool following;
-    int friendsCount;
-    bool geoEnabled;
-    QString idStr;
-    bool isTranslator;
+    int friends_count;
+    bool geo_enabled;
+    QString id_str;
+    bool is_translator;
     QString lang;
-    int listedCount;
+    int listed_count;
     QString location;
     QString name;
     bool notifications;
-    QString profileBackgroundColor;
-    QString profileBackgroundImageUrl;
-    QString profileBackgroundImageUrlHttps;
-    bool profileBackgroundTile;
-    QString profileImageUrl;
-    QString profileLinkUrl;
-    QString profileSidebarBorderColor;
-    QString profileSidebarFillColor;
-    QString profileTextColor;
-    QString profileUseBackgroundImage;
-    bool isProtected;
-    QString screenName;
-    bool showAllInlineMedia;
-    int statusesCount;
-    QString timeZone;
+    QString profile_background_color;
+    QString profile_background_image_url;
+    QString profile_background_image_url_https;
+    bool profile_background_tile;
+    QString profile_image_url;
+    QString profile_link_url;
+    QString profile_sidebar_border_color;
+    QString profile_sidebar_fill_color;
+    QString profile_text_color;
+    QString profile_use_background_image;
+    bool _protected;
+    QString screen_name;
+    bool show_all_inline_media;
+    int statuses_count;
+    QString time_zone;
     QString url;
-    int utcOffset;
+    int utc_offset;
     bool verified;
     bool blocking;
 
@@ -88,8 +87,8 @@ public:
 
 private slots:
     void setLoading(bool loading);
-    void idStrChanged(const QString &idStr);
-    void screenNameChanged(const QString &screenName);
+    void id_strChanged(const QString &id_str);
+    void screen_nameChanged(const QString &screen_name);
     void dataChanged(const QVariant &data);
     void clear();
 
@@ -101,27 +100,27 @@ private:
 User::Private::Private(User *parent)
     : QObject(parent)
     , loading(false)
-    , contributorsEnabled(false)
-    , favouritesCount(0)
-    , followRequestSent(false)
-    , followersCount(0)
+    , contributors_enabled(false)
+    , favourites_count(0)
+    , follow_request_sent(false)
+    , followers_count(0)
     , following(false)
-    , friendsCount(0)
-    , geoEnabled(false)
-    , isTranslator(false)
-    , listedCount(0)
+    , friends_count(0)
+    , geo_enabled(false)
+    , is_translator(false)
+    , listed_count(0)
     , notifications(false)
-    , profileBackgroundTile(false)
-    , isProtected(false)
-    , showAllInlineMedia(false)
-    , statusesCount(0)
-    , utcOffset(0)
+    , profile_background_tile(false)
+    , _protected(false)
+    , show_all_inline_media(false)
+    , statuses_count(0)
+    , utc_offset(0)
     , verified(false)
     , blocking(false)
     , q(parent)
 {
-    connect(q, SIGNAL(idStrChanged(QString)), this, SLOT(idStrChanged(QString)), Qt::QueuedConnection);
-    connect(q, SIGNAL(screenNameChanged(QString)), this, SLOT(screenNameChanged(QString)), Qt::QueuedConnection);
+    connect(q, SIGNAL(id_strChanged(QString)), this, SLOT(id_strChanged(QString)), Qt::QueuedConnection);
+    connect(q, SIGNAL(screen_nameChanged(QString)), this, SLOT(screen_nameChanged(QString)), Qt::QueuedConnection);
 }
 
 void User::Private::setLoading(bool l)
@@ -131,30 +130,19 @@ void User::Private::setLoading(bool l)
     emit q->loadingChanged(l);
 }
 
-void User::Private::idStrChanged(const QString &idStr)
+void User::Private::id_strChanged(const QString &id_str)
 {
     if (q->loading()) return;
-//    if (!screenName.isEmpty()) return;
+//    if (!screen_name.isEmpty()) return;
 //    clear();
-//    screenName.clear();
+//    screen_name.clear();
 
-    DEBUG() << idStr;
-    if (idStr.isEmpty()) {
+    DEBUG() << id_str;
+    if (id_str.isEmpty()) {
     } else {
         {
             ShowUser *action = new ShowUser(this);
-            action->setUserId(idStr);
-            connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
-            if (loading) {
-                tasks.append(action);
-            } else {
-                setLoading(true);
-                action->exec();
-            }
-        }
-        {
-            BlockExists *action = new BlockExists(this);
-            action->setUserId(idStr);
+            action->user_id(id_str);
             connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
             if (loading) {
                 tasks.append(action);
@@ -166,19 +154,19 @@ void User::Private::idStrChanged(const QString &idStr)
     }
 }
 
-void User::Private::screenNameChanged(const QString &screenName)
+void User::Private::screen_nameChanged(const QString &screen_name)
 {
     if (q->loading()) return;
-//    if (!idStr.isEmpty()) return;
+//    if (!id_str.isEmpty()) return;
 //    clear();
-//    idStr.clear();
+//    id_str.clear();
 
-    DEBUG() << screenName;
-    if (screenName.isEmpty()) {
+    DEBUG() << screen_name;
+    if (screen_name.isEmpty()) {
     } else {
         {
             ShowUser *action = new ShowUser(this);
-            action->setScreenName(screenName);
+            action->screen_name(screen_name);
             connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
             if (loading) {
                 tasks.append(action);
@@ -192,37 +180,37 @@ void User::Private::screenNameChanged(const QString &screenName)
 
 void User::Private::clear()
 {
-    contributorsEnabled = false;
-    createdAt.clear();
+    contributors_enabled = false;
+    created_at.clear();
     description.clear();
-    favouritesCount = 0;
-    followRequestSent = false;
-    followersCount = 0;
+    favourites_count = 0;
+    follow_request_sent = false;
+    followers_count = 0;
     following = false;
-    friendsCount = 0;
-    geoEnabled = false;
-    isTranslator = false;
+    friends_count = 0;
+    geo_enabled = false;
+    is_translator = false;
     lang.clear();
-    listedCount = 0;
+    listed_count = 0;
     location.clear();
     name.clear();
     notifications = false;
-    profileBackgroundColor.clear();
-    profileBackgroundImageUrl.clear();
-    profileBackgroundImageUrlHttps.clear();
-    profileBackgroundTile = false;
-    profileImageUrl.clear();
-    profileLinkUrl.clear();
-    profileSidebarBorderColor.clear();
-    profileSidebarFillColor.clear();
-    profileTextColor.clear();
-    profileUseBackgroundImage.clear();
-    isProtected = false;
-    showAllInlineMedia = false;
-    statusesCount = 0;
-    timeZone.clear();
+    profile_background_color.clear();
+    profile_background_image_url.clear();
+    profile_background_image_url_https.clear();
+    profile_background_tile = false;
+    profile_image_url.clear();
+    profile_link_url.clear();
+    profile_sidebar_border_color.clear();
+    profile_sidebar_fill_color.clear();
+    profile_text_color.clear();
+    profile_use_background_image.clear();
+    _protected = false;
+    show_all_inline_media = false;
+    statuses_count = 0;
+    time_zone.clear();
     url.clear();
-    utcOffset = 0;
+    utc_offset = 0;
     verified = false;
     blocking = false;
 }
@@ -230,7 +218,7 @@ void User::Private::clear()
 void User::Private::follow()
 {
     CreateFriendship *action = new CreateFriendship(this);
-    action->setUserId(idStr);
+    action->user_id(id_str);
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
     if (loading) {
         tasks.append(action);
@@ -243,7 +231,7 @@ void User::Private::follow()
 void User::Private::unfollow()
 {
     DestroyFriendship *action = new DestroyFriendship(this);
-    action->setUserId(idStr);
+    action->user_id(id_str);
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
     if (loading) {
         tasks.append(action);
@@ -256,7 +244,7 @@ void User::Private::unfollow()
 void User::Private::block()
 {
     CreateBlock *action = new CreateBlock(this);
-    action->setUserId(idStr);
+    action->user_id(id_str);
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
     if (loading) {
         tasks.append(action);
@@ -269,7 +257,7 @@ void User::Private::block()
 void User::Private::unblock()
 {
     DestroyBlock *action = new DestroyBlock(this);
-    action->setUserId(idStr);
+    action->user_id(id_str);
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
     if (loading) {
         tasks.append(action);
@@ -282,7 +270,7 @@ void User::Private::unblock()
 void User::Private::reportForSpam()
 {
     ReportForSpam *action = new ReportForSpam(this);
-    action->setUserId(idStr);
+    action->user_id(id_str);
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
     if (loading) {
         tasks.append(action);
@@ -300,13 +288,11 @@ void User::Private::dataChanged(const QVariant &data)
     if (action) {
         if (qobject_cast<AbstractBlockAction *>(action)) {
             if (qobject_cast<CreateBlock *>(action)) {
-                q->setBlocking(true);
+                q->blocking(true);
             } else if (qobject_cast<DestroyBlock *>(action)) {
-                q->setBlocking(false);
-            } else if (qobject_cast<BlockExists *>(action)) {
-                q->setBlocking(map.contains("id_str"));
+                q->blocking(false);
             } else if (qobject_cast<ReportForSpam *>(action)) {
-                q->setBlocking(true);
+                q->blocking(true);
             }
         } else {
             QVariantMap user = User::parse(map);
@@ -329,7 +315,7 @@ void User::Private::dataChanged(const QVariant &data)
                     q->setProperty(key, QVariant());
                 }
             }
-            DataManager::instance()->addData(DataManager::UserData, q->idStr(), user);
+            DataManager::instance()->addData(DataManager::UserData, q->id_str(), user);
             emit q->dataChanged();
         }
         action->deleteLater();
@@ -377,428 +363,6 @@ bool User::loading() const
 {
     return d->loading;
 }
-
-bool User::contributorsEnabled() const
-{
-    return d->contributorsEnabled;
-}
-
-void User::setContributorsEnabled(bool contributorsEnabled)
-{
-    if (d->contributorsEnabled == contributorsEnabled) return;
-    d->contributorsEnabled = contributorsEnabled;
-    emit contributorsEnabledChanged(contributorsEnabled);
-}
-
-const QString &User::createdAt() const
-{
-    return d->createdAt;
-}
-
-void User::setCreatedAt(const QString &createdAt)
-{
-    if (d->createdAt == createdAt) return;
-    d->createdAt = createdAt;
-    emit createdAtChanged(createdAt);
-}
-
-const QString &User::description() const
-{
-    return d->description;
-}
-
-void User::setDescription(const QString &description)
-{
-    if (d->description == description) return;
-    d->description = description;
-    emit descriptionChanged(description);
-}
-
-int User::favouritesCount() const
-{
-    return d->favouritesCount;
-}
-
-void User::setFavouritesCount(int favouritesCount)
-{
-    if (d->favouritesCount == favouritesCount) return;
-    d->favouritesCount = favouritesCount;
-    emit favouritesCountChanged(favouritesCount);
-}
-
-bool User::followRequestSent() const
-{
-    return d->followRequestSent;
-}
-
-void User::setFollowRequestSent(bool followRequestSent)
-{
-    if (d->followRequestSent == followRequestSent) return;
-    d->followRequestSent = followRequestSent;
-    emit followRequestSentChanged(followRequestSent);
-}
-
-int User::followersCount() const
-{
-    return d->followersCount;
-}
-
-void User::setFollowersCount(int followersCount)
-{
-    if (d->followersCount == followersCount) return;
-    d->followersCount = followersCount;
-    emit followersCountChanged(followersCount);
-}
-
-bool User::following() const
-{
-    return d->following;
-}
-
-void User::setFollowing(bool following)
-{
-    if (d->following == following) return;
-    d->following = following;
-    emit followingChanged(following);
-}
-
-int User::friendsCount() const
-{
-    return d->friendsCount;
-}
-
-void User::setFriendsCount(int friendsCount)
-{
-    if (d->friendsCount == friendsCount) return;
-    d->friendsCount = friendsCount;
-    emit friendsCountChanged(friendsCount);
-}
-
-bool User::geoEnabled() const
-{
-    return d->geoEnabled;
-}
-
-void User::setGeoEnabled(bool geoEnabled)
-{
-    if (d->geoEnabled == geoEnabled) return;
-    d->geoEnabled = geoEnabled;
-    emit geoEnabledChanged(geoEnabled);
-}
-
-const QString &User::idStr() const
-{
-    return d->idStr;
-}
-
-void User::setIdStr(const QString &idStr)
-{
-    if (d->idStr == idStr) return;
-    DEBUG() << d->idStr << idStr;
-    d->idStr = idStr;
-    emit idStrChanged(idStr);
-}
-
-bool User::isTranslator() const
-{
-    return d->isTranslator;
-}
-
-void User::setIsTranslator(bool isTranslator)
-{
-    if (d->isTranslator == isTranslator) return;
-    d->isTranslator = isTranslator;
-    emit isTranslatorChanged(isTranslator);
-}
-
-const QString &User::lang() const
-{
-    return d->lang;
-}
-
-void User::setLang(const QString &lang)
-{
-    if (d->lang == lang) return;
-    d->lang = lang;
-    emit langChanged(lang);
-}
-
-int User::listedCount() const
-{
-    return d->listedCount;
-}
-
-void User::setListedCount(int listedCount)
-{
-    if (d->listedCount == listedCount) return;
-    d->listedCount = listedCount;
-    emit listedCountChanged(listedCount);
-}
-
-const QString &User::location() const
-{
-    return d->location;
-}
-
-void User::setLocation(const QString &location)
-{
-    if (d->location == location) return;
-    d->location = location;
-    emit locationChanged(location);
-}
-
-const QString &User::name() const
-{
-    return d->name;
-}
-
-void User::setName(const QString &name)
-{
-    if (d->name == name) return;
-    d->name = name;
-    emit nameChanged(name);
-}
-
-bool User::notifications() const
-{
-    return d->notifications;
-}
-
-void User::setNotifications(bool notifications)
-{
-    if (d->notifications == notifications) return;
-    d->notifications = notifications;
-    emit notificationsChanged(notifications);
-}
-
-const QString &User::profileBackgroundColor() const
-{
-    return d->profileBackgroundColor;
-}
-
-void User::setProfileBackgroundColor(const QString &profileBackgroundColor)
-{
-    if (d->profileBackgroundColor == profileBackgroundColor) return;
-    d->profileBackgroundColor = profileBackgroundColor;
-    emit profileBackgroundColorChanged(profileBackgroundColor);
-}
-
-const QString &User::profileBackgroundImageUrl() const
-{
-    return d->profileBackgroundImageUrl;
-}
-
-void User::setProfileBackgroundImageUrl(const QString &profileBackgroundImageUrl)
-{
-    if (d->profileBackgroundImageUrl == profileBackgroundImageUrl) return;
-    d->profileBackgroundImageUrl = profileBackgroundImageUrl;
-    emit profileBackgroundImageUrlChanged(profileBackgroundImageUrl);
-}
-
-const QString &User::profileBackgroundImageUrlHttps() const
-{
-    return d->profileBackgroundImageUrlHttps;
-}
-
-void User::setProfileBackgroundImageUrlHttps(const QString &profileBackgroundImageUrlHttps)
-{
-    if (d->profileBackgroundImageUrlHttps == profileBackgroundImageUrlHttps) return;
-    d->profileBackgroundImageUrlHttps = profileBackgroundImageUrlHttps;
-    emit profileBackgroundImageUrlHttpsChanged(profileBackgroundImageUrlHttps);
-}
-
-bool User::profileBackgroundTile() const
-{
-    return d->profileBackgroundTile;
-}
-
-void User::setProfileBackgroundTile(bool profileBackgroundTile)
-{
-    if (d->profileBackgroundTile == profileBackgroundTile) return;
-    d->profileBackgroundTile = profileBackgroundTile;
-    emit profileBackgroundTileChanged(profileBackgroundTile);
-}
-
-const QString &User::profileImageUrl() const
-{
-    return d->profileImageUrl;
-}
-
-void User::setProfileImageUrl(const QString &profileImageUrl)
-{
-    if (d->profileImageUrl == profileImageUrl) return;
-    d->profileImageUrl = profileImageUrl;
-    emit profileImageUrlChanged(profileImageUrl);
-}
-
-const QString &User::profileLinkUrl() const
-{
-    return d->profileLinkUrl;
-}
-
-void User::setProfileLinkUrl(const QString &profileLinkUrl)
-{
-    if (d->profileLinkUrl == profileLinkUrl) return;
-    d->profileLinkUrl = profileLinkUrl;
-    emit profileLinkUrlChanged(profileLinkUrl);
-}
-
-const QString &User::profileSidebarBorderColor() const
-{
-    return d->profileSidebarBorderColor;
-}
-
-void User::setProfileSidebarBorderColor(const QString &profileSidebarBorderColor)
-{
-    if (d->profileSidebarBorderColor == profileSidebarBorderColor) return;
-    d->profileSidebarBorderColor = profileSidebarBorderColor;
-    emit profileSidebarBorderColorChanged(profileSidebarBorderColor);
-}
-
-const QString &User::profileSidebarFillColor() const
-{
-    return d->profileSidebarFillColor;
-}
-
-void User::setProfileSidebarFillColor(const QString &profileSidebarFillColor)
-{
-    if (d->profileSidebarFillColor == profileSidebarFillColor) return;
-    d->profileSidebarFillColor = profileSidebarFillColor;
-    emit profileSidebarFillColorChanged(profileSidebarFillColor);
-}
-
-const QString &User::profileTextColor() const
-{
-    return d->profileTextColor;
-}
-
-void User::setProfileTextColor(const QString &profileTextColor)
-{
-    if (d->profileTextColor == profileTextColor) return;
-    d->profileTextColor = profileTextColor;
-    emit profileTextColorChanged(profileTextColor);
-}
-
-const QString &User::profileUseBackgroundImage() const
-{
-    return d->profileUseBackgroundImage;
-}
-
-void User::setProfileUseBackgroundImage(const QString &profileUseBackgroundImage)
-{
-    if (d->profileUseBackgroundImage == profileUseBackgroundImage) return;
-    d->profileUseBackgroundImage = profileUseBackgroundImage;
-    emit profileUseBackgroundImageChanged(profileUseBackgroundImage);
-}
-
-bool User::isProtected() const
-{
-    return d->isProtected;
-}
-
-void User::setProtected(bool isProtected)
-{
-    if (d->isProtected == isProtected) return;
-    d->isProtected = isProtected;
-    emit protectedChanged(isProtected);
-}
-
-const QString &User::screenName() const
-{
-    return d->screenName;
-}
-
-void User::setScreenName(const QString &screenName)
-{
-    if (d->screenName == screenName) return;
-    d->screenName = screenName;
-    emit screenNameChanged(screenName);
-}
-
-bool User::showAllInlineMedia() const
-{
-    return d->showAllInlineMedia;
-}
-
-void User::setShowAllInlineMedia(bool showAllInlineMedia)
-{
-    if (d->showAllInlineMedia == showAllInlineMedia) return;
-    d->showAllInlineMedia = showAllInlineMedia;
-    emit showAllInlineMediaChanged(showAllInlineMedia);
-}
-
-int User::statusesCount() const
-{
-    return d->statusesCount;
-}
-
-void User::setStatusesCount(int statusesCount)
-{
-    if (d->statusesCount == statusesCount) return;
-    d->statusesCount = statusesCount;
-    emit statusesCountChanged(statusesCount);
-}
-
-const QString &User::timeZone() const
-{
-    return d->timeZone;
-}
-
-void User::setTimeZone(const QString &timeZone)
-{
-    if (d->timeZone == timeZone) return;
-    d->timeZone = timeZone;
-    emit timeZoneChanged(timeZone);
-}
-
-const QString &User::url() const
-{
-    return d->url;
-}
-
-void User::setUrl(const QString &url)
-{
-    if (d->url == url) return;
-    d->url = url;
-    emit urlChanged(url);
-}
-
-int User::utcOffset() const
-{
-    return d->utcOffset;
-}
-
-void User::setUtcOffset(int utcOffset)
-{
-    if (d->utcOffset == utcOffset) return;
-    d->utcOffset = utcOffset;
-    emit utcOffsetChanged(utcOffset);
-}
-
-bool User::verified() const
-{
-    return d->verified;
-}
-
-void User::setVerified(bool verified)
-{
-    if (d->verified == verified) return;
-    d->verified = verified;
-    emit verifiedChanged(verified);
-}
-
-bool User::blocking() const
-{
-    return d->blocking;
-}
-
-void User::setBlocking(bool blocking)
-{
-    if (d->blocking == blocking) return;
-    d->blocking = blocking;
-    emit blockingChanged(blocking);
-}
-
 
 QVariantMap User::data() const
 {

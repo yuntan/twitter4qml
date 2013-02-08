@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Twitter4QML Project.
+/* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -34,12 +34,12 @@ class SavedSearches : public AbstractTwitterModel
     Q_OBJECT
 public:
     enum Roles {
-        CreatedAtRole = Qt::UserRole + 1
-        , IdRole
-        , IdStrRole
-        , NameRole
-        , PositionRole
-        , QueryRole
+        created_at_role = Qt::UserRole + 1
+        , id_role
+        , id_str_role
+        , name_role
+        , position_role
+        , query_role
     };
     explicit SavedSearches(QObject *parent = 0);
 
@@ -50,7 +50,7 @@ public:
     DataManager::DataType dataType() const { return DataManager::SavedSearchData; }
 
 protected:
-    QUrl api() const { return QUrl("http://api.twitter.com/1/saved_searches.json"); }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/saved_searches/list.json"); }
     AuthorizeBy authenticationMethod() const { return AuthorizeByUrl; }
     QString httpMethod() const { return "GET"; }
     void parseDone(const QVariant &result);
