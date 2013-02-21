@@ -31,17 +31,19 @@
 #include <QtCore/QStringList>
 #if QT_VERSION >= 0x050000
 #include <QtQml/QQmlListProperty>
-typedef QQmlListProperty<QObject> UnionModelListProperty;
 #else
 #include <QtDeclarative/QDeclarativeListProperty>
-typedef QDeclarativeListProperty<QObject> UnionModelListProperty;
 #endif
 
 class UnionModel : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(bool loading READ isLoading NOTIFY loadingChanged DESIGNABLE false)
-    Q_PROPERTY(UnionModelListProperty childObjects READ childObjects DESIGNABLE false)
+#if QT_VERSION >= 0x050000
+    Q_PROPERTY(QQmlListProperty<QObject> childObjects READ childObjects DESIGNABLE false)
+#else
+    Q_PROPERTY(QDeclarativeListProperty<QObject> childObjects READ childObjects DESIGNABLE false)
+#endif
     Q_PROPERTY(QStringList idList READ idList NOTIFY idListChanged DESIGNABLE false)
     Q_PROPERTY(int size READ size NOTIFY sizeChanged DESIGNABLE false)
     Q_CLASSINFO("DefaultProperty", "childObjects")
@@ -53,7 +55,11 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
     
     virtual bool isLoading() const;
-    UnionModelListProperty childObjects();
+#if QT_VERSION >= 0x050000
+    QQmlListProperty<QObject> childObjects();
+#else
+    QDeclarativeListProperty<QObject> childObjects();
+#endif
 
     Q_INVOKABLE void addModel(QObject *model) const;
     Q_INVOKABLE void clearModel() const;

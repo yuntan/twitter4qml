@@ -660,16 +660,16 @@ void AbstractTwitterModel::dataChanged(const QString &key, const QVariantMap &va
     Q_UNUSED(value)
 }
 
-AbstractTwitterModelListProperty AbstractTwitterModel::childObjects()
-{
-    return AbstractTwitterModelListProperty(this, d->childObjects);
-}
-
 void AbstractTwitterModel::filter() {
     d->filtering = true;
 }
 
 #if QT_VERSION >= 0x050000
+QQmlListProperty<QObject> AbstractTwitterModel::childObjects()
+{
+    return QQmlListProperty<QObject>(this, d->childObjects);
+}
+
 void AbstractTwitterModel::setRoleNames(const QHash<int, QByteArray> &roleNames)
 {
     d->roleNames = roleNames;
@@ -678,6 +678,11 @@ void AbstractTwitterModel::setRoleNames(const QHash<int, QByteArray> &roleNames)
 QHash<int, QByteArray> AbstractTwitterModel::roleNames() const
 {
     return d->roleNames;
+}
+#else
+QDeclarativeListProperty<QObject> AbstractTwitterModel::childObjects()
+{
+    return QDeclarativeListProperty<QObject>(this, d->childObjects);
 }
 #endif
 

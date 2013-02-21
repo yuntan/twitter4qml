@@ -32,10 +32,8 @@
 #include <QtCore/QUrl>
 #if QT_VERSION >= 0x050000
 #include <QtQml/QQmlListProperty>
-typedef QQmlListProperty<QObject> AbstractTwitterModelListProperty;
 #else
 #include <QtDeclarative/QDeclarativeListProperty>
-typedef QDeclarativeListProperty<QObject> AbstractTwitterModelListProperty;
 #endif
 
 #include "twitter4qml_global.h"
@@ -63,7 +61,11 @@ class AbstractTwitterModel : public QAbstractListModel
     Q_PROPERTY(bool streaming READ isStreaming NOTIFY streamingChanged DESIGNABLE false)
     Q_PROPERTY(QString sortKey READ sortKey WRITE setSortKey NOTIFY sortKeyChanged DESIGNABLE false)
     Q_PROPERTY(QString cacheKey READ cacheKey WRITE setCacheKey NOTIFY cacheKeyChanged DESIGNABLE false)
-    Q_PROPERTY(AbstractTwitterModelListProperty childObjects READ childObjects DESIGNABLE false)
+#if QT_VERSION >= 0x050000
+    Q_PROPERTY(QQmlListProperty<QObject> childObjects READ childObjects DESIGNABLE false)
+#else
+    Q_PROPERTY(QDeclarativeListProperty<QObject> childObjects READ childObjects DESIGNABLE false)
+#endif
     Q_ENUMS(PushOrder)
     Q_CLASSINFO("DefaultProperty", "childObjects")
     Q_DISABLE_COPY(AbstractTwitterModel)
@@ -96,7 +98,11 @@ public:
 
     Q_INVOKABLE QVariantMap get(int index) const;
     Q_INVOKABLE int indexOf(const QString &id) const;
-    AbstractTwitterModelListProperty childObjects();
+#if QT_VERSION >= 0x050000
+    QQmlListProperty<QObject> childObjects();
+#else
+    QDeclarativeListProperty<QObject> childObjects();
+#endif
     virtual DataManager::DataType dataType() const { return DataManager::NoData; }
     virtual bool dataIsReliable() const { return true; }
 

@@ -45,11 +45,16 @@ public:
     DataManager::DataType dataType;
 #if QT_VERSION >= 0x050000
     QHash<int, QByteArray> roleNames;
+    static void appendFunction(QQmlListProperty<QObject> *list, QObject *object);
+    static int countFunction(QQmlListProperty<QObject> *list);
+    static QObject *atFunction(QQmlListProperty<QObject> *list, int index);
+    static void clearFunction(QQmlListProperty<QObject> *list);
+#else
+    static void appendFunction(QDeclarativeListProperty<QObject> *list, QObject *object);
+    static int countFunction(QDeclarativeListProperty<QObject> *list);
+    static QObject *atFunction(QDeclarativeListProperty<QObject> *list, int index);
+    static void clearFunction(QDeclarativeListProperty<QObject> *list);
 #endif
-    static void appendFunction(UnionModelListProperty *list, QObject *object);
-    static int countFunction(UnionModelListProperty *list);
-    static QObject *atFunction(UnionModelListProperty *list, int index);
-    static void clearFunction(UnionModelListProperty *list);
     void append(QObject *object);
     void clear();
 
@@ -64,7 +69,11 @@ private:
     UnionModel *q;
 };
 
-void UnionModel::Private::appendFunction(UnionModelListProperty *list, QObject *object)
+#if QT_VERSION >= 0x050000
+void UnionModel::Private::appendFunction(QQmlListProperty<QObject> *list, QObject *object)
+#else
+void UnionModel::Private::appendFunction(QDeclarativeListProperty<QObject> *list, QObject *object)
+#endif
 {
     UnionModel::Private *d = qobject_cast<UnionModel::Private *>(list->object);
     if (d) {
@@ -72,7 +81,11 @@ void UnionModel::Private::appendFunction(UnionModelListProperty *list, QObject *
     }
 }
 
-int UnionModel::Private::countFunction(UnionModelListProperty *list)
+#if QT_VERSION >= 0x050000
+int UnionModel::Private::countFunction(QQmlListProperty<QObject> *list)
+#else
+int UnionModel::Private::countFunction(QDeclarativeListProperty<QObject> *list)
+#endif
 {
     int ret = -1;
     UnionModel::Private *d = qobject_cast<UnionModel::Private *>(list->object);
@@ -82,7 +95,11 @@ int UnionModel::Private::countFunction(UnionModelListProperty *list)
     return ret;
 }
 
-QObject *UnionModel::Private::atFunction(UnionModelListProperty *list, int index)
+#if QT_VERSION >= 0x050000
+QObject *UnionModel::Private::atFunction(QQmlListProperty<QObject> *list, int index)
+#else
+QObject *UnionModel::Private::atFunction(QDeclarativeListProperty<QObject> *list, int index)
+#endif
 {
     QObject *ret = 0;
     UnionModel::Private *d = qobject_cast<UnionModel::Private *>(list->object);
@@ -92,7 +109,11 @@ QObject *UnionModel::Private::atFunction(UnionModelListProperty *list, int index
     return ret;
 }
 
-void UnionModel::Private::clearFunction(UnionModelListProperty *list)
+#if QT_VERSION >= 0x050000
+void UnionModel::Private::clearFunction(QQmlListProperty<QObject> *list)
+#else
+void UnionModel::Private::clearFunction(QDeclarativeListProperty<QObject> *list)
+#endif
 {
     UnionModel::Private *d = qobject_cast<UnionModel::Private *>(list->object);
     if (d) {
@@ -295,12 +316,12 @@ int UnionModel::indexOf(const QString &id)
     return d->ids.indexOf(id);
 }
 
-UnionModelListProperty UnionModel::childObjects()
+#if QT_VERSION >= 0x050000
+QQmlListProperty<QObject> UnionModel::childObjects()
 {
-    return UnionModelListProperty(d, 0, &Private::appendFunction, &Private::countFunction, &Private::atFunction, &Private::clearFunction);
+    return QQmlListProperty<QObject>(d, 0, &Private::appendFunction, &Private::countFunction, &Private::atFunction, &Private::clearFunction);
 }
 
-#if QT_VERSION >= 0x050000
 void UnionModel::setRoleNames(const QHash<int, QByteArray> &roleNames)
 {
     d->roleNames = roleNames;
@@ -309,6 +330,11 @@ void UnionModel::setRoleNames(const QHash<int, QByteArray> &roleNames)
 QHash<int, QByteArray> UnionModel::roleNames() const
 {
     return d->roleNames;
+}
+#else
+QDeclarativeListProperty<QObject> UnionModel::childObjects()
+{
+    return QDeclarativeListProperty<QObject>(d, 0, &Private::appendFunction, &Private::countFunction, &Private::atFunction, &Private::clearFunction);
 }
 #endif
 
