@@ -59,7 +59,7 @@ signals:
 
 protected:
     bool isStreaming() const { return true; }
-    QUrl api() const { return QUrl("https://userstream.twitter.com/2/user.json"); }
+    QUrl api() const { return QUrl("https://userstream.twitter.com/1.1/user.json"); }
     QString httpMethod() const { return "POST"; }
     void parseDone(const QVariant &result);
 

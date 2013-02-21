@@ -57,7 +57,7 @@ signals:
 
 protected:
     bool isStreaming() const { return true; }
-    QUrl api() const { return QUrl("https://stream.twitter.com/1/statuses/filter.json"); }
+    QUrl api() const { return QUrl("https://stream.twitter.com/1.1/statuses/filter.json"); }
     QString httpMethod() const { return "POST"; }
     void parseDone(const QVariant &result);
 
