@@ -38,8 +38,17 @@ class Friends : public AbstractUsersModel
     Q_PROPERTY(bool skip_status READ skip_status WRITE skip_status NOTIFY skip_statusChanged)
     Q_PROPERTY(bool include_user_entities READ include_entities WRITE include_entities NOTIFY include_entitiesChanged)
 
+    Q_PROPERTY(int next_cursor READ next_cursor NOTIFY next_cursorChanged DESIGNABLE false)
+    Q_PROPERTY(QString next_cursor_str READ next_cursor_str NOTIFY next_cursor_strChanged DESIGNABLE false)
+    Q_PROPERTY(int previous_cursor READ previous_cursor NOTIFY previous_cursorChanged DESIGNABLE false)
+    Q_PROPERTY(QString previous_cursor_str READ previous_cursor_str NOTIFY previous_cursor_strChanged DESIGNABLE false)
+    Q_DISABLE_COPY(Friends)
+
 public:
     explicit Friends(QObject *parent = 0);
+
+public slots:
+    void reload();
 
 signals:
     void idChanged(const QString &id);
@@ -48,10 +57,17 @@ signals:
     void skip_statusChanged(bool skip_status);
     void include_entitiesChanged(bool include_entities);
 
+    void next_cursorChanged(int next_cursor) const;
+    void next_cursor_strChanged(const QString &next_cursor_str) const;
+    void previous_cursorChanged(int previous_cursor) const;
+    void previous_cursor_strChanged(const QString &previous_cursor_str) const;
+
 protected:
     QUrl api() const { return QUrl("https://api.twitter.com/1.1/friends/list.json"); }
+    void parseDone(const QVariant &result);
 
 private:
+    ADD_PROPERTY(const QString &, id, QString)
     ADD_PROPERTY(bool, skip_status, bool)
 };
 
