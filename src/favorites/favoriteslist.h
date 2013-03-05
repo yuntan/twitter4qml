@@ -32,7 +32,7 @@
 class FavoritesList : public AbstractStatusesModel
 {
     Q_OBJECT
-    Q_PROPERTY(QString user_id READ id WRITE id NOTIFY idChanged DESIGNABLE false)
+    Q_PROPERTY(QString user_id READ id WRITE id NOTIFY idChanged)
     Q_PROPERTY(QString screen_name READ screen_name WRITE screen_name NOTIFY screen_nameChanged)
     Q_PROPERTY(int count READ count WRITE count NOTIFY countChanged)
     Q_PROPERTY(QString since_id READ since_id WRITE since_id NOTIFY since_idChanged)
