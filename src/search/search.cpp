@@ -25,42 +25,17 @@
  */
 
 #include "search.h"
+#include "../statuses/showstatus.h"
+#include "../statuses/status.h"
 #include "../utils.h"
+#include <QtCore/QQueue>
 
 Search::Search(QObject *parent)
-    : AbstractTwitterModel(parent)
+    : AbstractStatusesModel(parent)
     , m_result_type("mixed")
     , m_count(0)
     , m_include_entities(true)
 {
-    QHash<int, QByteArray> roles;
-    roles[created_at_role] = "created_at";
-    roles[FromUserRole] = "from_user";
-    roles[Fromuser_idRole] = "from_user_id_str";
-    roles[FromUsername_role] = "from_user_name";
-    roles[id_role] = "id";
-    roles[id_str_role] = "id_str";
-    roles[in_reply_to_status_idRole] = "in_reply_to_status_id_str";
-    roles[IsoLanguagecode_role] = "iso_language_code";
-    roles[MetadataRole] = "metadata";
-    roles[ProfileImageurl_role] = "profile_image_url";
-    roles[ProfileImageUrlHttpsRole] = "profile_image_url_https";
-    roles[SourceRole] = "source";
-    roles[TextRole] = "text";
-    roles[plain_textRole] = "plain_text";
-    roles[ToUserRole] = "to_user";
-    roles[Touser_idRole] = "to_user_id_str";
-    roles[ToUsername_role] = "to_user_name";
-    setRoleNames(roles);
-
-    connect(this, SIGNAL(qChanged(QString)), this, SLOT(reload()));
-    connect(this, SIGNAL(geocodeChanged(QString)), this, SLOT(reload()));
-}
-
-void Search::reload()
-{
-    if (q().isEmpty() && geocode().isEmpty()) return;
-    AbstractTwitterModel::reload();
 }
 
 void Search::parseDone(const QVariant &result)
@@ -69,16 +44,22 @@ void Search::parseDone(const QVariant &result)
         QVariantMap object = result.toMap();
         if (object.contains("search_metadata"))
             search_metadata(object.value("search_metadata").toMap());
-        if (object.contains("query"))
-            q(object.value("query").toString());
+//        if (object.contains("query"))
+//            setQ(object.value("query").toString());
         if (object.contains("statuses") && object.value("statuses").type() == QVariant::List) {
             QVariantList results = object.value("statuses").toList();
-            foreach (const QVariant &result, results) {
-                if (result.type() == QVariant::Map) {
-                    QVariantMap map = Search::parse(result.toMap());
-                    addData(map);
+            if (results.isEmpty()) {
+                emit loadingChanged(false);
+            } else {
+                foreach (const QVariant &result, results) {
+                    if (result.type() == QVariant::Map) {
+                        QVariantMap map = Search::parse(result.toMap());
+                        addData(map);
+                    }
                 }
             }
+        } else {
+            DEBUG() << object;
         }
     }
 }
@@ -86,7 +67,7 @@ void Search::parseDone(const QVariant &result)
 void Search::dataAdded(const QString &key, const QVariantMap &value)
 {
     Q_UNUSED(key)
-    if (value.value("text").toString().contains(q())) {
+    if (value.value("text").toString().contains(QString(QByteArray::fromPercentEncoding(q().toUtf8())), Qt::CaseInsensitive)) {
         addData(value);
     }
 }
@@ -99,6 +80,10 @@ bool Search::indicesGreaterThan(const QVariant &v1, const QVariant &v2)
 QVariantMap Search::parse(const QVariantMap &status)
 {
     QVariantMap ret = status;
+
+    QString source = ret.value("source").toString();
+    source.replace("&lt;", "<").replace("&gt;", ">").replace("&quat;", "\"");
+    ret.insert("source", source);
 
     QString text = ret.value("text").toString();
     if (ret.contains("entities") && !ret.value("entities").isNull()) {

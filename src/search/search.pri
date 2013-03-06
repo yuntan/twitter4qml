@@ -2,8 +2,6 @@ INCLUDEPATH += $$PWD
 DEPENDPATH += $$PWD
 
 # Search
-HEADERS += $$PWD/search.h \
-    $$PWD/searchstatuses.h
+HEADERS += $$PWD/search.h
 
-SOURCES += $$PWD/search.cpp \
-    $$PWD/searchstatuses.cpp
+SOURCES += $$PWD/search.cpp

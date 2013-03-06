@@ -27,9 +27,9 @@
 #ifndef SEARCH_H
 #define SEARCH_H
 
-#include "../tools/abstracttwittermodel.h"
+#include "../statuses/abstractstatusesmodel.h"
 
-class Search : public AbstractTwitterModel
+class Search : public AbstractStatusesModel
 {
     Q_OBJECT
     Q_PROPERTY(QString q READ q WRITE q NOTIFY qChanged)
@@ -46,34 +46,12 @@ class Search : public AbstractTwitterModel
     Q_PROPERTY(QVariantMap search_metadata READ search_metadata WRITE search_metadata NOTIFY search_metadataChanged DESIGNABLE false)
 
 public:
-    enum Roles {
-        created_at_role = Qt::UserRole + 1
-        , FromUserRole
-        , Fromuser_idRole
-        , FromUsername_role
-        , id_role
-        , id_str_role
-        , in_reply_to_status_idRole
-        , IsoLanguagecode_role
-        , MetadataRole
-        , ProfileImageurl_role
-        , ProfileImageUrlHttpsRole
-        , SourceRole
-        , TextRole
-        , plain_textRole
-        , ToUserRole
-        , Touser_idRole
-        , ToUsername_role
-    };
     explicit Search(QObject *parent = 0);
 
     static QVariantMap parse(const QVariantMap &status);
     static bool indicesGreaterThan(const QVariant &v1, const QVariant &v2);
 
-    DataManager::DataType dataType() const { return DataManager::SearchData; }
-
-public slots:
-    virtual void reload();
+    bool dataIsReliable() const { return false; }
 
 signals:
     void qChanged(const QString &q);
@@ -92,7 +70,6 @@ signals:
 protected:
     AuthorizeBy authenticationMethod() const { return AuthorizeByUrl; }
     QUrl api() const { return QUrl("https://api.twitter.com/1.1/search/tweets.json"); }
-    QString httpMethod() const { return "GET"; }
     void parseDone(const QVariant &result);
     void dataAdded(const QString &key, const QVariantMap &value);
 

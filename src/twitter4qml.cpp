@@ -43,7 +43,6 @@
 
 // Search
 #include "search/search.h"
-#include "search/searchstatuses.h"
 
 // Streaming
 #include "statuses/userstream.h"
@@ -143,7 +142,6 @@ Twitter4QML::Twitter4QML(QObject *parent)
 
     // Search
     qmlRegisterType<Search>("Twitter4QML", major, minor, "SearchModel");
-    qmlRegisterType<SearchStatuses>("Twitter4QML", major, minor, "SearchStatusesModel");
 
     // Streaming
     qmlRegisterType<UserStream>("Twitter4QML", major, minor, "UserStreamModel");
