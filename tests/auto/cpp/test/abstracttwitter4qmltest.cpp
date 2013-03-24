@@ -26,11 +26,11 @@
 
 #include "abstracttwitter4qmltest.h"
 
-#include <oauth/oauth.h>
-#include <tools/oauthmanager.h>
+#include <oauth.h>
+#include <oauthmanager.h>
 
-#include <tools/abstracttwitteraction.h>
-#include <tools/abstracttwittermodel.h>
+#include <abstracttwitteraction.h>
+#include <abstracttwittermodel.h>
 
 AbstractTwitter4QMLTest::AbstractTwitter4QMLTest(QObject *parent)
     : QObject(parent)

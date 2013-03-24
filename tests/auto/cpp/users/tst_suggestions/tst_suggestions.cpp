@@ -26,7 +26,7 @@
 
 #include "abstracttwitter4qmltest.h"
 
-#include <users/suggestions.h>
+#include <suggestions.h>
 
 class SuggestionsTest : public AbstractTwitter4QMLTest
 {

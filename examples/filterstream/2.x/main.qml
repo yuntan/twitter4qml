@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import Twitter4QML 1.1
+import TwitterAPI 1.1
 
 Rectangle {
     width: 400
@@ -7,7 +7,7 @@ Rectangle {
 
     FilterStreamModel {
         id: filterStream
-        track: '#2ch'
+        track: '#qt'
         sortKey: 'id_str'
     }
 

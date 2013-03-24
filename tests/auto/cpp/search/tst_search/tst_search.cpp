@@ -26,7 +26,7 @@
 
 #include "abstracttwitter4qmltest.h"
 
-#include <search/search.h>
+#include <search.h>
 
 class tst_search : public AbstractTwitter4QMLTest
 {

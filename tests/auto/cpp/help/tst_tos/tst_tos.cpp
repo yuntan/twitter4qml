@@ -26,7 +26,7 @@
 
 #include "abstracttwitter4qmltest.h"
 
-#include <help/tos.h>
+#include <tos.h>
 
 class tst_tos : public AbstractTwitter4QMLTest
 {

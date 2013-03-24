@@ -1,5 +1,5 @@
 import QtQuick 1.1
-import Twitter4QML 1.1
+import TwitterAPI 1.1
 
 Rectangle {
     width: 400

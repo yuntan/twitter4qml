@@ -26,7 +26,7 @@
 
 #include "abstracttwitter4qmltest.h"
 
-#include <help/privacy.h>
+#include <privacy.h>
 
 class tst_privacy : public AbstractTwitter4QMLTest
 {

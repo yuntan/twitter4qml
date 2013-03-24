@@ -26,7 +26,7 @@
 
 #include "abstracttwitter4qmltest.h"
 
-#include <help/languages.h>
+#include <languages.h>
 
 class LanguagesTest : public AbstractTwitter4QMLTest
 {

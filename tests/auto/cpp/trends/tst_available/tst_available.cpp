@@ -26,7 +26,7 @@
 
 #include "abstracttwitter4qmltest.h"
 
-#include <trends/available.h>
+#include <available.h>
 
 class tst_available : public AbstractTwitter4QMLTest
 {

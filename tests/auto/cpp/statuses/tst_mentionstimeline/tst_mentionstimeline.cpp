@@ -26,7 +26,7 @@
 
 #include "abstracttwitter4qmltest.h"
 
-#include <statuses/mentionstimeline.h>
+#include <mentionstimeline.h>
 
 class tst_mentions_timeline : public AbstractTwitter4QMLTest
 {

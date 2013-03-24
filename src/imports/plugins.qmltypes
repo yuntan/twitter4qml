@@ -1,0 +1,2440 @@
+import QtQuick.tooling 1.1
+
+// This file describes the plugin-supplied types contained in the library.
+// It is used for QML tooling purposes only.
+//
+// This file was auto-generated with the command '/home/tasuku/org/qt-project/qt5/debug/qtbase/bin/qmlplugindump TwitterAPI 1.1'.
+
+Module {
+    Component {
+        name: "AbstractDirectMessagesModel"
+        defaultProperty: "childObjects"
+        prototype: "AbstractTwitterModel"
+        Signal {
+            name: "since_idChanged"
+            Parameter { name: "since_id"; type: "string" }
+        }
+        Signal {
+            name: "max_idChanged"
+            Parameter { name: "max_id"; type: "string" }
+        }
+        Signal {
+            name: "countChanged"
+            Parameter { name: "count"; type: "int" }
+        }
+        Signal {
+            name: "pageChanged"
+            Parameter { name: "page"; type: "int" }
+        }
+        Signal {
+            name: "include_entitiesChanged"
+            Parameter { name: "include_entities"; type: "bool" }
+        }
+    }
+    Component {
+        name: "AbstractFriendshipIdsModel"
+        defaultProperty: "childObjects"
+        prototype: "AbstractTwitterModel"
+        Property { name: "next_cursor"; type: "int"; isReadonly: true }
+        Property { name: "next_cursor_str"; type: "string"; isReadonly: true }
+        Property { name: "previous_cursor"; type: "int"; isReadonly: true }
+        Property { name: "previous_cursor_str"; type: "string"; isReadonly: true }
+        Signal {
+            name: "user_idChanged"
+            Parameter { name: "user_id"; type: "string" }
+        }
+        Signal {
+            name: "screen_nameChanged"
+            Parameter { name: "screen_name"; type: "string" }
+        }
+        Signal {
+            name: "cursorChanged"
+            Parameter { name: "cursor"; type: "string" }
+        }
+        Signal {
+            name: "stringify_idsChanged"
+            Parameter { name: "stringify_ids"; type: "bool" }
+        }
+        Signal {
+            name: "countChanged"
+            Parameter { name: "count"; type: "int" }
+        }
+        Signal {
+            name: "next_cursorChanged"
+            Parameter { name: "next_cursor"; type: "int" }
+        }
+        Signal {
+            name: "next_cursor_strChanged"
+            Parameter { name: "next_cursor_str"; type: "string" }
+        }
+        Signal {
+            name: "previous_cursorChanged"
+            Parameter { name: "previous_cursor"; type: "int" }
+        }
+        Signal {
+            name: "previous_cursor_strChanged"
+            Parameter { name: "previous_cursor_str"; type: "string" }
+        }
+        Method { name: "reload" }
+    }
+    Component {
+        name: "AbstractIdsModel"
+        defaultProperty: "childObjects"
+        prototype: "AbstractTwitterModel"
+        Signal {
+            name: "idChanged"
+            Parameter { name: "id"; type: "string" }
+        }
+        Signal {
+            name: "countChanged"
+            Parameter { name: "count"; type: "int" }
+        }
+        Signal {
+            name: "pageChanged"
+            Parameter { name: "page"; type: "int" }
+        }
+        Signal {
+            name: "stringify_idsChanged"
+            Parameter { name: "stringify_ids"; type: "bool" }
+        }
+    }
+    Component {
+        name: "AbstractListsModel"
+        defaultProperty: "childObjects"
+        prototype: "AbstractTwitterModel"
+        Signal {
+            name: "user_idChanged"
+            Parameter { name: "user_id"; type: "string" }
+        }
+        Signal {
+            name: "screen_nameChanged"
+            Parameter { name: "screen_name"; type: "string" }
+        }
+        Signal {
+            name: "countChanged"
+            Parameter { name: "count"; type: "int" }
+        }
+        Signal {
+            name: "cursorChanged"
+            Parameter { name: "cursor"; type: "string" }
+        }
+        Signal {
+            name: "next_cursorChanged"
+            Parameter { name: "next_cursor"; type: "int" }
+        }
+        Signal {
+            name: "next_cursor_strChanged"
+            Parameter { name: "next_cursor_str"; type: "string" }
+        }
+        Signal {
+            name: "previous_cursorChanged"
+            Parameter { name: "previous_cursor"; type: "int" }
+        }
+        Signal {
+            name: "previous_cursor_strChanged"
+            Parameter { name: "previous_cursor_str"; type: "string" }
+        }
+    }
+    Component {
+        name: "AbstractStatusesModel"
+        defaultProperty: "childObjects"
+        prototype: "AbstractTwitterModel"
+        Signal {
+            name: "user_idChanged"
+            Parameter { name: "user_id"; type: "string" }
+        }
+        Signal {
+            name: "screen_nameChanged"
+            Parameter { name: "screen_name"; type: "string" }
+        }
+        Signal {
+            name: "idChanged"
+            Parameter { name: "id"; type: "string" }
+        }
+        Signal {
+            name: "countChanged"
+            Parameter { name: "count"; type: "int" }
+        }
+        Signal {
+            name: "since_idChanged"
+            Parameter { name: "since_id"; type: "string" }
+        }
+        Signal {
+            name: "max_idChanged"
+            Parameter { name: "max_id"; type: "string" }
+        }
+        Signal {
+            name: "trim_userChanged"
+            Parameter { name: "trim_user"; type: "bool" }
+        }
+        Signal {
+            name: "include_entitiesChanged"
+            Parameter { name: "include_entities"; type: "bool" }
+        }
+        Signal {
+            name: "contributor_detailsChanged"
+            Parameter { name: "contributor_details"; type: "bool" }
+        }
+    }
+    Component {
+        name: "AbstractTwitterAction"
+        prototype: "QObject"
+        Property { name: "loading"; type: "bool"; isReadonly: true }
+        Property { name: "data"; type: "QVariant"; isReadonly: true }
+        Signal {
+            name: "loadingChanged"
+            Parameter { name: "isLoading"; type: "bool" }
+        }
+        Signal {
+            name: "dataChanged"
+            Parameter { name: "data"; type: "QVariant" }
+        }
+        Method { name: "exec" }
+    }
+    Component {
+        name: "AbstractTwitterModel"
+        defaultProperty: "childObjects"
+        prototype: "QAbstractListModel"
+        Enum {
+            name: "PushOrder"
+            values: {
+                "PushNewerToOlder": 0,
+                "PushOlderToNewer": 1,
+                "PushAtOnce": 2
+            }
+        }
+        Property { name: "enabled"; type: "bool" }
+        Property { name: "loading"; type: "bool"; isReadonly: true }
+        Property { name: "pushOrder"; type: "PushOrder" }
+        Property { name: "idList"; type: "QStringList"; isReadonly: true }
+        Property { name: "size"; type: "int"; isReadonly: true }
+        Property { name: "streaming"; type: "bool"; isReadonly: true }
+        Property { name: "sortKey"; type: "string" }
+        Property { name: "cacheKey"; type: "string" }
+        Property { name: "childObjects"; type: "QObject"; isList: true; isReadonly: true }
+        Signal {
+            name: "enabledChanged"
+            Parameter { name: "enabled"; type: "bool" }
+        }
+        Signal {
+            name: "loadingChanged"
+            Parameter { name: "loading"; type: "bool" }
+        }
+        Signal {
+            name: "pushOrderChanged"
+            Parameter { name: "pushOrder"; type: "PushOrder" }
+        }
+        Signal {
+            name: "idListChanged"
+            Parameter { name: "idList"; type: "QStringList" }
+        }
+        Signal {
+            name: "sizeChanged"
+            Parameter { name: "size"; type: "int" }
+        }
+        Signal {
+            name: "sortKeyChanged"
+            Parameter { name: "sortKey"; type: "string" }
+        }
+        Signal {
+            name: "cacheKeyChanged"
+            Parameter { name: "cacheKey"; type: "string" }
+        }
+        Signal {
+            name: "filtering"
+            Parameter { name: "value"; type: "QVariantMap" }
+        }
+        Method {
+            name: "setEnabled"
+            Parameter { name: "enabled"; type: "bool" }
+        }
+        Method { name: "reload" }
+        Method { name: "reset" }
+        Method {
+            name: "setPushOrder"
+            Parameter { name: "pushOrder"; type: "PushOrder" }
+        }
+        Method { name: "abort" }
+        Method { name: "filter" }
+        Method {
+            name: "get"
+            type: "QVariantMap"
+            Parameter { name: "index"; type: "int" }
+        }
+        Method {
+            name: "indexOf"
+            type: "int"
+            Parameter { name: "id"; type: "string" }
+        }
+    }
+    Component {
+        name: "AbstractUsersModel"
+        defaultProperty: "childObjects"
+        prototype: "AbstractTwitterModel"
+        Signal {
+            name: "idChanged"
+            Parameter { name: "id"; type: "string" }
+        }
+        Signal {
+            name: "screen_nameChanged"
+            Parameter { name: "screen_name"; type: "string" }
+        }
+        Signal {
+            name: "include_entitiesChanged"
+            Parameter { name: "include_entities"; type: "bool" }
+        }
+        Signal {
+            name: "countChanged"
+            Parameter { name: "count"; type: "int" }
+        }
+        Signal {
+            name: "pageChanged"
+            Parameter { name: "page"; type: "int" }
+        }
+        Signal {
+            name: "cursorChanged"
+            Parameter { name: "cursor"; type: "string" }
+        }
+        Signal {
+            name: "next_cursorChanged"
+            Parameter { name: "next_cursor"; type: "int" }
+        }
+        Signal {
+            name: "next_cursor_strChanged"
+            Parameter { name: "next_cursor_str"; type: "string" }
+        }
+        Signal {
+            name: "previous_cursorChanged"
+            Parameter { name: "previous_cursor"; type: "int" }
+        }
+        Signal {
+            name: "previous_cursor_strChanged"
+            Parameter { name: "previous_cursor_str"; type: "string" }
+        }
+        Method { name: "reload" }
+    }
+    Component {
+        name: "ActivitySummary"
+        prototype: "AbstractTwitterAction"
+        exports: ["ActivitySummary 1.1"]
+        Property { name: "_id"; type: "string" }
+        Property { name: "favoriters"; type: "QVariantList" }
+        Property { name: "favoriters_count"; type: "string" }
+        Property { name: "repliers"; type: "QVariantList" }
+        Property { name: "repliers_count"; type: "string" }
+        Property { name: "retweeters_count"; type: "string" }
+        Property { name: "retweeters"; type: "QVariantList" }
+        Signal {
+            name: "idChanged"
+            Parameter { name: "id"; type: "string" }
+        }
+        Signal {
+            name: "favoritersChanged"
+            Parameter { name: "favoriters"; type: "QVariantList" }
+        }
+        Signal {
+            name: "favoritersCountChanged"
+            Parameter { name: "favoritersCount"; type: "string" }
+        }
+        Signal {
+            name: "repliersChanged"
+            Parameter { name: "repliers"; type: "QVariantList" }
+        }
+        Signal {
+            name: "repliersCountChanged"
+            Parameter { name: "repliersCount"; type: "string" }
+        }
+        Signal {
+            name: "retweetersCountChanged"
+            Parameter { name: "retweetersCount"; type: "string" }
+        }
+        Signal {
+            name: "retweetersChanged"
+            Parameter { name: "retweeters"; type: "QVariantList" }
+        }
+        Method { name: "exec" }
+        Method {
+            name: "id"
+            Parameter { name: "id"; type: "string" }
+        }
+        Method {
+            name: "setFavoriters"
+            Parameter { name: "favoriters"; type: "QVariantList" }
+        }
+        Method {
+            name: "setFavoritersCount"
+            Parameter { name: "favoritersCount"; type: "string" }
+        }
+        Method {
+            name: "setRepliers"
+            Parameter { name: "repliers"; type: "QVariantList" }
+        }
+        Method {
+            name: "setRepliersCount"
+            Parameter { name: "repliersCount"; type: "string" }
+        }
+        Method {
+            name: "setRetweetersCount"
+            Parameter { name: "retweetersCount"; type: "string" }
+        }
+        Method {
+            name: "setRetweeters"
+            Parameter { name: "retweeters"; type: "QVariantList" }
+        }
+    }
+    Component {
+        name: "Available"
+        defaultProperty: "childObjects"
+        prototype: "AbstractTwitterModel"
+        exports: ["TrendsAvailableModel 1.1"]
+    }
+    Component {
+        name: "Configuration"
+        prototype: "AbstractTwitterAction"
+        exports: ["Configuration 1.1"]
+        Property { name: "characters_reserved_per_media"; type: "string" }
+        Property { name: "non_username_paths"; type: "QVariantList" }
+        Property { name: "max_media_per_upload"; type: "int" }
+        Property { name: "photo_size_limit"; type: "int" }
+        Property { name: "short_url_length"; type: "int" }
+        Property { name: "short_url_length_https"; type: "int" }
+        Property { name: "photo_sizes"; type: "QVariantMap" }
+        Signal {
+            name: "characters_reserved_per_mediaChanged"
+            Parameter { name: "characters_reserved_per_media"; type: "string" }
+        }
+        Signal {
+            name: "non_username_pathsChanged"
+            Parameter { name: "non_username_paths"; type: "QVariantList" }
+        }
+        Signal {
+            name: "max_media_per_uploadChanged"
+            Parameter { name: "max_media_per_upload"; type: "int" }
+        }
+        Signal {
+            name: "photo_size_limitChanged"
+            Parameter { name: "photo_size_limit"; type: "int" }
+        }
+        Signal {
+            name: "short_url_lengthChanged"
+            Parameter { name: "short_url_length"; type: "int" }
+        }
+        Signal {
+            name: "short_url_length_httpsChanged"
+            Parameter { name: "short_url_length_https"; type: "int" }
+        }
+        Signal {
+            name: "photo_sizesChanged"
+            Parameter { name: "photo_sizes"; type: "QVariantMap" }
+        }
+    }
+    Component {
+        name: "DirectMessage"
+        prototype: "QObject"
+        exports: ["DirectMessage 1.1"]
+        Property { name: "loading"; type: "bool"; isReadonly: true }
+        Property { name: "created_at"; type: "string" }
+        Property { name: "entities"; type: "QVariantMap" }
+        Property { name: "id_str"; type: "string" }
+        Property { name: "recipient"; type: "QVariantMap" }
+        Property { name: "recipient_id"; type: "string" }
+        Property { name: "recipient_screen_name"; type: "string" }
+        Property { name: "sender"; type: "QVariantMap" }
+        Property { name: "sender_id"; type: "string" }
+        Property { name: "sender_screen_name"; type: "string" }
+        Property { name: "text"; type: "string" }
+        Property { name: "plain_text"; type: "string" }
+        Property { name: "rich_text"; type: "string" }
+        Property { name: "media"; type: "QVariantList" }
+        Property { name: "data"; type: "QVariantMap"; isReadonly: true }
+        Signal {
+            name: "loadingChanged"
+            Parameter { name: "loading"; type: "bool" }
+        }
+        Signal {
+            name: "created_atChanged"
+            Parameter { name: "created_at"; type: "string" }
+        }
+        Signal {
+            name: "entitiesChanged"
+            Parameter { name: "entities"; type: "QVariantMap" }
+        }
+        Signal {
+            name: "id_strChanged"
+            Parameter { name: "id_str"; type: "string" }
+        }
+        Signal {
+            name: "recipientChanged"
+            Parameter { name: "recipient"; type: "QVariantMap" }
+        }
+        Signal {
+            name: "recipient_idChanged"
+            Parameter { name: "recipient_id"; type: "string" }
+        }
+        Signal {
+            name: "recipient_screen_nameChanged"
+            Parameter { name: "recipient_screen_name"; type: "string" }
+        }
+        Signal {
+            name: "senderChanged"
+            Parameter { name: "sender"; type: "QVariantMap" }
+        }
+        Signal {
+            name: "sender_idChanged"
+            Parameter { name: "sender_id"; type: "string" }
+        }
+        Signal {
+            name: "sender_screen_nameChanged"
+            Parameter { name: "sender_screen_name"; type: "string" }
+        }
+        Signal {
+            name: "textChanged"
+            Parameter { name: "text"; type: "string" }
+        }
+        Signal {
+            name: "plain_textChanged"
+            Parameter { name: "plain_text"; type: "string" }
+        }
+        Signal {
+            name: "rich_textChanged"
+            Parameter { name: "rich_text"; type: "string" }
+        }
+        Signal {
+            name: "mediaChanged"
+            Parameter { name: "media"; type: "QVariantList" }
+        }
+        Method {
+            name: "newDirectMessage"
+            Parameter { name: "parameters"; type: "QVariantMap" }
+        }
+        Method { name: "destroyDirectMessage" }
+        Method { name: "debug" }
+    }
+    Component {
+        name: "DirectMessages"
+        defaultProperty: "childObjects"
+        prototype: "AbstractDirectMessagesModel"
+        exports: ["DirectMessagesModel 1.1"]
+        Property { name: "since_id"; type: "string" }
+        Property { name: "max_id"; type: "string" }
+        Property { name: "count"; type: "int" }
+        Property { name: "include_entities"; type: "bool" }
+        Property { name: "skip_status"; type: "bool" }
+        Signal {
+            name: "since_idChanged"
+            Parameter { name: "since_id"; type: "string" }
+        }
+        Signal {
+            name: "max_idChanged"
+            Parameter { name: "max_id"; type: "string" }
+        }
+        Signal {
+            name: "countChanged"
+            Parameter { name: "count"; type: "int" }
+        }
+        Signal {
+            name: "pageChanged"
+            Parameter { name: "page"; type: "int" }
+        }
+        Signal {
+            name: "include_entitiesChanged"
+            Parameter { name: "include_entities"; type: "bool" }
+        }
+        Signal {
+            name: "skip_statusChanged"
+            Parameter { name: "skip_status"; type: "bool" }
+        }
+    }
+    Component {
+        name: "DirectMessagesSent"
+        defaultProperty: "childObjects"
+        prototype: "AbstractDirectMessagesModel"
+        exports: ["DirectMessagesSentModel 1.1"]
+        Property { name: "since_id"; type: "string" }
+        Property { name: "max_id"; type: "string" }
+        Property { name: "count"; type: "int" }
+        Property { name: "page"; type: "int" }
+        Property { name: "include_entities"; type: "bool" }
+        Signal {
+            name: "since_idChanged"
+            Parameter { name: "since_id"; type: "string" }
+        }
+        Signal {
+            name: "max_idChanged"
+            Parameter { name: "max_id"; type: "string" }
+        }
+        Signal {
+            name: "countChanged"
+            Parameter { name: "count"; type: "int" }
+        }
+        Signal {
+            name: "pageChanged"
+            Parameter { name: "page"; type: "int" }
+        }
+        Signal {
+            name: "include_entitiesChanged"
+            Parameter { name: "include_entities"; type: "bool" }
+        }
+    }
+    Component {
+        name: "FavoritesList"
+        defaultProperty: "childObjects"
+        prototype: "AbstractStatusesModel"
+        exports: ["FavoritesModel 1.1"]
+        Property { name: "user_id"; type: "string" }
+        Property { name: "screen_name"; type: "string" }
+        Property { name: "count"; type: "int" }
+        Property { name: "since_id"; type: "string" }
+        Property { name: "max_id"; type: "string" }
+        Property { name: "include_entities"; type: "bool" }
+        Signal {
+            name: "idChanged"
+            Parameter { name: "user_id"; type: "string" }
+        }
+        Signal {
+            name: "screen_nameChanged"
+            Parameter { name: "screen_name"; type: "string" }
+        }
+        Signal {
+            name: "countChanged"
+            Parameter { name: "count"; type: "int" }
+        }
+        Signal {
+            name: "since_idChanged"
+            Parameter { name: "since_id"; type: "string" }
+        }
+        Signal {
+            name: "max_idChanged"
+            Parameter { name: "max_id"; type: "string" }
+        }
+        Signal {
+            name: "include_entitiesChanged"
+            Parameter { name: "include_entities"; type: "bool" }
+        }
+    }
+    Component {
+        name: "FilterStream"
+        defaultProperty: "childObjects"
+        prototype: "AbstractStatusesModel"
+        exports: ["FilterStreamModel 1.1"]
+        Property { name: "delimited"; type: "string" }
+        Property { name: "follow"; type: "string" }
+        Property { name: "track"; type: "string" }
+        Signal {
+            name: "delimitedChanged"
+            Parameter { name: "delimited"; type: "string" }
+        }
+        Signal {
+            name: "followChanged"
+            Parameter { name: "follow"; type: "string" }
+        }
+        Signal {
+            name: "trackChanged"
+            Parameter { name: "track"; type: "string" }
+        }
+        Method { name: "reload" }
+    }
+    Component {
+        name: "FollowerIds"
+        defaultProperty: "childObjects"
+        prototype: "AbstractFriendshipIdsModel"
+        exports: ["FollowerIdsModel 1.1"]
+        Property { name: "user_id"; type: "string" }
+        Property { name: "screen_name"; type: "string" }
+        Property { name: "cursor"; type: "string" }
+        Property { name: "stringify_ids"; type: "bool" }
+        Property { name: "count"; type: "int" }
+        Signal {
+            name: "user_idChanged"
+            Parameter { name: "user_id"; type: "string" }
+        }
+        Signal {
+            name: "screen_nameChanged"
+            Parameter { name: "screen_name"; type: "string" }
+        }
+        Signal {
+            name: "cursorChanged"
+            Parameter { name: "cursor"; type: "string" }
+        }
+        Signal {
+            name: "stringify_idsChanged"
+            Parameter { name: "stringify_ids"; type: "bool" }
+        }
+        Signal {
+            name: "countChanged"
+            Parameter { name: "count"; type: "int" }
+        }
+    }
+    Component {
+        name: "Followers"
+        defaultProperty: "childObjects"
+        prototype: "AbstractUsersModel"
+        exports: ["FollowersModel 1.1"]
+        Property { name: "user_id"; type: "string" }
+        Property { name: "screen_name"; type: "string" }
+        Property { name: "cursor"; type: "string" }
+        Property { name: "skip_status"; type: "bool" }
+        Property { name: "include_user_entities"; type: "bool" }
+        Property { name: "next_cursor"; type: "int"; isReadonly: true }
+        Property { name: "next_cursor_str"; type: "string"; isReadonly: true }
+        Property { name: "previous_cursor"; type: "int"; isReadonly: true }
+        Property { name: "previous_cursor_str"; type: "string"; isReadonly: true }
+        Signal {
+            name: "idChanged"
+            Parameter { name: "id"; type: "string" }
+        }
+        Signal {
+            name: "screen_nameChanged"
+            Parameter { name: "screen_name"; type: "string" }
+        }
+        Signal {
+            name: "cursorChanged"
+            Parameter { name: "cursor"; type: "string" }
+        }
+        Signal {
+            name: "skip_statusChanged"
+            Parameter { name: "skip_status"; type: "bool" }
+        }
+        Signal {
+            name: "include_entitiesChanged"
+            Parameter { name: "include_entities"; type: "bool" }
+        }
+        Signal {
+            name: "next_cursorChanged"
+            Parameter { name: "next_cursor"; type: "int" }
+        }
+        Signal {
+            name: "next_cursor_strChanged"
+            Parameter { name: "next_cursor_str"; type: "string" }
+        }
+        Signal {
+            name: "previous_cursorChanged"
+            Parameter { name: "previous_cursor"; type: "int" }
+        }
+        Signal {
+            name: "previous_cursor_strChanged"
+            Parameter { name: "previous_cursor_str"; type: "string" }
+        }
+        Method { name: "reload" }
+    }
+    Component {
+        name: "FriendIds"
+        defaultProperty: "childObjects"
+        prototype: "AbstractFriendshipIdsModel"
+        exports: ["FriendIdsModel 1.1"]
+        Property { name: "user_id"; type: "string" }
+        Property { name: "screen_name"; type: "string" }
+        Property { name: "cursor"; type: "string" }
+        Property { name: "stringify_ids"; type: "bool" }
+        Property { name: "count"; type: "int" }
+        Signal {
+            name: "user_idChanged"
+            Parameter { name: "user_id"; type: "string" }
+        }
+        Signal {
+            name: "screen_nameChanged"
+            Parameter { name: "screen_name"; type: "string" }
+        }
+        Signal {
+            name: "cursorChanged"
+            Parameter { name: "cursor"; type: "string" }
+        }
+        Signal {
+            name: "stringify_idsChanged"
+            Parameter { name: "stringify_ids"; type: "bool" }
+        }
+        Signal {
+            name: "countChanged"
+            Parameter { name: "count"; type: "int" }
+        }
+    }
+    Component {
+        name: "Friends"
+        defaultProperty: "childObjects"
+        prototype: "AbstractUsersModel"
+        exports: ["FriendsModel 1.1"]
+        Property { name: "user_id"; type: "string" }
+        Property { name: "screen_name"; type: "string" }
+        Property { name: "cursor"; type: "string" }
+        Property { name: "skip_status"; type: "bool" }
+        Property { name: "include_user_entities"; type: "bool" }
+        Property { name: "next_cursor"; type: "int"; isReadonly: true }
+        Property { name: "next_cursor_str"; type: "string"; isReadonly: true }
+        Property { name: "previous_cursor"; type: "int"; isReadonly: true }
+        Property { name: "previous_cursor_str"; type: "string"; isReadonly: true }
+        Signal {
+            name: "idChanged"
+            Parameter { name: "id"; type: "string" }
+        }
+        Signal {
+            name: "screen_nameChanged"
+            Parameter { name: "screen_name"; type: "string" }
+        }
+        Signal {
+            name: "cursorChanged"
+            Parameter { name: "cursor"; type: "string" }
+        }
+        Signal {
+            name: "skip_statusChanged"
+            Parameter { name: "skip_status"; type: "bool" }
+        }
+        Signal {
+            name: "include_entitiesChanged"
+            Parameter { name: "include_entities"; type: "bool" }
+        }
+        Signal {
+            name: "next_cursorChanged"
+            Parameter { name: "next_cursor"; type: "int" }
+        }
+        Signal {
+            name: "next_cursor_strChanged"
+            Parameter { name: "next_cursor_str"; type: "string" }
+        }
+        Signal {
+            name: "previous_cursorChanged"
+            Parameter { name: "previous_cursor"; type: "int" }
+        }
+        Signal {
+            name: "previous_cursor_strChanged"
+            Parameter { name: "previous_cursor_str"; type: "string" }
+        }
+        Method { name: "reload" }
+    }
+    Component {
+        name: "GeoSearch"
+        defaultProperty: "childObjects"
+        prototype: "AbstractTwitterModel"
+        exports: ["GeoSearchModel 1.1"]
+        Property { name: "_lat"; type: "double" }
+        Property { name: "_long"; type: "double" }
+        Property { name: "query"; type: "string" }
+        Property { name: "ip"; type: "string" }
+        Property { name: "granularity"; type: "string" }
+        Property { name: "accuracy"; type: "string" }
+        Property { name: "max_results"; type: "int" }
+        Property { name: "contained_within"; type: "string" }
+        Signal {
+            name: "latitudeChanged"
+            Parameter { name: "latitude"; type: "double" }
+        }
+        Signal {
+            name: "longitudeChanged"
+            Parameter { name: "longitude"; type: "double" }
+        }
+        Signal {
+            name: "queryChanged"
+            Parameter { name: "query"; type: "string" }
+        }
+        Signal {
+            name: "ipChanged"
+            Parameter { name: "ip"; type: "string" }
+        }
+        Signal {
+            name: "granularityChanged"
+            Parameter { name: "granularity"; type: "string" }
+        }
+        Signal {
+            name: "accuracyChanged"
+            Parameter { name: "accuracy"; type: "string" }
+        }
+        Signal {
+            name: "max_resultsChanged"
+            Parameter { name: "max_results"; type: "int" }
+        }
+        Signal {
+            name: "contained_withinChanged"
+            Parameter { name: "contained_within"; type: "string" }
+        }
+        Method { name: "reload" }
+    }
+    Component {
+        name: "HomeTimeline"
+        defaultProperty: "childObjects"
+        prototype: "AbstractStatusesModel"
+        exports: ["HomeTimelineModel 1.1"]
+        Property { name: "count"; type: "int" }
+        Property { name: "since_id"; type: "string" }
+        Property { name: "max_id"; type: "string" }
+        Property { name: "trim_user"; type: "bool" }
+        Property { name: "exclude_replies"; type: "bool" }
+        Property { name: "contributor_details"; type: "bool" }
+        Property { name: "include_entities"; type: "bool" }
+        Signal {
+            name: "countChanged"
+            Parameter { name: "count"; type: "int" }
+        }
+        Signal {
+            name: "since_idChanged"
+            Parameter { name: "since_id"; type: "string" }
+        }
+        Signal {
+            name: "max_idChanged"
+            Parameter { name: "max_id"; type: "string" }
+        }
+        Signal {
+            name: "trim_userChanged"
+            Parameter { name: "trim_user"; type: "bool" }
+        }
+        Signal {
+            name: "include_rtsChanged"
+            Parameter { name: "include_rts"; type: "bool" }
+        }
+        Signal {
+            name: "exclude_repliesChanged"
+            Parameter { name: "exclude_replies"; type: "bool" }
+        }
+        Signal {
+            name: "contributor_detailsChanged"
+            Parameter { name: "contributor_details"; type: "bool" }
+        }
+        Signal {
+            name: "include_entitiesChanged"
+            Parameter { name: "include_entities"; type: "bool" }
+        }
+    }
+    Component {
+        name: "Incoming"
+        defaultProperty: "childObjects"
+        prototype: "AbstractFriendshipIdsModel"
+        exports: ["IncomingModel 1.1"]
+        Property { name: "cursor"; type: "string" }
+        Property { name: "stringify_ids"; type: "bool" }
+        Signal {
+            name: "cursorChanged"
+            Parameter { name: "cursor"; type: "string" }
+        }
+        Signal {
+            name: "stringify_idsChanged"
+            Parameter { name: "stringify_ids"; type: "bool" }
+        }
+    }
+    Component {
+        name: "Languages"
+        defaultProperty: "childObjects"
+        prototype: "AbstractTwitterModel"
+        exports: ["LanguagesModel 1.1"]
+    }
+    Component {
+        name: "List"
+        prototype: "QObject"
+        exports: ["List 1.1"]
+        Property { name: "loading"; type: "bool"; isReadonly: true }
+        Property { name: "created_at"; type: "string" }
+        Property { name: "description"; type: "string" }
+        Property { name: "following"; type: "bool" }
+        Property { name: "full_name"; type: "string" }
+        Property { name: "id_str"; type: "string" }
+        Property { name: "member_count"; type: "int" }
+        Property { name: "mode"; type: "string" }
+        Property { name: "name"; type: "string" }
+        Property { name: "slug"; type: "string" }
+        Property { name: "subscriber_count"; type: "int" }
+        Property { name: "uri"; type: "string" }
+        Property { name: "user"; type: "QVariantMap" }
+        Signal {
+            name: "loadingChanged"
+            Parameter { name: "loading"; type: "bool" }
+        }
+        Signal {
+            name: "created_atChanged"
+            Parameter { name: "created_at"; type: "string" }
+        }
+        Signal {
+            name: "descriptionChanged"
+            Parameter { name: "description"; type: "string" }
+        }
+        Signal {
+            name: "followingChanged"
+            Parameter { name: "following"; type: "bool" }
+        }
+        Signal {
+            name: "fullNameChanged"
+            Parameter { name: "fullName"; type: "string" }
+        }
+        Signal {
+            name: "id_strChanged"
+            Parameter { name: "id_str"; type: "string" }
+        }
+        Signal {
+            name: "memberCountChanged"
+            Parameter { name: "memberCount"; type: "int" }
+        }
+        Signal {
+            name: "modeChanged"
+            Parameter { name: "mode"; type: "string" }
+        }
+        Signal {
+            name: "nameChanged"
+            Parameter { name: "name"; type: "string" }
+        }
+        Signal {
+            name: "slugChanged"
+            Parameter { name: "slug"; type: "string" }
+        }
+        Signal {
+            name: "subscriberCountChanged"
+            Parameter { name: "subscriberCount"; type: "int" }
+        }
+        Signal {
+            name: "uriChanged"
+            Parameter { name: "uri"; type: "string" }
+        }
+        Signal {
+            name: "userChanged"
+            Parameter { name: "user"; type: "QVariantMap" }
+        }
+        Signal { name: "dataChanged" }
+        Method {
+            name: "created_at"
+            Parameter { name: "created_at"; type: "string" }
+        }
+        Method {
+            name: "description"
+            Parameter { name: "description"; type: "string" }
+        }
+        Method {
+            name: "following"
+            Parameter { name: "following"; type: "bool" }
+        }
+        Method {
+            name: "setFullName"
+            Parameter { name: "fullName"; type: "string" }
+        }
+        Method {
+            name: "id_str"
+            Parameter { name: "id_str"; type: "string" }
+        }
+        Method {
+            name: "setMemberCount"
+            Parameter { name: "memberCount"; type: "int" }
+        }
+        Method {
+            name: "mode"
+            Parameter { name: "mode"; type: "string" }
+        }
+        Method {
+            name: "name"
+            Parameter { name: "name"; type: "string" }
+        }
+        Method {
+            name: "slug"
+            Parameter { name: "slug"; type: "string" }
+        }
+        Method {
+            name: "setSubscriberCount"
+            Parameter { name: "subscriberCount"; type: "int" }
+        }
+        Method {
+            name: "setUri"
+            Parameter { name: "uri"; type: "string" }
+        }
+        Method {
+            name: "user"
+            Parameter { name: "user"; type: "QVariantMap" }
+        }
+        Method {
+            name: "createList"
+            Parameter { name: "parameters"; type: "QVariantMap" }
+        }
+        Method {
+            name: "updateList"
+            Parameter { name: "parameters"; type: "QVariantMap" }
+        }
+        Method { name: "destroyList" }
+        Method { name: "subscribe" }
+        Method { name: "unsubscribe" }
+        Method { name: "debug" }
+    }
+    Component {
+        name: "ListMembers"
+        defaultProperty: "childObjects"
+        prototype: "AbstractUsersModel"
+        exports: ["ListMembersModel 1.1"]
+        Property { name: "list_id"; type: "string" }
+        Property { name: "slug"; type: "string" }
+        Property { name: "owner_screen_name"; type: "string" }
+        Property { name: "owner_id"; type: "string" }
+        Property { name: "cursor"; type: "string" }
+        Property { name: "include_entities"; type: "bool" }
+        Property { name: "skip_status"; type: "bool" }
+        Property { name: "next_cursor"; type: "int"; isReadonly: true }
+        Property { name: "next_cursor_str"; type: "string"; isReadonly: true }
+        Property { name: "previous_cursor"; type: "int"; isReadonly: true }
+        Property { name: "previous_cursor_str"; type: "string"; isReadonly: true }
+        Signal {
+            name: "list_idChanged"
+            Parameter { name: "list_id"; type: "string" }
+        }
+        Signal {
+            name: "slugChanged"
+            Parameter { name: "slug"; type: "string" }
+        }
+        Signal {
+            name: "screen_nameChanged"
+            Parameter { name: "screen_name"; type: "string" }
+        }
+        Signal {
+            name: "idChanged"
+            Parameter { name: "id"; type: "string" }
+        }
+        Signal {
+            name: "cursorChanged"
+            Parameter { name: "cursor"; type: "string" }
+        }
+        Signal {
+            name: "include_entitiesChanged"
+            Parameter { name: "include_entities"; type: "bool" }
+        }
+        Signal {
+            name: "skip_statusChanged"
+            Parameter { name: "skip_status"; type: "bool" }
+        }
+        Signal {
+            name: "next_cursorChanged"
+            Parameter { name: "next_cursor"; type: "int" }
+        }
+        Signal {
+            name: "next_cursor_strChanged"
+            Parameter { name: "next_cursor_str"; type: "string" }
+        }
+        Signal {
+            name: "previous_cursorChanged"
+            Parameter { name: "previous_cursor"; type: "int" }
+        }
+        Signal {
+            name: "previous_cursor_strChanged"
+            Parameter { name: "previous_cursor_str"; type: "string" }
+        }
+        Method { name: "reload" }
+    }
+    Component {
+        name: "ListStatuses"
+        defaultProperty: "childObjects"
+        prototype: "AbstractStatusesModel"
+        exports: ["ListStatusesModel 1.1"]
+        Property { name: "list_id"; type: "string" }
+        Property { name: "slug"; type: "string" }
+        Property { name: "owner_screen_name"; type: "string" }
+        Property { name: "owner_id"; type: "string" }
+        Property { name: "since_id"; type: "string" }
+        Property { name: "max_id"; type: "string" }
+        Property { name: "count"; type: "int" }
+        Property { name: "include_entities"; type: "bool" }
+        Property { name: "include_rts"; type: "bool" }
+        Signal {
+            name: "idChanged"
+            Parameter { name: "id"; type: "string" }
+        }
+        Signal {
+            name: "slugChanged"
+            Parameter { name: "slug"; type: "string" }
+        }
+        Signal {
+            name: "screen_nameChanged"
+            Parameter { name: "screen_name"; type: "string" }
+        }
+        Signal {
+            name: "user_idChanged"
+            Parameter { name: "user_id"; type: "string" }
+        }
+        Signal {
+            name: "since_idChanged"
+            Parameter { name: "since_id"; type: "string" }
+        }
+        Signal {
+            name: "max_idChanged"
+            Parameter { name: "max_id"; type: "string" }
+        }
+        Signal {
+            name: "countChanged"
+            Parameter { name: "count"; type: "int" }
+        }
+        Signal {
+            name: "include_entitiesChanged"
+            Parameter { name: "include_entities"; type: "bool" }
+        }
+        Signal {
+            name: "include_rtsChanged"
+            Parameter { name: "include_rts"; type: "bool" }
+        }
+    }
+    Component {
+        name: "Lists"
+        defaultProperty: "childObjects"
+        prototype: "AbstractListsModel"
+        exports: ["ListsModel 1.1"]
+        Property { name: "user_id"; type: "string" }
+        Property { name: "screen_name"; type: "string" }
+        Signal {
+            name: "user_idChanged"
+            Parameter { name: "user_id"; type: "string" }
+        }
+        Signal {
+            name: "screen_nameChanged"
+            Parameter { name: "screen_name"; type: "string" }
+        }
+    }
+    Component {
+        name: "ListsMemberships"
+        defaultProperty: "childObjects"
+        prototype: "AbstractListsModel"
+        exports: ["ListsMembershipsModel 1.1"]
+        Property { name: "user_id"; type: "string" }
+        Property { name: "screen_name"; type: "string" }
+        Property { name: "cursor"; type: "string" }
+        Property { name: "filter_to_owned_lists"; type: "bool" }
+        Property { name: "next_cursor"; type: "int"; isReadonly: true }
+        Property { name: "next_cursor_str"; type: "string"; isReadonly: true }
+        Property { name: "previous_cursor"; type: "int"; isReadonly: true }
+        Property { name: "previous_cursor_str"; type: "string"; isReadonly: true }
+        Signal {
+            name: "user_idChanged"
+            Parameter { name: "user_id"; type: "string" }
+        }
+        Signal {
+            name: "screen_nameChanged"
+            Parameter { name: "screen_name"; type: "string" }
+        }
+        Signal {
+            name: "cursorChanged"
+            Parameter { name: "cursor"; type: "string" }
+        }
+        Signal {
+            name: "filter_to_owned_listsChanged"
+            Parameter { name: "filter_to_owned_lists"; type: "bool" }
+        }
+        Signal {
+            name: "next_cursorChanged"
+            Parameter { name: "next_cursor"; type: "int" }
+        }
+        Signal {
+            name: "next_cursor_strChanged"
+            Parameter { name: "next_cursor_str"; type: "string" }
+        }
+        Signal {
+            name: "previous_cursorChanged"
+            Parameter { name: "previous_cursor"; type: "int" }
+        }
+        Signal {
+            name: "previous_cursor_strChanged"
+            Parameter { name: "previous_cursor_str"; type: "string" }
+        }
+    }
+    Component {
+        name: "ListsSubscriptions"
+        defaultProperty: "childObjects"
+        prototype: "AbstractListsModel"
+        exports: ["ListsSubscriptionsModel 1.1"]
+        Property { name: "user_id"; type: "string" }
+        Property { name: "screen_name"; type: "string" }
+        Property { name: "count"; type: "int" }
+        Property { name: "cursor"; type: "string" }
+        Property { name: "next_cursor"; type: "int"; isReadonly: true }
+        Property { name: "next_cursor_str"; type: "string"; isReadonly: true }
+        Property { name: "previous_cursor"; type: "int"; isReadonly: true }
+        Property { name: "previous_cursor_str"; type: "string"; isReadonly: true }
+        Signal {
+            name: "user_idChanged"
+            Parameter { name: "user_id"; type: "string" }
+        }
+        Signal {
+            name: "screen_nameChanged"
+            Parameter { name: "screen_name"; type: "string" }
+        }
+        Signal {
+            name: "countChanged"
+            Parameter { name: "count"; type: "int" }
+        }
+        Signal {
+            name: "cursorChanged"
+            Parameter { name: "cursor"; type: "string" }
+        }
+        Signal {
+            name: "next_cursorChanged"
+            Parameter { name: "next_cursor"; type: "int" }
+        }
+        Signal {
+            name: "next_cursor_strChanged"
+            Parameter { name: "next_cursor_str"; type: "string" }
+        }
+        Signal {
+            name: "previous_cursorChanged"
+            Parameter { name: "previous_cursor"; type: "int" }
+        }
+        Signal {
+            name: "previous_cursor_strChanged"
+            Parameter { name: "previous_cursor_str"; type: "string" }
+        }
+    }
+    Component {
+        name: "LookupUsers"
+        defaultProperty: "childObjects"
+        prototype: "AbstractUsersModel"
+        exports: ["UsersModel 1.1"]
+        Property { name: "screen_name"; type: "string" }
+        Property { name: "user_id"; type: "string" }
+        Property { name: "include_entities"; type: "bool" }
+        Signal {
+            name: "screen_nameChanged"
+            Parameter { name: "screen_name"; type: "string" }
+        }
+        Signal {
+            name: "idChanged"
+            Parameter { name: "id"; type: "string" }
+        }
+        Signal {
+            name: "include_entitiesChanged"
+            Parameter { name: "include_entities"; type: "bool" }
+        }
+        Method { name: "reload" }
+    }
+    Component {
+        name: "MentionsTimeline"
+        defaultProperty: "childObjects"
+        prototype: "AbstractStatusesModel"
+        exports: ["MentionsTimelineModel 1.1"]
+        Property { name: "count"; type: "int" }
+        Property { name: "since_id"; type: "string" }
+        Property { name: "max_id"; type: "string" }
+        Property { name: "trim_user"; type: "bool" }
+        Property { name: "contributor_details"; type: "bool" }
+        Property { name: "include_entities"; type: "bool" }
+        Signal {
+            name: "countChanged"
+            Parameter { name: "count"; type: "int" }
+        }
+        Signal {
+            name: "since_idChanged"
+            Parameter { name: "since_id"; type: "string" }
+        }
+        Signal {
+            name: "max_idChanged"
+            Parameter { name: "max_id"; type: "string" }
+        }
+        Signal {
+            name: "trim_userChanged"
+            Parameter { name: "trim_user"; type: "bool" }
+        }
+        Signal {
+            name: "contributor_detailsChanged"
+            Parameter { name: "contributor_details"; type: "bool" }
+        }
+        Signal {
+            name: "include_entitiesChanged"
+            Parameter { name: "include_entities"; type: "bool" }
+        }
+    }
+    Component {
+        name: "NoRetweetIds"
+        defaultProperty: "childObjects"
+        prototype: "AbstractIdsModel"
+        exports: ["NoRetweetIdsModel 1.1"]
+        Property { name: "stringify_ids"; type: "bool" }
+        Signal {
+            name: "stringify_idsChanged"
+            Parameter { name: "stringify_ids"; type: "bool" }
+        }
+    }
+    Component {
+        name: "OAuth"
+        prototype: "QObject"
+        exports: ["OAuth 1.1"]
+        Enum {
+            name: "State"
+            values: {
+                "Unauthorized": 0,
+                "ObtainUnauthorizedRequestToken": 1,
+                "RequestTokenReceived": 2,
+                "UserAuthorizesRequestToken": 3,
+                "ExchangeRequestTokenForAccessToken": 4,
+                "Authorized": 5
+            }
+        }
+        Property { name: "state"; type: "State"; isReadonly: true }
+        Property { name: "consumer_key"; type: "string" }
+        Property { name: "consumer_secret"; type: "string" }
+        Property { name: "token"; type: "string" }
+        Property { name: "token_secret"; type: "string" }
+        Property { name: "user_id"; type: "string" }
+        Property { name: "screen_name"; type: "string" }
+        Signal {
+            name: "stateChanged"
+            Parameter { name: "state"; type: "OAuth::State" }
+        }
+        Signal {
+            name: "consumerKeyChanged"
+            Parameter { name: "consumerKey"; type: "string" }
+        }
+        Signal {
+            name: "consumerSecretChanged"
+            Parameter { name: "consumerSecret"; type: "string" }
+        }
+        Signal {
+            name: "tokenChanged"
+            Parameter { name: "token"; type: "string" }
+        }
+        Signal {
+            name: "tokenSecretChanged"
+            Parameter { name: "tokenSecret"; type: "string" }
+        }
+        Signal {
+            name: "user_idChanged"
+            Parameter { name: "user_id"; type: "string" }
+        }
+        Signal {
+            name: "screen_nameChanged"
+            Parameter { name: "screen_name"; type: "string" }
+        }
+        Method {
+            name: "request_token"
+            Parameter { name: "callback"; type: "string" }
+        }
+        Method { name: "request_token" }
+        Method { name: "authorize" }
+        Method {
+            name: "access_token"
+            Parameter { name: "pin"; type: "string" }
+        }
+        Method { name: "unauthorize" }
+    }
+    Component {
+        name: "Outgoing"
+        defaultProperty: "childObjects"
+        prototype: "AbstractFriendshipIdsModel"
+        exports: ["OutgoingModel 1.1"]
+        Property { name: "cursor"; type: "string" }
+        Property { name: "stringify_ids"; type: "bool" }
+        Signal {
+            name: "cursorChanged"
+            Parameter { name: "cursor"; type: "string" }
+        }
+        Signal {
+            name: "stringify_idsChanged"
+            Parameter { name: "stringify_ids"; type: "bool" }
+        }
+    }
+    Component {
+        name: "Place"
+        defaultProperty: "childObjects"
+        prototype: "AbstractTwitterModel"
+        exports: ["TrendsPlaceModel 1.1"]
+        Property { name: "_id"; type: "int" }
+        Property { name: "exclude"; type: "bool" }
+        Signal {
+            name: "idChanged"
+            Parameter { name: "id"; type: "int" }
+        }
+        Signal {
+            name: "excludeChanged"
+            Parameter { name: "exclude"; type: "bool" }
+        }
+        Method { name: "reload" }
+    }
+    Component {
+        name: "Privacy"
+        prototype: "AbstractTwitterAction"
+        exports: ["Privacy 1.1"]
+        Property { name: "privacy"; type: "string" }
+        Signal {
+            name: "privacyChanged"
+            Parameter { name: "privacy"; type: "string" }
+        }
+    }
+    Component {
+        name: "RateLimitStatus"
+        prototype: "AbstractTwitterAction"
+        exports: ["RateLimitStatus 1.1"]
+        Property { name: "rate_limit_context"; type: "QVariantMap" }
+        Property { name: "resources"; type: "QVariantMap" }
+        Signal {
+            name: "rate_limit_contextChanged"
+            Parameter { name: "rate_limit_context"; type: "QVariantMap" }
+        }
+        Signal {
+            name: "resourcesChanged"
+            Parameter { name: "resources"; type: "QVariantMap" }
+        }
+    }
+    Component {
+        name: "Retweets"
+        defaultProperty: "childObjects"
+        prototype: "AbstractStatusesModel"
+        exports: ["RetweetsModel 1.1"]
+        Property { name: "_id"; type: "string" }
+        Property { name: "count"; type: "int" }
+        Property { name: "trim_user"; type: "bool" }
+        Signal {
+            name: "idChanged"
+            Parameter { name: "id"; type: "string" }
+        }
+        Signal {
+            name: "countChanged"
+            Parameter { name: "count"; type: "int" }
+        }
+        Signal {
+            name: "trim_userChanged"
+            Parameter { name: "trim_user"; type: "bool" }
+        }
+    }
+    Component {
+        name: "RetweetsOfMe"
+        defaultProperty: "childObjects"
+        prototype: "AbstractStatusesModel"
+        exports: ["RetweetsOfMeModel 1.1"]
+        Property { name: "count"; type: "int" }
+        Property { name: "since_id"; type: "string" }
+        Property { name: "max_id"; type: "string" }
+        Property { name: "trim_user"; type: "bool" }
+        Property { name: "include_entities"; type: "bool" }
+        Property { name: "include_user_entities"; type: "bool" }
+        Signal {
+            name: "countChanged"
+            Parameter { name: "count"; type: "int" }
+        }
+        Signal {
+            name: "since_idChanged"
+            Parameter { name: "since_id"; type: "string" }
+        }
+        Signal {
+            name: "max_idChanged"
+            Parameter { name: "max_id"; type: "string" }
+        }
+        Signal {
+            name: "trim_userChanged"
+            Parameter { name: "trim_user"; type: "bool" }
+        }
+        Signal {
+            name: "include_entitiesChanged"
+            Parameter { name: "include_entities"; type: "bool" }
+        }
+        Signal {
+            name: "include_user_entitiesChanged"
+            Parameter { name: "include_user_entities"; type: "bool" }
+        }
+    }
+    Component {
+        name: "ReverseGeocode"
+        defaultProperty: "childObjects"
+        prototype: "AbstractTwitterModel"
+        exports: ["ReverseGeocodeModel 1.1"]
+        Property { name: "_lat"; type: "double" }
+        Property { name: "_long"; type: "double" }
+        Property { name: "granularity"; type: "string" }
+        Property { name: "accuracy"; type: "string" }
+        Property { name: "max_results"; type: "int" }
+        Signal {
+            name: "latitudeChanged"
+            Parameter { name: "latitude"; type: "double" }
+        }
+        Signal {
+            name: "longitudeChanged"
+            Parameter { name: "longitude"; type: "double" }
+        }
+        Signal {
+            name: "granularityChanged"
+            Parameter { name: "granularity"; type: "string" }
+        }
+        Signal {
+            name: "accuracyChanged"
+            Parameter { name: "accuracy"; type: "string" }
+        }
+        Signal {
+            name: "max_resultsChanged"
+            Parameter { name: "max_results"; type: "int" }
+        }
+        Method { name: "reload" }
+    }
+    Component {
+        name: "SavedSearches"
+        defaultProperty: "childObjects"
+        prototype: "AbstractTwitterModel"
+        exports: ["SavedSearchesModel 1.1"]
+        Method {
+            name: "createSavedSearch"
+            Parameter { name: "parameters"; type: "QVariantMap" }
+        }
+        Method {
+            name: "destroySavedSearch"
+            Parameter { name: "parameters"; type: "QVariantMap" }
+        }
+    }
+    Component {
+        name: "Search"
+        defaultProperty: "childObjects"
+        prototype: "AbstractStatusesModel"
+        exports: ["SearchModel 1.1"]
+        Property { name: "q"; type: "string" }
+        Property { name: "geocode"; type: "string" }
+        Property { name: "lang"; type: "string" }
+        Property { name: "locale"; type: "string" }
+        Property { name: "result_type"; type: "string" }
+        Property { name: "count"; type: "int" }
+        Property { name: "until"; type: "string" }
+        Property { name: "since_id"; type: "string" }
+        Property { name: "max_id"; type: "string" }
+        Property { name: "include_entities"; type: "bool" }
+        Property { name: "search_metadata"; type: "QVariantMap" }
+        Signal {
+            name: "qChanged"
+            Parameter { name: "q"; type: "string" }
+        }
+        Signal {
+            name: "geocodeChanged"
+            Parameter { name: "geocode"; type: "string" }
+        }
+        Signal {
+            name: "langChanged"
+            Parameter { name: "lang"; type: "string" }
+        }
+        Signal {
+            name: "localeChanged"
+            Parameter { name: "locale"; type: "string" }
+        }
+        Signal {
+            name: "result_typeChanged"
+            Parameter { name: "result_type"; type: "string" }
+        }
+        Signal {
+            name: "countChanged"
+            Parameter { name: "count"; type: "int" }
+        }
+        Signal {
+            name: "untilChanged"
+            Parameter { name: "until"; type: "string" }
+        }
+        Signal {
+            name: "since_idChanged"
+            Parameter { name: "since_id"; type: "string" }
+        }
+        Signal {
+            name: "max_idChanged"
+            Parameter { name: "max_id"; type: "string" }
+        }
+        Signal {
+            name: "include_entitiesChanged"
+            Parameter { name: "include_entities"; type: "bool" }
+        }
+        Signal {
+            name: "search_metadataChanged"
+            Parameter { name: "search_metadata"; type: "QVariantMap" }
+        }
+    }
+    Component {
+        name: "SearchUsers"
+        defaultProperty: "childObjects"
+        prototype: "AbstractUsersModel"
+        exports: ["SearchUsersModel 1.1"]
+        Property { name: "q"; type: "string" }
+        Property { name: "page"; type: "int" }
+        Property { name: "count"; type: "int" }
+        Property { name: "include_entities"; type: "bool" }
+        Signal {
+            name: "idChanged"
+            Parameter { name: "id"; type: "string" }
+        }
+        Signal {
+            name: "pageChanged"
+            Parameter { name: "page"; type: "int" }
+        }
+        Signal {
+            name: "countChanged"
+            Parameter { name: "count"; type: "int" }
+        }
+        Signal {
+            name: "include_entitiesChanged"
+            Parameter { name: "include_entities"; type: "bool" }
+        }
+        Method { name: "reload" }
+    }
+    Component {
+        name: "Settings"
+        prototype: "AbstractTwitterAction"
+        exports: ["Settings 1.1"]
+        Property { name: "always_use_https"; type: "bool" }
+        Property { name: "discoverable_by_email"; type: "bool" }
+        Property { name: "geo_enabled"; type: "bool" }
+        Property { name: "language"; type: "string" }
+        Property { name: "_protected"; type: "bool" }
+        Property { name: "screen_name"; type: "string" }
+        Property { name: "show_all_inline_media"; type: "bool" }
+        Property { name: "sleep_time"; type: "QVariantMap" }
+        Property { name: "time_zone"; type: "QVariantMap" }
+        Property { name: "trend_location"; type: "QVariantList" }
+        Signal {
+            name: "always_use_httpsChanged"
+            Parameter { name: "always_use_https"; type: "bool" }
+        }
+        Signal {
+            name: "discoverable_by_emailChanged"
+            Parameter { name: "discoverable_by_email"; type: "bool" }
+        }
+        Signal {
+            name: "geo_enabledChanged"
+            Parameter { name: "geo_enabled"; type: "bool" }
+        }
+        Signal {
+            name: "languageChanged"
+            Parameter { name: "language"; type: "string" }
+        }
+        Signal {
+            name: "_protectedChanged"
+            Parameter { name: "_protected"; type: "bool" }
+        }
+        Signal {
+            name: "screen_nameChanged"
+            Parameter { name: "screen_name"; type: "string" }
+        }
+        Signal {
+            name: "show_all_inline_mediaChanged"
+            Parameter { name: "show_all_inline_media"; type: "bool" }
+        }
+        Signal {
+            name: "sleep_timeChanged"
+            Parameter { name: "sleep_time"; type: "QVariantMap" }
+        }
+        Signal {
+            name: "trend_locationChanged"
+            Parameter { name: "trend_location"; type: "QVariantList" }
+        }
+        Signal {
+            name: "time_zoneChanged"
+            Parameter { name: "time_zone"; type: "QVariantMap" }
+        }
+    }
+    Component {
+        name: "ShowFriendships"
+        prototype: "AbstractTwitterAction"
+        exports: ["ShowFriendships 1.1"]
+        Property { name: "source_id"; type: "string" }
+        Property { name: "source_screen_name"; type: "string" }
+        Property { name: "target_id"; type: "string" }
+        Property { name: "target_screen_name"; type: "string" }
+        Property { name: "relationship"; type: "QVariantMap" }
+        Signal {
+            name: "source_idChanged"
+            Parameter { name: "source_id"; type: "string" }
+        }
+        Signal {
+            name: "source_screen_nameChanged"
+            Parameter { name: "source_screen_name"; type: "string" }
+        }
+        Signal {
+            name: "target_idChanged"
+            Parameter { name: "target_id"; type: "string" }
+        }
+        Signal {
+            name: "target_screen_nameChanged"
+            Parameter { name: "target_screen_name"; type: "string" }
+        }
+        Signal {
+            name: "relationshipChanged"
+            Parameter { name: "relationship"; type: "QVariantMap" }
+        }
+        Method { name: "exec" }
+    }
+    Component {
+        name: "ShowRelatedResults"
+        defaultProperty: "childObjects"
+        prototype: "AbstractStatusesModel"
+        exports: ["RelatedResultsModel 1.1"]
+        Property { name: "_id"; type: "string" }
+        Property { name: "include_entities"; type: "bool" }
+        Signal {
+            name: "idChanged"
+            Parameter { name: "id"; type: "string" }
+        }
+        Signal {
+            name: "include_entitiesChanged"
+            Parameter { name: "include_entities"; type: "bool" }
+        }
+    }
+    Component {
+        name: "Slugs"
+        defaultProperty: "childObjects"
+        prototype: "AbstractTwitterModel"
+        exports: ["SlugsModel 1.1"]
+        Property { name: "lang"; type: "string" }
+        Signal {
+            name: "langChanged"
+            Parameter { name: "lang"; type: "string" }
+        }
+    }
+    Component {
+        name: "Status"
+        prototype: "QObject"
+        exports: ["Status 1.1"]
+        Property { name: "loading"; type: "bool"; isReadonly: true }
+        Property { name: "contributors"; type: "QVariantList" }
+        Property { name: "coordinates"; type: "QVariantMap" }
+        Property { name: "created_at"; type: "string" }
+        Property { name: "entities"; type: "QVariantMap" }
+        Property { name: "favorited"; type: "bool" }
+        Property { name: "geo"; type: "QVariantMap" }
+        Property { name: "id_str"; type: "string" }
+        Property { name: "in_reply_to_screen_name"; type: "string" }
+        Property { name: "in_reply_to_status_id_str"; type: "string" }
+        Property { name: "in_reply_to_user_id_str"; type: "string" }
+        Property { name: "place"; type: "QVariantMap" }
+        Property { name: "possibly_sensitive"; type: "bool" }
+        Property { name: "retweet_count"; type: "int" }
+        Property { name: "retweeted"; type: "bool" }
+        Property { name: "retweeted_status"; type: "QVariantMap" }
+        Property { name: "source"; type: "string" }
+        Property { name: "text"; type: "string" }
+        Property { name: "plain_text"; type: "string" }
+        Property { name: "rich_text"; type: "string" }
+        Property { name: "truncated"; type: "bool" }
+        Property { name: "user"; type: "QVariantMap" }
+        Property { name: "media"; type: "QVariantList" }
+        Property { name: "data"; type: "QVariantMap"; isReadonly: true }
+        Signal {
+            name: "loadingChanged"
+            Parameter { name: "loading"; type: "bool" }
+        }
+        Signal {
+            name: "contributorsChanged"
+            Parameter { name: "contributors"; type: "QVariantList" }
+        }
+        Signal {
+            name: "coordinatesChanged"
+            Parameter { name: "coordinates"; type: "QVariantMap" }
+        }
+        Signal {
+            name: "created_atChanged"
+            Parameter { name: "created_at"; type: "string" }
+        }
+        Signal {
+            name: "entitiesChanged"
+            Parameter { name: "entities"; type: "QVariantMap" }
+        }
+        Signal {
+            name: "favoritedChanged"
+            Parameter { name: "favorited"; type: "bool" }
+        }
+        Signal {
+            name: "geoChanged"
+            Parameter { name: "geo"; type: "QVariantMap" }
+        }
+        Signal {
+            name: "id_strChanged"
+            Parameter { name: "id_str"; type: "string" }
+        }
+        Signal {
+            name: "in_reply_to_screen_nameChanged"
+            Parameter { name: "in_reply_to_screen_name"; type: "string" }
+        }
+        Signal {
+            name: "in_reply_to_status_id_strChanged"
+            Parameter { name: "in_reply_to_status_id_str"; type: "string" }
+        }
+        Signal {
+            name: "in_reply_to_user_id_strChanged"
+            Parameter { name: "in_reply_to_user_id_str"; type: "string" }
+        }
+        Signal {
+            name: "placeChanged"
+            Parameter { name: "place"; type: "QVariantMap" }
+        }
+        Signal {
+            name: "possibly_sensitiveChanged"
+            Parameter { name: "possibly_sensitive"; type: "bool" }
+        }
+        Signal {
+            name: "retweet_countChanged"
+            Parameter { name: "retweet_count"; type: "int" }
+        }
+        Signal {
+            name: "retweetedChanged"
+            Parameter { name: "retweeted"; type: "bool" }
+        }
+        Signal {
+            name: "retweeted_statusChanged"
+            Parameter { name: "retweeted_status"; type: "QVariantMap" }
+        }
+        Signal {
+            name: "sourceChanged"
+            Parameter { name: "source"; type: "string" }
+        }
+        Signal {
+            name: "textChanged"
+            Parameter { name: "text"; type: "string" }
+        }
+        Signal {
+            name: "plain_textChanged"
+            Parameter { name: "plain_text"; type: "string" }
+        }
+        Signal {
+            name: "rich_textChanged"
+            Parameter { name: "rich_text"; type: "string" }
+        }
+        Signal {
+            name: "truncatedChanged"
+            Parameter { name: "truncated"; type: "bool" }
+        }
+        Signal {
+            name: "userChanged"
+            Parameter { name: "user"; type: "QVariantMap" }
+        }
+        Signal {
+            name: "mediaChanged"
+            Parameter { name: "media"; type: "QVariantList" }
+        }
+        Method {
+            name: "updateStatus"
+            Parameter { name: "parameters"; type: "QVariantMap" }
+        }
+        Method {
+            name: "retweetStatus"
+            Parameter { name: "parameters"; type: "QVariantMap" }
+        }
+        Method { name: "destroyStatus" }
+        Method { name: "favorite" }
+        Method { name: "unfavorite" }
+        Method { name: "debug" }
+    }
+    Component {
+        name: "Suggestions"
+        defaultProperty: "childObjects"
+        prototype: "AbstractUsersModel"
+        exports: ["SuggestionsModel 1.1"]
+        Property { name: "slug"; type: "string" }
+        Property { name: "lang"; type: "string" }
+        Signal {
+            name: "slugChanged"
+            Parameter { name: "slug"; type: "string" }
+        }
+        Signal {
+            name: "langChanged"
+            Parameter { name: "lang"; type: "string" }
+        }
+    }
+    Component {
+        name: "Tos"
+        prototype: "AbstractTwitterAction"
+        exports: ["Tos 1.1"]
+        Property { name: "tos"; type: "string" }
+        Signal {
+            name: "tosChanged"
+            Parameter { name: "tos"; type: "string" }
+        }
+    }
+    Component {
+        name: "UpdateProfile"
+        prototype: "AbstractTwitterAction"
+        exports: ["UpdateProfile 1.1"]
+        Property { name: "name"; type: "string" }
+        Property { name: "url"; type: "string" }
+        Property { name: "location"; type: "string" }
+        Property { name: "description"; type: "string" }
+        Property { name: "include_entities"; type: "bool" }
+        Property { name: "skip_status"; type: "bool" }
+        Signal {
+            name: "nameChanged"
+            Parameter { name: "name"; type: "string" }
+        }
+        Signal {
+            name: "urlChanged"
+            Parameter { name: "url"; type: "string" }
+        }
+        Signal {
+            name: "locationChanged"
+            Parameter { name: "location"; type: "string" }
+        }
+        Signal {
+            name: "descriptionChanged"
+            Parameter { name: "description"; type: "string" }
+        }
+        Signal {
+            name: "include_entitiesChanged"
+            Parameter { name: "include_entities"; type: "bool" }
+        }
+        Signal {
+            name: "skip_statusChanged"
+            Parameter { name: "skip_status"; type: "bool" }
+        }
+    }
+    Component {
+        name: "User"
+        prototype: "QObject"
+        exports: ["User 1.1"]
+        Property { name: "loading"; type: "bool"; isReadonly: true }
+        Property { name: "contributors_enabled"; type: "bool" }
+        Property { name: "created_at"; type: "string" }
+        Property { name: "description"; type: "string" }
+        Property { name: "favourites_count"; type: "int" }
+        Property { name: "follow_request_sent"; type: "bool" }
+        Property { name: "followers_count"; type: "int" }
+        Property { name: "following"; type: "bool" }
+        Property { name: "friends_count"; type: "int" }
+        Property { name: "geo_enabled"; type: "bool" }
+        Property { name: "id_str"; type: "string" }
+        Property { name: "is_translator"; type: "bool" }
+        Property { name: "lang"; type: "string" }
+        Property { name: "listed_count"; type: "int" }
+        Property { name: "location"; type: "string" }
+        Property { name: "name"; type: "string" }
+        Property { name: "notifications"; type: "bool" }
+        Property { name: "profile_background_color"; type: "string" }
+        Property { name: "profile_background_image_url"; type: "string" }
+        Property { name: "profile_background_image_url_https"; type: "string" }
+        Property { name: "profile_background_tile"; type: "bool" }
+        Property { name: "profile_image_url"; type: "string" }
+        Property { name: "profile_link_url"; type: "string" }
+        Property { name: "profile_sidebar_border_color"; type: "string" }
+        Property { name: "profile_sidebar_fill_color"; type: "string" }
+        Property { name: "profile_text_color"; type: "string" }
+        Property { name: "profile_use_background_image"; type: "string" }
+        Property { name: "protected"; type: "bool" }
+        Property { name: "screen_name"; type: "string" }
+        Property { name: "show_all_inline_media"; type: "bool" }
+        Property { name: "statuses_count"; type: "int" }
+        Property { name: "time_zone"; type: "string" }
+        Property { name: "url"; type: "string" }
+        Property { name: "utc_offset"; type: "int" }
+        Property { name: "verified"; type: "bool" }
+        Property { name: "blocking"; type: "bool" }
+        Signal {
+            name: "loadingChanged"
+            Parameter { name: "loading"; type: "bool" }
+        }
+        Signal {
+            name: "contributors_enabledChanged"
+            Parameter { name: "contributors_enabled"; type: "bool" }
+        }
+        Signal {
+            name: "created_atChanged"
+            Parameter { name: "created_at"; type: "string" }
+        }
+        Signal {
+            name: "descriptionChanged"
+            Parameter { name: "description"; type: "string" }
+        }
+        Signal {
+            name: "favourites_countChanged"
+            Parameter { name: "favourites_count"; type: "int" }
+        }
+        Signal {
+            name: "follow_request_sentChanged"
+            Parameter { name: "follow_request_sent"; type: "bool" }
+        }
+        Signal {
+            name: "followers_countChanged"
+            Parameter { name: "followers_count"; type: "int" }
+        }
+        Signal {
+            name: "followingChanged"
+            Parameter { name: "following"; type: "bool" }
+        }
+        Signal {
+            name: "friends_countChanged"
+            Parameter { name: "friends_count"; type: "int" }
+        }
+        Signal {
+            name: "geo_enabledChanged"
+            Parameter { name: "geo_enabled"; type: "bool" }
+        }
+        Signal {
+            name: "id_strChanged"
+            Parameter { name: "id_str"; type: "string" }
+        }
+        Signal {
+            name: "is_translatorChanged"
+            Parameter { name: "is_translator"; type: "bool" }
+        }
+        Signal {
+            name: "langChanged"
+            Parameter { name: "lang"; type: "string" }
+        }
+        Signal {
+            name: "listed_countChanged"
+            Parameter { name: "listed_count"; type: "int" }
+        }
+        Signal {
+            name: "locationChanged"
+            Parameter { name: "location"; type: "string" }
+        }
+        Signal {
+            name: "nameChanged"
+            Parameter { name: "name"; type: "string" }
+        }
+        Signal {
+            name: "notificationsChanged"
+            Parameter { name: "notifications"; type: "bool" }
+        }
+        Signal {
+            name: "profile_background_colorChanged"
+            Parameter { name: "profile_background_color"; type: "string" }
+        }
+        Signal {
+            name: "profile_background_image_urlChanged"
+            Parameter { name: "profile_background_image_url"; type: "string" }
+        }
+        Signal {
+            name: "profile_background_image_url_httpsChanged"
+            Parameter { name: "profile_background_image_url_https"; type: "string" }
+        }
+        Signal {
+            name: "profile_background_tileChanged"
+            Parameter { name: "profile_background_tile"; type: "bool" }
+        }
+        Signal {
+            name: "profile_image_urlChanged"
+            Parameter { name: "profile_image_url"; type: "string" }
+        }
+        Signal {
+            name: "profile_link_urlChanged"
+            Parameter { name: "profile_link_url"; type: "string" }
+        }
+        Signal {
+            name: "profile_sidebar_border_colorChanged"
+            Parameter { name: "profile_sidebar_border_color"; type: "string" }
+        }
+        Signal {
+            name: "profile_sidebar_fill_colorChanged"
+            Parameter { name: "profile_sidebar_fill_color"; type: "string" }
+        }
+        Signal {
+            name: "profile_text_colorChanged"
+            Parameter { name: "profile_text_color"; type: "string" }
+        }
+        Signal {
+            name: "profile_use_background_imageChanged"
+            Parameter { name: "profile_use_background_image"; type: "string" }
+        }
+        Signal {
+            name: "_protectedChanged"
+            Parameter { name: "_protected"; type: "bool" }
+        }
+        Signal {
+            name: "screen_nameChanged"
+            Parameter { name: "screen_name"; type: "string" }
+        }
+        Signal {
+            name: "show_all_inline_mediaChanged"
+            Parameter { name: "show_all_inline_media"; type: "bool" }
+        }
+        Signal {
+            name: "statuses_countChanged"
+            Parameter { name: "statuses_count"; type: "int" }
+        }
+        Signal {
+            name: "time_zoneChanged"
+            Parameter { name: "time_zone"; type: "string" }
+        }
+        Signal {
+            name: "urlChanged"
+            Parameter { name: "url"; type: "string" }
+        }
+        Signal {
+            name: "utc_offsetChanged"
+            Parameter { name: "utc_offset"; type: "int" }
+        }
+        Signal {
+            name: "verifiedChanged"
+            Parameter { name: "verified"; type: "bool" }
+        }
+        Signal {
+            name: "blockingChanged"
+            Parameter { name: "blocking"; type: "bool" }
+        }
+        Signal { name: "dataChanged" }
+        Method { name: "follow" }
+        Method { name: "unfollow" }
+        Method { name: "block" }
+        Method { name: "unblock" }
+        Method { name: "reportForSpam" }
+        Method { name: "debug" }
+    }
+    Component {
+        name: "UserStream"
+        defaultProperty: "childObjects"
+        prototype: "AbstractStatusesModel"
+        exports: ["UserStreamModel 1.1"]
+        Property { name: "delimited"; type: "string" }
+        Property { name: "replies"; type: "string" }
+        Property { name: "friends"; type: "QStringList"; isReadonly: true }
+        Signal {
+            name: "delimitedChanged"
+            Parameter { name: "delimited"; type: "string" }
+        }
+        Signal {
+            name: "repliesChanged"
+            Parameter { name: "replies"; type: "string" }
+        }
+        Signal {
+            name: "friendsChanged"
+            Parameter { name: "friends"; type: "QStringList" }
+        }
+        Signal {
+            name: "followedBy"
+            Parameter { name: "status"; type: "QVariantMap" }
+        }
+        Signal {
+            name: "favorited"
+            Parameter { name: "status"; type: "QVariantMap" }
+        }
+        Signal {
+            name: "unfavorited"
+            Parameter { name: "status"; type: "QVariantMap" }
+        }
+        Method {
+            name: "setDelimited"
+            Parameter { name: "delimited"; type: "string" }
+        }
+        Method {
+            name: "setReplies"
+            Parameter { name: "replies"; type: "string" }
+        }
+    }
+    Component {
+        name: "UserTimeline"
+        defaultProperty: "childObjects"
+        prototype: "AbstractStatusesModel"
+        exports: ["UserTimelineModel 1.1"]
+        Property { name: "user_id"; type: "string" }
+        Property { name: "screen_name"; type: "string" }
+        Property { name: "since_id"; type: "string" }
+        Property { name: "count"; type: "int" }
+        Property { name: "max_id"; type: "string" }
+        Property { name: "trim_user"; type: "bool" }
+        Property { name: "exclude_replies"; type: "bool" }
+        Property { name: "contributor_details"; type: "bool" }
+        Property { name: "include_rts"; type: "bool" }
+        Signal {
+            name: "user_idChanged"
+            Parameter { name: "user_id"; type: "string" }
+        }
+        Signal {
+            name: "screen_nameChanged"
+            Parameter { name: "screen_name"; type: "string" }
+        }
+        Signal {
+            name: "since_idChanged"
+            Parameter { name: "since_id"; type: "string" }
+        }
+        Signal {
+            name: "countChanged"
+            Parameter { name: "count"; type: "int" }
+        }
+        Signal {
+            name: "max_idChanged"
+            Parameter { name: "max_id"; type: "string" }
+        }
+        Signal {
+            name: "trim_userChanged"
+            Parameter { name: "trim_user"; type: "bool" }
+        }
+        Signal {
+            name: "exclude_repliesChanged"
+            Parameter { name: "exclude_replies"; type: "bool" }
+        }
+        Signal {
+            name: "contributor_detailsChanged"
+            Parameter { name: "contributor_details"; type: "bool" }
+        }
+        Signal {
+            name: "include_rtsChanged"
+            Parameter { name: "include_rts"; type: "bool" }
+        }
+    }
+    Component {
+        name: "VerifyCredentials"
+        prototype: "AbstractTwitterAction"
+        exports: ["VerifyCredentials 1.1"]
+        Property { name: "contributors_enabled"; type: "bool" }
+        Property { name: "created_at"; type: "string" }
+        Property { name: "default_profile"; type: "bool" }
+        Property { name: "default_profile_image"; type: "bool" }
+        Property { name: "description"; type: "string" }
+        Property { name: "favourites_count"; type: "int" }
+        Property { name: "follow_request_sent"; type: "bool" }
+        Property { name: "followers_count"; type: "int" }
+        Property { name: "following"; type: "bool" }
+        Property { name: "friends_count"; type: "int" }
+        Property { name: "geo_enabled"; type: "bool" }
+        Property { name: "id_str"; type: "string" }
+        Property { name: "is_translator"; type: "bool" }
+        Property { name: "lang"; type: "string" }
+        Property { name: "listed_count"; type: "int" }
+        Property { name: "location"; type: "string" }
+        Property { name: "name"; type: "string" }
+        Property { name: "notifications"; type: "bool" }
+        Property { name: "profile_background_color"; type: "string" }
+        Property { name: "profile_background_image_url"; type: "string" }
+        Property { name: "profile_background_image_url_https"; type: "string" }
+        Property { name: "profile_background_tile"; type: "bool" }
+        Property { name: "profile_image_url"; type: "string" }
+        Property { name: "profile_image_url_https"; type: "string" }
+        Property { name: "profile_link_url"; type: "string" }
+        Property { name: "profile_sidebar_border_color"; type: "string" }
+        Property { name: "profile_sidebar_fill_color"; type: "string" }
+        Property { name: "profile_text_color"; type: "string" }
+        Property { name: "profile_use_background_image"; type: "bool" }
+        Property { name: "protected"; type: "bool" }
+        Property { name: "screen_name"; type: "string" }
+        Property { name: "show_all_inline_media"; type: "bool" }
+        Property { name: "status"; type: "QVariantList" }
+        Property { name: "statuses_count"; type: "int" }
+        Property { name: "time_zone"; type: "string" }
+        Property { name: "url"; type: "string" }
+        Property { name: "utc_offset"; type: "int" }
+        Property { name: "verified"; type: "bool" }
+        Signal {
+            name: "loadingChanged"
+            Parameter { name: "loading"; type: "bool" }
+        }
+        Signal {
+            name: "contributors_enabledChanged"
+            Parameter { name: "contributors_enabled"; type: "bool" }
+        }
+        Signal {
+            name: "created_atChanged"
+            Parameter { name: "created_at"; type: "string" }
+        }
+        Signal {
+            name: "default_profileChanged"
+            Parameter { name: "default_profile"; type: "bool" }
+        }
+        Signal {
+            name: "default_profile_imageChanged"
+            Parameter { name: "default_profile_image"; type: "bool" }
+        }
+        Signal {
+            name: "descriptionChanged"
+            Parameter { name: "description"; type: "string" }
+        }
+        Signal {
+            name: "favourites_countChanged"
+            Parameter { name: "favourites_count"; type: "int" }
+        }
+        Signal {
+            name: "follow_request_sentChanged"
+            Parameter { name: "follow_request_sent"; type: "bool" }
+        }
+        Signal {
+            name: "followers_countChanged"
+            Parameter { name: "followers_count"; type: "int" }
+        }
+        Signal {
+            name: "followingChanged"
+            Parameter { name: "following"; type: "bool" }
+        }
+        Signal {
+            name: "friends_countChanged"
+            Parameter { name: "friends_count"; type: "int" }
+        }
+        Signal {
+            name: "geo_enabledChanged"
+            Parameter { name: "geo_enabled"; type: "bool" }
+        }
+        Signal {
+            name: "id_strChanged"
+            Parameter { name: "id_str"; type: "string" }
+        }
+        Signal {
+            name: "is_translatorChanged"
+            Parameter { name: "is_translator"; type: "bool" }
+        }
+        Signal {
+            name: "langChanged"
+            Parameter { name: "lang"; type: "string" }
+        }
+        Signal {
+            name: "listed_countChanged"
+            Parameter { name: "listed_count"; type: "int" }
+        }
+        Signal {
+            name: "locationChanged"
+            Parameter { name: "location"; type: "string" }
+        }
+        Signal {
+            name: "nameChanged"
+            Parameter { name: "name"; type: "string" }
+        }
+        Signal {
+            name: "notificationsChanged"
+            Parameter { name: "notifications"; type: "bool" }
+        }
+        Signal {
+            name: "profile_background_colorChanged"
+            Parameter { name: "profile_background_color"; type: "string" }
+        }
+        Signal {
+            name: "profile_background_image_urlChanged"
+            Parameter { name: "profile_background_image_url"; type: "string" }
+        }
+        Signal {
+            name: "profile_background_image_url_httpsChanged"
+            Parameter { name: "profile_background_image_url_https"; type: "string" }
+        }
+        Signal {
+            name: "profile_background_tileChanged"
+            Parameter { name: "profile_background_tile"; type: "bool" }
+        }
+        Signal {
+            name: "profile_image_urlChanged"
+            Parameter { name: "profile_image_url"; type: "string" }
+        }
+        Signal {
+            name: "profile_image_url_httpsChanged"
+            Parameter { name: "profile_image_url_https"; type: "string" }
+        }
+        Signal {
+            name: "profile_link_urlChanged"
+            Parameter { name: "profile_link_url"; type: "string" }
+        }
+        Signal {
+            name: "profile_sidebar_border_colorChanged"
+            Parameter { name: "profile_sidebar_border_color"; type: "string" }
+        }
+        Signal {
+            name: "profile_sidebar_fill_colorChanged"
+            Parameter { name: "profile_sidebar_fill_color"; type: "string" }
+        }
+        Signal {
+            name: "profile_text_colorChanged"
+            Parameter { name: "profile_text_color"; type: "string" }
+        }
+        Signal {
+            name: "profile_use_background_imageChanged"
+            Parameter { name: "profile_use_background_image"; type: "bool" }
+        }
+        Signal {
+            name: "_protectedChanged"
+            Parameter { name: "_protected"; type: "bool" }
+        }
+        Signal {
+            name: "screen_nameChanged"
+            Parameter { name: "screen_name"; type: "string" }
+        }
+        Signal {
+            name: "show_all_inline_mediaChanged"
+            Parameter { name: "show_all_inline_media"; type: "bool" }
+        }
+        Signal {
+            name: "statusChanged"
+            Parameter { name: "status"; type: "QVariantList" }
+        }
+        Signal {
+            name: "statuses_countChanged"
+            Parameter { name: "statuses_count"; type: "int" }
+        }
+        Signal {
+            name: "time_zoneChanged"
+            Parameter { name: "time_zone"; type: "string" }
+        }
+        Signal {
+            name: "urlChanged"
+            Parameter { name: "url"; type: "string" }
+        }
+        Signal {
+            name: "utc_offsetChanged"
+            Parameter { name: "utc_offset"; type: "int" }
+        }
+        Signal {
+            name: "verifiedChanged"
+            Parameter { name: "verified"; type: "bool" }
+        }
+        Signal { name: "dataChanged" }
+    }
+}

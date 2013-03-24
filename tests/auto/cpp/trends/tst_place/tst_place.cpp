@@ -26,7 +26,7 @@
 
 #include "abstracttwitter4qmltest.h"
 
-#include <trends/place.h>
+#include <place.h>
 
 class tst_place : public AbstractTwitter4QMLTest
 {

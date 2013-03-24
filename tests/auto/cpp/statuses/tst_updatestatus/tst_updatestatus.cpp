@@ -26,8 +26,8 @@
 
 #include "abstracttwitter4qmltest.h"
 
-#include <statuses/updatestatus.h>
-#include <account/verifycredentials.h>
+#include <updatestatus.h>
+#include <verifycredentials.h>
 
 class UpdateStatusTest : public AbstractTwitter4QMLTest
 {

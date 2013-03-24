@@ -26,7 +26,7 @@
 
 #include "abstracttwitter4qmltest.h"
 
-#include <account/verifycredentials.h>
+#include <verifycredentials.h>
 
 class VerifyCredentialsTest : public AbstractTwitter4QMLTest
 {

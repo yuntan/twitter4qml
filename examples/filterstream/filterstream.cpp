@@ -4,13 +4,14 @@
 #include <QtGui/QGuiApplication>
 #include <QtQuick/QQuickView>
 #else
+#include <QtCore/QDir>
 #include <QtGui/QApplication>
 #include <QtDeclarative/QDeclarativeView>
+#include <QtDeclarative/QDeclarativeEngine>
 #endif
 
-#include <twitter4qml.h>
-#include <oauth/oauth.h>
-#include <tools/oauthmanager.h>
+#include <oauth.h>
+#include <oauthmanager.h>
 
 int main(int argc, char **argv)
 {
@@ -20,7 +21,6 @@ int main(int argc, char **argv)
     QApplication app(argc, argv);
 #endif
 
-    Twitter4QML twitter4qml;
     OAuth oauth;
     oauth.setConsumerKey(QLatin1String("K6eWjgzGz1qE4oOOBYkdMg"));
     oauth.setConsumerSecret(QLatin1String("t4ku8EEo8Sw7ywZ26vAxuQuH7sH0CQYH4DvhizEX4"));
@@ -32,7 +32,13 @@ int main(int argc, char **argv)
     QQuickView view;
     view.setSource(QUrl("qrc:/2.x/main.qml"));
 #else
+    QDir dir(app.applicationDirPath());
+    dir.cdUp();
+    dir.cdUp();
+    dir.cd("src");
+    dir.cd("imports");
     QDeclarativeView view;
+    view.engine()->addImportPath(dir.absolutePath());
     view.setSource(QUrl("qrc:/1.x/main.qml"));
 #endif
     view.show();
