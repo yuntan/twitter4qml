@@ -21,6 +21,7 @@ greaterThan(QT_MAJOR_VERSION, 4) {
         $$PWD/../../../src/lib/users/ \
         $$PWD/../../../src/lib/help/ \
         $$PWD/../../../src/lib/search/ \
+        $$PWD/../../../src/lib/friendships/ \
         $$PWD/../../../src/lib/
 
     DEPENDPATH += \
@@ -32,6 +33,7 @@ greaterThan(QT_MAJOR_VERSION, 4) {
         $$PWD/../../../src/lib/users/ \
         $$PWD/../../../src/lib/help/ \
         $$PWD/../../../src/lib/search/ \
+        $$PWD/../../../src/lib/friendships/ \
         $$PWD/../../../src/lib/
 
     LIBS += -lQtTwitterAPI -L$$OUT_PWD/../../../../../src/lib/
