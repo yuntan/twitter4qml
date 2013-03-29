@@ -46,7 +46,7 @@ private: \
 class TWITTER4QML_EXPORT User : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(bool loading READ loading NOTIFY loadingChanged DESIGNABLE false)
+    Q_PROPERTY(bool loading READ isLoading NOTIFY loadingChanged DESIGNABLE false)
     Q_PROPERTY(bool contributors_enabled READ contributors_enabled WRITE contributors_enabled NOTIFY contributors_enabledChanged)
     Q_PROPERTY(QString created_at READ created_at WRITE created_at NOTIFY created_atChanged)
     //    Q_PROPERTY(QString default_profile READ defaultProfile WRITE setDefaultProfile NOTIFY defaultProfileChanged)
@@ -91,7 +91,7 @@ public:
 
     static QVariantMap parse(const QVariantMap &status);
 
-    bool loading() const;
+    bool isLoading() const;
 
     QVariantMap data() const;
 

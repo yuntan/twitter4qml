@@ -91,8 +91,8 @@ void DataManager::Private::set(DataType type, const QString &key, const QVariant
 {
     if (data.value(type).contains(key)) {
         if (data.value(type).value(key) != value) {
-            DEBUG() << data.value(type).value(key);
-            DEBUG() << value;
+//            DEBUG() << data.value(type).value(key);
+//            DEBUG() << value;
             data[type][key] = value;
             emit q->dataChanged(type, key, value);
         }

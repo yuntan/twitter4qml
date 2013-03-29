@@ -43,42 +43,6 @@ public:
     Private(User *parent);
 
     bool loading;
-    bool contributors_enabled;
-    QString created_at;
-    QString description;
-    int favourites_count;
-    bool follow_request_sent;
-    int followers_count;
-    bool following;
-    int friends_count;
-    bool geo_enabled;
-    QString id_str;
-    bool is_translator;
-    QString lang;
-    int listed_count;
-    QString location;
-    QString name;
-    bool notifications;
-    QString profile_background_color;
-    QString profile_background_image_url;
-    QString profile_background_image_url_https;
-    bool profile_background_tile;
-    QString profile_image_url;
-    QString profile_link_url;
-    QString profile_sidebar_border_color;
-    QString profile_sidebar_fill_color;
-    QString profile_text_color;
-    QString profile_use_background_image;
-    bool _protected;
-    QString screen_name;
-    bool show_all_inline_media;
-    int statuses_count;
-    QString time_zone;
-    QString url;
-    int utc_offset;
-    bool verified;
-    bool blocking;
-
     void follow();
     void unfollow();
     void block();
@@ -100,23 +64,6 @@ private:
 User::Private::Private(User *parent)
     : QObject(parent)
     , loading(false)
-    , contributors_enabled(false)
-    , favourites_count(0)
-    , follow_request_sent(false)
-    , followers_count(0)
-    , following(false)
-    , friends_count(0)
-    , geo_enabled(false)
-    , is_translator(false)
-    , listed_count(0)
-    , notifications(false)
-    , profile_background_tile(false)
-    , _protected(false)
-    , show_all_inline_media(false)
-    , statuses_count(0)
-    , utc_offset(0)
-    , verified(false)
-    , blocking(false)
     , q(parent)
 {
     connect(q, SIGNAL(id_strChanged(QString)), this, SLOT(id_strChanged(QString)), Qt::QueuedConnection);
@@ -132,93 +79,87 @@ void User::Private::setLoading(bool l)
 
 void User::Private::id_strChanged(const QString &id_str)
 {
-    if (q->loading()) return;
+    if (q->isLoading()) return;
 //    if (!screen_name.isEmpty()) return;
 //    clear();
 //    screen_name.clear();
 
-    DEBUG() << id_str;
     if (id_str.isEmpty()) {
-    } else {
-        {
-            ShowUser *action = new ShowUser(this);
-            action->user_id(id_str);
-            connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
-            if (loading) {
-                tasks.append(action);
-            } else {
-                setLoading(true);
-                action->exec();
-            }
+    } else if (q->screen_name().isEmpty()) {
+        ShowUser *action = new ShowUser(this);
+        action->user_id(id_str);
+        connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
+        if (loading) {
+            tasks.append(action);
+        } else {
+            setLoading(true);
+            action->exec();
         }
     }
 }
 
 void User::Private::screen_nameChanged(const QString &screen_name)
 {
-    if (q->loading()) return;
+    if (q->isLoading()) return;
 //    if (!id_str.isEmpty()) return;
 //    clear();
 //    id_str.clear();
 
-    DEBUG() << screen_name;
     if (screen_name.isEmpty()) {
-    } else {
-        {
-            ShowUser *action = new ShowUser(this);
-            action->screen_name(screen_name);
-            connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
-            if (loading) {
-                tasks.append(action);
-            } else {
-                setLoading(true);
-                action->exec();
-            }
+    } else if (q->id_str().isEmpty()) {
+        ShowUser *action = new ShowUser(this);
+        action->screen_name(screen_name);
+        connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
+        if (loading) {
+            tasks.append(action);
+        } else {
+            setLoading(true);
+            action->exec();
         }
     }
 }
 
 void User::Private::clear()
 {
-    contributors_enabled = false;
-    created_at.clear();
-    description.clear();
-    favourites_count = 0;
-    follow_request_sent = false;
-    followers_count = 0;
-    following = false;
-    friends_count = 0;
-    geo_enabled = false;
-    is_translator = false;
-    lang.clear();
-    listed_count = 0;
-    location.clear();
-    name.clear();
-    notifications = false;
-    profile_background_color.clear();
-    profile_background_image_url.clear();
-    profile_background_image_url_https.clear();
-    profile_background_tile = false;
-    profile_image_url.clear();
-    profile_link_url.clear();
-    profile_sidebar_border_color.clear();
-    profile_sidebar_fill_color.clear();
-    profile_text_color.clear();
-    profile_use_background_image.clear();
-    _protected = false;
-    show_all_inline_media = false;
-    statuses_count = 0;
-    time_zone.clear();
-    url.clear();
-    utc_offset = 0;
-    verified = false;
-    blocking = false;
+    q->m_contributors_enabled = false;
+    q->m_created_at.clear();
+    q->m_description.clear();
+    q->m_favourites_count = 0;
+    q->m_follow_request_sent = false;
+    q->m_followers_count = 0;
+    q->m_following = false;
+    q->m_friends_count = 0;
+    q->m_geo_enabled = false;
+    q->m_is_translator = false;
+    q->m_lang.clear();
+    q->m_listed_count = 0;
+    q->m_location.clear();
+    q->m_name.clear();
+    q->m_notifications = false;
+    q->m_profile_background_color.clear();
+    q->m_profile_background_image_url.clear();
+    q->m_profile_background_image_url_https.clear();
+    q->m_profile_background_tile = false;
+    q->m_profile_image_url.clear();
+    q->m_profile_link_url.clear();
+    q->m_profile_sidebar_border_color.clear();
+    q->m_profile_sidebar_fill_color.clear();
+    q->m_profile_text_color.clear();
+    q->m_profile_use_background_image.clear();
+    q->m__protected = false;
+    q->m_show_all_inline_media = false;
+    q->m_statuses_count = 0;
+    q->m_time_zone.clear();
+    q->m_url.clear();
+    q->m_utc_offset = 0;
+    q->m_verified = false;
+    q->m_blocking = false;
 }
 
 void User::Private::follow()
 {
     CreateFriendship *action = new CreateFriendship(this);
-    action->user_id(id_str);
+    action->user_id(q->id_str());
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
     if (loading) {
         tasks.append(action);
@@ -231,7 +172,7 @@ void User::Private::follow()
 void User::Private::unfollow()
 {
     DestroyFriendship *action = new DestroyFriendship(this);
-    action->user_id(id_str);
+    action->user_id(q->id_str());
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
     if (loading) {
         tasks.append(action);
@@ -244,7 +185,7 @@ void User::Private::unfollow()
 void User::Private::block()
 {
     CreateBlock *action = new CreateBlock(this);
-    action->user_id(id_str);
+    action->user_id(q->id_str());
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
     if (loading) {
         tasks.append(action);
@@ -257,7 +198,7 @@ void User::Private::block()
 void User::Private::unblock()
 {
     DestroyBlock *action = new DestroyBlock(this);
-    action->user_id(id_str);
+    action->user_id(q->id_str());
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
     if (loading) {
         tasks.append(action);
@@ -270,7 +211,7 @@ void User::Private::unblock()
 void User::Private::reportForSpam()
 {
     ReportForSpam *action = new ReportForSpam(this);
-    action->user_id(id_str);
+    action->user_id(q->id_str());
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
     if (loading) {
         tasks.append(action);
@@ -283,7 +224,6 @@ void User::Private::reportForSpam()
 void User::Private::dataChanged(const QVariant &data)
 {
     QVariantMap map = data.toMap();
-//    DEBUG() << data << sender();
     AbstractTwitterAction *action = qobject_cast<AbstractTwitterAction *>(sender());
     if (action) {
         if (qobject_cast<AbstractBlockAction *>(action)) {
@@ -303,8 +243,10 @@ void User::Private::dataChanged(const QVariant &data)
                 const char *key = prop.name();
                 if (user.contains(key)) {
                     if (QLatin1String("following") == key) {
-                        if (qobject_cast<AbstractFriendshipAction *>(sender())) {
-                            q->setProperty(key, !user.value(key).toBool());
+                        if (qobject_cast<CreateFriendship *>(sender())) {
+                            q->setProperty(key, true);
+                        } else if (qobject_cast<DestroyFriendship *>(sender())) {
+                                q->setProperty(key, false);
                         } else {
                             q->setProperty(key, user.value(key));
                         }
@@ -331,6 +273,23 @@ void User::Private::dataChanged(const QVariant &data)
 User::User(QObject *parent)
     : QObject(parent)
     , d(new Private(this))
+    , m_contributors_enabled(false)
+    , m_favourites_count(0)
+    , m_follow_request_sent(false)
+    , m_followers_count(0)
+    , m_following(false)
+    , m_friends_count(0)
+    , m_geo_enabled(false)
+    , m_is_translator(false)
+    , m_listed_count(0)
+    , m_notifications(false)
+    , m_profile_background_tile(false)
+    , m__protected(false)
+    , m_show_all_inline_media(false)
+    , m_statuses_count(0)
+    , m_utc_offset(0)
+    , m_verified(false)
+    , m_blocking(false)
 {
 }
 
@@ -359,7 +318,7 @@ void User::reportForSpam()
     d->reportForSpam();
 }
 
-bool User::loading() const
+bool User::isLoading() const
 {
     return d->loading;
 }

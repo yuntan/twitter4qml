@@ -42,6 +42,18 @@ public:
 protected:
     bool exec(AbstractTwitterAction *action);
     bool reload(AbstractTwitterModel *model);
+
+    template<typename T>
+    bool wait(T *t) {
+        QTime timer;
+        timer.start();
+        QTest::qWait(100);
+        while (t->isLoading()) {
+            if (timer.elapsed() > 1000 * 30) break;
+            QTest::qWait(100);
+        }
+        return !t->isLoading();
+    }
 };
 
 #endif // ABSTRACTTWITTER4QMLTEST_H

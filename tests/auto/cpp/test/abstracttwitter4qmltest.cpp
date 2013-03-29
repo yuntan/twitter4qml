@@ -46,25 +46,11 @@ AbstractTwitter4QMLTest::AbstractTwitter4QMLTest(QObject *parent)
 bool AbstractTwitter4QMLTest::exec(AbstractTwitterAction *action)
 {
     action->exec();
-
-    QTime timer;
-    timer.start();
-    while (action->isLoading()) {
-        if (timer.elapsed() > 1000 * 30) break;
-        QTest::qWait(100);
-    }
-    return !action->isLoading();
+    return wait(action);
 }
 
 bool AbstractTwitter4QMLTest::reload(AbstractTwitterModel *model)
 {
     model->reload();
-
-    QTime timer;
-    timer.start();
-    while (model->isLoading()) {
-        if (timer.elapsed() > 1000 * 30) break;
-        QTest::qWait(100);
-    }
-    return !model->isLoading();
+    return wait(model);
 }
