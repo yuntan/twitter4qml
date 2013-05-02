@@ -145,7 +145,7 @@ private:
     ADD_PROPERTY(const QString &, id_str, QString)
     ADD_PROPERTY(bool, is_translator, bool)
     ADD_PROPERTY(const QString &, lang, QString)
-    ADD_PROPERTY(int, listed_count, bool)
+    ADD_PROPERTY(int, listed_count, int)
     ADD_PROPERTY(const QString &, location, QString)
     ADD_PROPERTY(const QString &, name, QString)
     ADD_PROPERTY(bool, notifications, bool)
@@ -164,10 +164,10 @@ private:
     ADD_PROPERTY(const QString &, screen_name, QString)
     ADD_PROPERTY(bool, show_all_inline_media, bool)
     ADD_PROPERTY(const QVariantList &, status, QVariantList)
-    ADD_PROPERTY(int, statuses_count, bool)
+    ADD_PROPERTY(int, statuses_count, int)
     ADD_PROPERTY(const QString &, time_zone, QString)
     ADD_PROPERTY(const QString &, url, QString)
-    ADD_PROPERTY(int, utc_offset, bool)
+    ADD_PROPERTY(int, utc_offset, int)
     ADD_PROPERTY(bool, verified, bool)
 
 };
