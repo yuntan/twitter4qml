@@ -30,6 +30,7 @@
 #include <QtCore/QAbstractListModel>
 #include <QtCore/QStringList>
 #include <QtCore/QUrl>
+#include <QtCore/QDateTime>
 #if QT_VERSION >= 0x050000
 #include <QtQml/QQmlListProperty>
 #else
@@ -61,11 +62,15 @@ class TWITTER4QML_EXPORT AbstractTwitterModel : public QAbstractListModel
     Q_PROPERTY(bool streaming READ isStreaming NOTIFY streamingChanged DESIGNABLE false)
     Q_PROPERTY(QString sortKey READ sortKey WRITE setSortKey NOTIFY sortKeyChanged DESIGNABLE false)
     Q_PROPERTY(QString cacheKey READ cacheKey WRITE setCacheKey NOTIFY cacheKeyChanged DESIGNABLE false)
+    Q_PROPERTY(int xrlLimit READ xrlLimit NOTIFY xrlLimitChanged DESIGNABLE false)
+    Q_PROPERTY(int xrlRemaining READ xrlRemaining NOTIFY xrlRemainingChanged DESIGNABLE false)
+    Q_PROPERTY(QDateTime xrlReset READ xrlReset NOTIFY xrlResetChanged DESIGNABLE false)
 #if QT_VERSION >= 0x050000
     Q_PROPERTY(QQmlListProperty<QObject> childObjects READ childObjects DESIGNABLE false)
 #else
     Q_PROPERTY(QDeclarativeListProperty<QObject> childObjects READ childObjects DESIGNABLE false)
 #endif
+
     Q_ENUMS(PushOrder)
     Q_CLASSINFO("DefaultProperty", "childObjects")
     Q_DISABLE_COPY(AbstractTwitterModel)
@@ -92,6 +97,13 @@ public:
     void setSortKey(const QString &sortKey);
     const QString &cacheKey() const;
     void setCacheKey(const QString &cacheKey);
+
+    int xrlLimit() const;
+    void setXrlLimit(const int &xrlLimit);
+    int xrlRemaining() const;
+    void setXrlRemaining(const int &xrlRemaining);
+    const QDateTime &xrlReset() const;
+    void setXrlReset(const QDateTime &xrlReset);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
@@ -127,6 +139,11 @@ signals:
     void streamingChanged();
     void sortKeyChanged(const QString &sortKey);
     void cacheKeyChanged(const QString &cacheKey);
+
+    void xrlLimitChanged(int xrlLimit);
+    void xrlRemainingChanged(int xrlRemaining);
+    void xrlResetChanged(const QDateTime &xrlReset);
+    void rateLimitExceeded(int xrlLimit, int xrlRemaining, const QDateTime &xrlReset);
 
     void filtering(const QVariantMap &value);
 

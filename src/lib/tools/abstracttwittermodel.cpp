@@ -63,6 +63,10 @@ public:
     QTimer timer;
     bool filtering;
 
+    int xrlLimit;
+    int xrlRemaining;
+    QDateTime xrlReset;
+
 #if QT_VERSION >= 0x050000
     QHash<int, QByteArray> roleNames;
 #endif
@@ -87,7 +91,6 @@ private slots:
     void sortKeyChanged(const QString &sortKey);
     void cacheKeyChanged(const QString &cacheKey);
 
-
 private:
     AbstractTwitterModel *q;
     JSONParser parser;
@@ -97,6 +100,8 @@ private:
 
 AbstractTwitterModel::Private::Private(AbstractTwitterModel *parent)
     : QObject(parent)
+    , xrlLimit(0)
+    , xrlRemaining(0)
     , enabled(true)
     , isLoading(false)
     , pushOrder(PushNewerToOlder)
@@ -272,9 +277,31 @@ void AbstractTwitterModel::Private::finished()
     if (q->isStreaming()) {
         q->setLoading(false);
     } else {
+        if(reply->hasRawHeader("X-Rate-Limit-Limit")) {
+            q->setXrlLimit(reply->rawHeader("X-Rate-Limit-Limit").toInt());
+        }
+
+        if(reply->hasRawHeader("X-Rate-Limit-Remaining")) {
+            q->setXrlRemaining(reply->rawHeader("X-Rate-Limit-Remaining").toInt());
+        }
+
+        if(reply->hasRawHeader("X-Rate-Limit-Reset")) {
+            uint epochSec = reply->rawHeader("X-Rate-Limit-Reset").toUInt();
+            QDateTime dtEpochSec = QDateTime::fromTime_t(epochSec).toLocalTime();
+            q->setXrlReset(dtEpochSec);
+        }
+
         if (reply->error() == QNetworkReply::NoError) {
             parser.parse(buffer);
         } else {
+            int httpStatusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+            if (httpStatusCode == 429)
+            {
+                if (xrlRemaining == 0) {
+                    emit q->rateLimitExceeded(xrlLimit, xrlRemaining, xrlReset);
+                }
+            }
+
             q->setLoading(false);
         }
     }
@@ -564,6 +591,42 @@ void AbstractTwitterModel::setCacheKey(const QString &cacheKey)
     if (d->cacheKey == cacheKey) return;
     d->cacheKey = cacheKey;
     emit cacheKeyChanged(cacheKey);
+}
+
+int AbstractTwitterModel::xrlLimit() const
+{
+    return d->xrlLimit;
+}
+
+void AbstractTwitterModel::setXrlLimit(const int &xrlLimit)
+{
+    if (d->xrlLimit == xrlLimit) return;
+    d->xrlLimit = xrlLimit;
+    emit xrlLimitChanged(xrlLimit);
+}
+
+int AbstractTwitterModel::xrlRemaining() const
+{
+    return d->xrlRemaining;
+}
+
+void AbstractTwitterModel::setXrlRemaining(const int &xrlRemaining)
+{
+    if (d->xrlRemaining == xrlRemaining) return;
+    d->xrlRemaining = xrlRemaining;
+    emit xrlRemainingChanged(xrlRemaining);
+}
+
+const QDateTime &AbstractTwitterModel::xrlReset() const
+{
+    return d->xrlReset;
+}
+
+void AbstractTwitterModel::setXrlReset(const QDateTime &xrlReset)
+{
+    if (d->xrlReset == xrlReset) return;
+    d->xrlReset = xrlReset;
+    emit xrlResetChanged(xrlReset);
 }
 
 void AbstractTwitterModel::reload()
