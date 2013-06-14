@@ -121,7 +121,7 @@ QNetworkReply *OAuthManager::Private::request(const QString &method, const QUrl 
     requestParams["oauth_nonce"] = nonce.toUtf8();
     requestParams["oauth_timestamp"] = timestamp.toUtf8();
 //    DEBUG() << url.host();
-    if (url.host() == "upload.twitter.com") {
+    if (url.path().endsWith("update_with_media.json", Qt::CaseInsensitive)) {
         requestParams["oauth_signature"] =  signature(method,
                                                       url,
                                                       normalize(signatureParams(QMultiMap<QString, QByteArray>())));

@@ -59,7 +59,7 @@ signals:
 //    void include_entitiesChanged(bool include_entities);
 
 protected:
-    QUrl api() const { return QUrl("https://upload.twitter.com/1/statuses/update_with_media.json"); }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/statuses/update_with_media.json"); }
     AuthorizeBy authenticationMethod() const { return AuthorizeByHeader; }
     bool isMultiPart() const { return true; }
 
