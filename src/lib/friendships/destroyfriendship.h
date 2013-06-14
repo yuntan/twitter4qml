@@ -29,7 +29,7 @@
 
 #include "abstractfriendshipaction.h"
 
-class DestroyFriendship : public AbstractFriendshipAction
+class TWITTER4QML_EXPORT DestroyFriendship : public AbstractFriendshipAction
 {
     Q_OBJECT
     Q_DISABLE_COPY(DestroyFriendship)

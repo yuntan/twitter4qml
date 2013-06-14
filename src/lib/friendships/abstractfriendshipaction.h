@@ -29,7 +29,7 @@
 
 #include "abstracttwitteraction.h"
 
-class AbstractFriendshipAction : public AbstractTwitterAction
+class TWITTER4QML_EXPORT AbstractFriendshipAction : public AbstractTwitterAction
 {
     Q_OBJECT
     Q_PROPERTY(QString screen_name READ screen_name WRITE screen_name NOTIFY screen_nameChanged)

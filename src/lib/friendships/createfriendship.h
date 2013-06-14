@@ -29,7 +29,7 @@
 
 #include "abstractfriendshipaction.h"
 
-class CreateFriendship : public AbstractFriendshipAction
+class TWITTER4QML_EXPORT CreateFriendship : public AbstractFriendshipAction
 {
     Q_OBJECT
     Q_PROPERTY(bool follow READ follow WRITE follow NOTIFY followChanged)
