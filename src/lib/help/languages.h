@@ -42,7 +42,7 @@ public:
     explicit Languages(QObject *parent = 0);
 
 protected:
-    AuthorizeBy authenticationMethod() const { return AuthorizeByUrl; }
+    virtual AuthorizeBy authenticationMethod() const { return AuthorizeByHeader; }
     QString httpMethod() const { return "GET"; }
     QUrl api() const { return QUrl("https://api.twitter.com/1.1/help/languages.json"); }
     void parseDone(const QVariant &result);

@@ -71,7 +71,7 @@ private:
     QByteArray normalize(const QMultiMap<QString, QByteArray> &param) const;
     QByteArray signature(const QString &method, const QUrl &url, const QByteArray &params) const;
     QMultiMap<QString, QByteArray> signatureParams(const QMultiMap<QString, QByteArray> &params) const;
-    QByteArray authHeader(const QMultiMap<QString, QByteArray> &params, const QUrl &realm = QUrl()) const;
+    QByteArray authHeader(const QMultiMap<QString, QByteArray> &params = QMultiMap<QString, QByteArray>(), const QUrl &realm = QUrl()) const;
     void getTokenCredential();
 };
 
@@ -135,7 +135,7 @@ QNetworkReply *OAuthManager::Private::request(const QString &method, const QUrl 
         case AuthorizeByHeader:
             DEBUG() << url;
             if (multiPart) {
-                request.setRawHeader("Authorization", authHeader(QMultiMap<QString, QByteArray>()));
+                request.setRawHeader("Authorization", authHeader());
                 request.setUrl(url);
                 QString boundary = QString("--------------------") + nonce;
                 QByteArray body;
@@ -179,9 +179,10 @@ QNetworkReply *OAuthManager::Private::request(const QString &method, const QUrl 
 
                 ret = q->networkAccessManager()->post(request, body);
             } else {
-                request.setRawHeader("Authorization", authHeader(params));
+                request.setHeader(QNetworkRequest::ContentTypeHeader, QLatin1String("application/x-www-form-urlencoded"));
+                request.setRawHeader("Authorization", authHeader());
                 request.setUrl(url);
-                ret = q->networkAccessManager()->post(request, normalize(QMultiMap<QString, QByteArray>()));
+                ret = q->networkAccessManager()->post(request, normalize(params));
             }
             break;
         case AuthorizeByBody: {
@@ -238,11 +239,30 @@ QNetworkReply *OAuthManager::Private::request(const QString &method, const QUrl 
 
     } else if (method == "GET") {
         switch (authorizeBy) {
-        case AuthorizeByHeader:
-            request.setRawHeader("Authorization", authHeader(params));
-            request.setUrl(url);
+        case AuthorizeByHeader: {
+            request.setRawHeader("Authorization", authHeader());
+            QUrl qurl(url);
+#if QT_VERSION >= 0x050000
+            QUrlQuery query;
+#endif
+            QList<QString> keys = params.keys();
+            foreach(const QString &key, keys) {
+                QList<QByteArray> vals = params.values(key);
+                foreach(const QByteArray &val, vals) {
+#if QT_VERSION >= 0x050000
+                    query.addQueryItem(key, val);
+#else
+                    qurl.addEncodedQueryItem(parameterEncoding(key), val.toPercentEncoding());
+#endif
+                }
+            }
+#if QT_VERSION >= 0x050000
+            qurl.setQuery(query);
+#endif
+            request.setUrl(qurl);
+            DEBUG() << request.url();
             ret = q->networkAccessManager()->get(request);
-            break;
+            break; }
         case AuthorizeByBody:
             qWarning() << "GET doesn't support AuthorizeByBody.";
             break;

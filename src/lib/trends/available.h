@@ -46,7 +46,7 @@ public:
     explicit Available(QObject *parent = 0);
 
 protected:
-    AuthorizeBy authenticationMethod() const { return AuthorizeByUrl; }
+    virtual AuthorizeBy authenticationMethod() const { return AuthorizeByHeader; }
     QString httpMethod() const { return "GET"; }
     QUrl api() const { return QUrl("https://api.twitter.com/1.1/trends/available.json"); }
     void parseDone(const QVariant &result);

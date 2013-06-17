@@ -44,6 +44,9 @@ signals:
     void followChanged(bool follow);
 //    void include_entitiesChanged(bool include_entities);
 
+protected:
+    virtual AuthorizeBy authenticationMethod() const { return AuthorizeByHeader; }
+
 private:
     ADD_PROPERTY(const QString &, screen_name, QString)
     ADD_PROPERTY(const QString &, user_id, QString)

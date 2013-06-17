@@ -124,6 +124,7 @@ signals:
     void dataChanged();
 
 protected:
+    virtual AuthorizeBy authenticationMethod() const { return AuthorizeByHeader; }
     QUrl api() const { return QUrl("https://api.twitter.com/1.1/account/verify_credentials.json"); }
     QString httpMethod() const { return "GET"; }
 

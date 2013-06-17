@@ -41,8 +41,8 @@ signals:
     void tosChanged(const QString &tos);
 
 protected:
+    virtual AuthorizeBy authenticationMethod() const { return AuthorizeByHeader; }
     QUrl api() const { return QUrl("https://api.twitter.com/1.1/help/tos.json"); }
-    virtual AuthorizeBy authenticationMethod() const { return AuthorizeByUrl; }
     QString httpMethod() const { return "GET"; }
 
 private:

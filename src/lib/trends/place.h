@@ -53,7 +53,7 @@ signals:
     void excludeChanged(bool exclude);
 
 protected:
-    AuthorizeBy authenticationMethod() const { return AuthorizeByUrl; }
+    virtual AuthorizeBy authenticationMethod() const { return AuthorizeByHeader; }
     QString httpMethod() const { return "GET"; }
     QUrl api() const { return QUrl("https://api.twitter.com/1.1/trends/place.json"); }
     void parseDone(const QVariant &result);

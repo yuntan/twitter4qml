@@ -56,6 +56,7 @@ signals:
 //    void include_entitiesChanged(bool include_entities);
 
 protected:
+    virtual AuthorizeBy authenticationMethod() const { return AuthorizeByHeader; }
     QUrl api() const { return QUrl("https://api.twitter.com/1.1/statuses/update.json"); }
 
     ADD_PROPERTY(const QString &, status, QString)

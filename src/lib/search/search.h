@@ -68,7 +68,7 @@ signals:
     void search_metadataChanged(const QVariantMap &search_metadata);
 
 protected:
-    AuthorizeBy authenticationMethod() const { return AuthorizeByUrl; }
+    AuthorizeBy authenticationMethod() const { return AuthorizeByHeader; }
     QUrl api() const { return QUrl("https://api.twitter.com/1.1/search/tweets.json"); }
     void parseDone(const QVariant &result);
     void dataAdded(const QString &key, const QVariantMap &value);

@@ -43,6 +43,7 @@ signals:
     void langChanged(const QString &lang);
 
 protected:
+    virtual AuthorizeBy authenticationMethod() const { return AuthorizeByHeader; }
     QUrl api() const { return QUrl(QString("https://api.twitter.com/1.1/users/suggestions/%1.json").arg(slug())); }
     void parseDone(const QVariant &result);
 
