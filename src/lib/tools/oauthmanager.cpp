@@ -133,7 +133,6 @@ QNetworkReply *OAuthManager::Private::request(const QString &method, const QUrl 
     if (method == "POST") {
         switch (authorizeBy) {
         case AuthorizeByHeader:
-            DEBUG() << url;
             if (multiPart) {
                 request.setRawHeader("Authorization", authHeader());
                 request.setUrl(url);
