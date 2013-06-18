@@ -1,6 +1,6 @@
 /* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
  *     * Neither the name of the Twitter4QML nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,44 +24,52 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef SAVEDSEARCHES_H
-#define SAVEDSEARCHES_H
+import QtTest 1.0
+import TwitterAPI 1.1
 
-#include "abstracttwittermodel.h"
+TestCase {
+    id: root
 
-class TWITTER4QML_EXPORT SavedSearches : public AbstractTwitterModel
-{
-    Q_OBJECT
-public:
-    enum Roles {
-        created_at_role = Qt::UserRole + 1
-        , id_role
-        , id_str_role
-        , name_role
-        , position_role
-        , query_role
-    };
-    explicit SavedSearches(QObject *parent = 0);
+    OAuth {
+        consumer_key: 'K6eWjgzGz1qE4oOOBYkdMg'
+        consumer_secret: 't4ku8EEo8Sw7ywZ26vAxuQuH7sH0CQYH4DvhizEX4'
+        token: '798286350-Za9khIT9UFYdNKMwjuha1zyrbeiVInr2p8iLtetk'
+        token_secret: 'xfGg5t21TmJQdxxOpD4KYaxjRUZgIf8KIV33Z9s'
+        user_id: '798286350'
+        screen_name: 'twit_ter4qml'
+    }
 
-    Q_INVOKABLE void createSavedSearch(QVariantMap parameters);
-    Q_INVOKABLE void destroySavedSearch(QVariantMap parameters);
+    SavedSearchesModel {
+        id: model
+    }
 
-    bool isLoading() const;
-    DataManager::DataType dataType() const { return DataManager::SavedSearchData; }
+    function initTestCase() {
+        tryCompare(model, 'loading', true)
+        tryCompare(model, 'loading', false, 10000)
 
-protected:
-    virtual AuthorizeBy authenticationMethod() const { return AuthorizeByHeader; }
-    QUrl api() const { return QUrl("https://api.twitter.com/1.1/saved_searches/list.json"); }
-    QString httpMethod() const { return "GET"; }
-    void parseDone(const QVariant &result);
+        for (var i = 0; i < model.size; i++) {
+            model.destroySavedSearch({id: model.get(i).id} )
+            tryCompare(model, 'loading', true)
+        }
+        tryCompare(model, 'loading', false, 10000)
+        tryCompare(model.size, 0)
+    }
 
-    void dataAdded(const QString &key, const QVariantMap &value);
-    void dataAboutToBeRemoved(const QString &key, const QVariantMap &value);
+    function init() {
+        model.reset()
+    }
 
-private:
-    Q_DISABLE_COPY(SavedSearches)
-    class Private;
-    Private *d;
-};
+    function test_create_and_destroy() {
+        model.reload()
 
-#endif // SAVEDSEARCHES_H
+        model.createSavedSearch({query: '#twitter4qml'})
+        tryCompare(model, 'loading', true)
+        tryCompare(model, 'loading', false, 10000)
+        tryCompare(model.size, 1)
+
+        model.destroySavedSearch({id: model.get(0).id} )
+        tryCompare(model, 'loading', true)
+        tryCompare(model, 'loading', false, 10000)
+        tryCompare(model.size, 0)
+    }
+}

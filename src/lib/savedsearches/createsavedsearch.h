@@ -41,6 +41,7 @@ signals:
     void queryChanged(const QString &query);
 
 protected:
+    virtual AuthorizeBy authenticationMethod() const { return AuthorizeByHeader; }
     QUrl api() const { return QUrl("https://api.twitter.com/1.1/saved_searches/create.json"); }
 
 private:

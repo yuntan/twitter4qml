@@ -56,7 +56,6 @@ SavedSearches::Private::Private(SavedSearches *parent)
 
 void SavedSearches::Private::create(const QVariantMap &parameters)
 {
-    DEBUG() << parameters;
     CreateSavedSearch *action = new CreateSavedSearch(this);
     action->query(parameters.value("query").toString());
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
@@ -70,7 +69,6 @@ void SavedSearches::Private::create(const QVariantMap &parameters)
 
 void SavedSearches::Private::destroy(const QVariantMap &parameters)
 {
-    DEBUG() << parameters;
     DestroySavedSearch *action = new DestroySavedSearch(this);
     action->id(parameters.value("id").toString());
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));

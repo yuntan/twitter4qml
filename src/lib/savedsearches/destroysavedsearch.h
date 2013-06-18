@@ -41,6 +41,7 @@ signals:
     void idChanged(const QString &id);
 
 protected:
+    virtual AuthorizeBy authenticationMethod() const { return AuthorizeByHeader; }
     QUrl api() const { return QUrl(QString("https://api.twitter.com/1.1/saved_searches/destroy/%1.json").arg(id())); }
 
 private:
