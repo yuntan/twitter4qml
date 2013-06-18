@@ -245,6 +245,7 @@ void AbstractTwitterModel::Private::reset()
     stack.clear();
     q->beginRemoveRows(QModelIndex(), 0, ids.count());
     ids.clear();
+    ids.append("0");
     q->endRemoveRows();
 }
 

@@ -1,2 +1,2 @@
 TEMPLATE = subdirs
-SUBDIRS = cpp pri
+SUBDIRS = cpp qml pri
