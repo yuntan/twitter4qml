@@ -81,11 +81,7 @@ private:
     ADD_PROPERTY(const QString &, lang, QString)
     ADD_PROPERTY(const QString &, locale, QString)
     ADD_PROPERTY(const QString &, result_type, QString)
-    ADD_PROPERTY(int, count, int)
     ADD_PROPERTY(const QString &, until, QString)
-    ADD_PROPERTY(const QString &, since_id, QString)
-    ADD_PROPERTY(const QString &, max_id, QString)
-    ADD_PROPERTY(bool, include_entities, bool)
 
     ADD_PROPERTY(const QVariantMap &, search_metadata, QVariantMap)
 };

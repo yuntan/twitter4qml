@@ -44,4 +44,5 @@ greaterThan(QT_MAJOR_VERSION, 4) {
 }
 
 OTHER_FILES += statuses/tst_hometimeline.qml \
-    savedsearches/tst_savedsearches.qml
+    savedsearches/tst_savedsearches.qml \
+    search/tst_search.qml

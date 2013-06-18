@@ -33,8 +33,6 @@
 Search::Search(QObject *parent)
     : AbstractStatusesModel(parent)
     , m_result_type("mixed")
-    , m_count(0)
-    , m_include_entities(true)
 {
 }
 
