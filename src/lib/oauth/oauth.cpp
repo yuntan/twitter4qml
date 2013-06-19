@@ -83,8 +83,6 @@ void OAuth::Private::updateStatus()
     if (state == Unauthorized
             && !OAuthManager::instance().token().isEmpty()
             && !OAuthManager::instance().tokenSecret().isEmpty()
-            && !OAuthManager::instance().user_id().isEmpty()
-            && !OAuthManager::instance().screen_name().isEmpty()
             ) {
         setState(Authorized);
     }
