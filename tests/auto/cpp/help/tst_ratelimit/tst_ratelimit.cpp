@@ -47,7 +47,7 @@ void tst_ratelimit::run()
     QVERIFY2(timeline.xrlRemaining() > 0, "AbstractTwitterModel::xrlRemaining()");
     //RateLimitReset of hometimeline is always within 15min(900sec).
     qDebug() << timeline.xrlReset() << QDateTime::currentDateTime().secsTo(timeline.xrlReset());
-    QVERIFY2(QDateTime::currentDateTime().secsTo(timeline.xrlReset()) < 60 * 15, "AbstractTwitterModel::xrlReset()");
+    QVERIFY2(QDateTime::currentDateTime().secsTo(timeline.xrlReset()) <= 60 * 15, "AbstractTwitterModel::xrlReset()");
 }
 
 QTEST_MAIN(tst_ratelimit)
