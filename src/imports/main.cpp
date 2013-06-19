@@ -49,6 +49,7 @@
 // Streaming
 #include <userstream.h>
 #include <filterstream.h>
+#include <samplestream.h>
 
 // Direct Messages
 #include <directmessages.h>
@@ -154,6 +155,7 @@ public:
         // Streaming
         qmlRegisterType<UserStream>(uri, major, minor, "UserStreamModel");
         qmlRegisterType<FilterStream>(uri, major, minor, "FilterStreamModel");
+        qmlRegisterType<SampleStream>(uri, major, minor, "SampleStreamModel");
 
         // Direct Messages
         qmlRegisterType<DirectMessages>(uri, major, minor, "DirectMessagesModel");

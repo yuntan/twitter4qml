@@ -34,11 +34,13 @@ SOURCES += \
 # Streaming
 PUBLIC_HEADERS += \
     $$PWD/filterstream.h \
-    $$PWD/userstream.h
+    $$PWD/userstream.h \
+    $$PWD/samplestream.h
 
 SOURCES += \
     $$PWD/filterstream.cpp \
-    $$PWD/userstream.cpp
+    $$PWD/userstream.cpp \
+    $$PWD/samplestream.cpp
 
 # Secret APIs
 PUBLIC_HEADERS += \
