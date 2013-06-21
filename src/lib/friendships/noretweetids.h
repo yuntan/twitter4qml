@@ -40,7 +40,7 @@ signals:
     void stringify_idsChanged(bool stringify_ids);
 
 protected:
-    QUrl api() const { return QUrl("https://api.twitter.com/1.1/friendships/no_retweet_ids.json"); }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/friendships/no_retweet/ids.json"); }
     AuthorizeBy authenticationMethod() const { return AuthorizeByUrl; }
     void parseDone(const QVariant &result);
 
