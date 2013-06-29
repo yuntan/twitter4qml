@@ -24,12 +24,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FOLLOWERIDS_H
-#define FOLLOWERIDS_H
+#ifndef FRIENDSIDS_H
+#define FRIENDSIDS_H
 
-#include "abstractfriendshipidsmodel.h"
+#include "abstractfriendshipsidsmodel.h"
 
-class TWITTER4QML_EXPORT FollowerIds : public AbstractFriendshipIdsModel
+class TWITTER4QML_EXPORT FriendsIds : public AbstractFriendshipsIdsModel
 {
     Q_OBJECT
     Q_PROPERTY(QString user_id READ user_id WRITE user_id NOTIFY user_idChanged)
@@ -38,7 +38,7 @@ class TWITTER4QML_EXPORT FollowerIds : public AbstractFriendshipIdsModel
     Q_PROPERTY(bool stringify_ids READ stringify_ids WRITE stringify_ids NOTIFY stringify_idsChanged)
     Q_PROPERTY(int count READ count WRITE count NOTIFY countChanged)
 public:
-    explicit FollowerIds(QObject *parent = 0);
+    explicit FriendsIds(QObject *parent = 0);
 
 signals:
     void user_idChanged(const QString &user_id);
@@ -48,7 +48,7 @@ signals:
     void countChanged(int count);
 
 protected:
-    QUrl api() const { return QUrl("https://api.twitter.com/1.1/followers/ids.json"); }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/friends/ids.json"); }
 };
 
-#endif // FOLLOWERIDS_H
+#endif // FRIENDSIDS_H

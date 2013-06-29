@@ -24,9 +24,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "followerids.h"
+#include "friendsids.h"
 
-FollowerIds::FollowerIds(QObject *parent)
-    : AbstractFriendshipIdsModel(parent)
+FriendsIds::FriendsIds(QObject *parent)
+    : AbstractFriendshipsIdsModel(parent)
 {
 }
+

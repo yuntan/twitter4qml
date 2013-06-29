@@ -24,12 +24,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "updatefriendship.h"
+#include "abstractfriendshipsaction.h"
 
-UpdateFriendship::UpdateFriendship(QVariantMap parameters, QObject *parent)
+AbstractFriendshipsAction::AbstractFriendshipsAction(QObject *parent)
     : AbstractTwitterAction(parent)
-    , m_device(false)
-    , m_retweets(true)
+    , m_follow(true)
+//    , m_include_entities(true)
 {
-    setParameters(parameters);
 }

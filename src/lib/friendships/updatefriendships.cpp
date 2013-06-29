@@ -24,34 +24,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef ABSTRACTFRIENDSHIPACTION_H
-#define ABSTRACTFRIENDSHIPACTION_H
+#include "updatefriendships.h"
 
-#include "abstracttwitteraction.h"
-
-class TWITTER4QML_EXPORT AbstractFriendshipAction : public AbstractTwitterAction
+UpdateFriendships::UpdateFriendships(QVariantMap parameters, QObject *parent)
+    : AbstractTwitterAction(parent)
+    , m_device(false)
+    , m_retweets(true)
 {
-    Q_OBJECT
-    Q_PROPERTY(QString screen_name READ screen_name WRITE screen_name NOTIFY screen_nameChanged)
-    Q_PROPERTY(QString user_id READ user_id WRITE user_id NOTIFY user_idChanged)
-    Q_DISABLE_COPY(AbstractFriendshipAction)
-public:
-    explicit AbstractFriendshipAction(QObject *parent = 0);
-
-signals:
-    void screen_nameChanged(const QString &screen_name);
-    void user_idChanged(const QString &user_id);
-    void followChanged(bool follow);
-//    void include_entitiesChanged(bool include_entities);
-
-protected:
-    virtual AuthorizeBy authenticationMethod() const { return AuthorizeByHeader; }
-
-private:
-    ADD_PROPERTY(const QString &, screen_name, QString)
-    ADD_PROPERTY(const QString &, user_id, QString)
-    ADD_PROPERTY(bool, follow, bool)
-//    ADD_PROPERTY(bool, include_entities, bool)
-};
-
-#endif // ABSTRACTFRIENDSHIPACTION_H
+    setParameters(parameters);
+}

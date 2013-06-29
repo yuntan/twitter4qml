@@ -27,9 +27,9 @@
 #ifndef OUTGOING_H
 #define OUTGOING_H
 
-#include "abstractfriendshipidsmodel.h"
+#include "abstractfriendshipsidsmodel.h"
 
-class TWITTER4QML_EXPORT Outgoing : public AbstractFriendshipIdsModel
+class TWITTER4QML_EXPORT Outgoing : public AbstractFriendshipsIdsModel
 {
     Q_OBJECT
     Q_PROPERTY(QString cursor READ cursor WRITE cursor NOTIFY cursorChanged)

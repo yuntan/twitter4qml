@@ -24,15 +24,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "noretweetids.h"
+#include "createfriendships.h"
 
-NoRetweetIds::NoRetweetIds(QObject *parent)
-    : AbstractIdsModel(parent)
+CreateFriendships::CreateFriendships(QObject *parent)
+    : AbstractFriendshipsAction(parent)
 {
-}
-
-void NoRetweetIds::parseDone(const QVariant &result)
-{
-//    DEBUG() << result;
-    AbstractIdsModel::parseDone(result);
 }

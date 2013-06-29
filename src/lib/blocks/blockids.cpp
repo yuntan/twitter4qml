@@ -27,6 +27,6 @@
 #include "blockids.h"
 
 BlockIds::BlockIds(QObject *parent)
-    : AbstractFriendshipIdsModel(parent)
+    : AbstractFriendshipsIdsModel(parent)
 {
 }

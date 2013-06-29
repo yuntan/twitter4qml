@@ -24,24 +24,28 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CREATEFRIENDSHIP_H
-#define CREATEFRIENDSHIP_H
+#ifndef NORETWEETSIDS_H
+#define NORETWEETSIDS_H
 
-#include "abstractfriendshipaction.h"
+#include "abstractidsmodel.h"
 
-class TWITTER4QML_EXPORT CreateFriendship : public AbstractFriendshipAction
+class TWITTER4QML_EXPORT NoRetweetsIds : public AbstractIdsModel
 {
     Q_OBJECT
-    Q_PROPERTY(bool follow READ follow WRITE follow NOTIFY followChanged)
-    Q_DISABLE_COPY(CreateFriendship)
+    Q_PROPERTY(bool stringify_ids READ stringify_ids WRITE stringify_ids NOTIFY stringify_idsChanged)
 public:
-    explicit CreateFriendship(QObject *parent = 0);
+    explicit NoRetweetsIds(QObject *parent = 0);
 
 signals:
-    void followChanged(bool follow);
+    void stringify_idsChanged(bool stringify_ids);
 
 protected:
-    QUrl api() const { return QUrl("https://api.twitter.com/1.1/friendships/create.json"); }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/friendships/no_retweets/ids.json"); }
+    AuthorizeBy authenticationMethod() const { return AuthorizeByUrl; }
+    void parseDone(const QVariant &result);
+
+private:
+    Q_DISABLE_COPY(NoRetweetsIds)
 };
 
-#endif // CREATEFRIENDSHIP_H
+#endif // NORETWEETSIDS_H

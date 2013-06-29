@@ -57,9 +57,9 @@
 #include <directmessage.h>
 
 // Friends & Followers
-#include <noretweetids.h>
-#include <followerids.h>
-#include <friendids.h>
+#include <noretweetsids.h>
+#include <followersids.h>
+#include <friendsids.h>
 #include <incoming.h>
 #include <outgoing.h>
 #include <followers.h>
@@ -163,9 +163,9 @@ public:
         qmlRegisterType<DirectMessage>(uri, major, minor, "DirectMessage");
 
         // Friends & Followers
-        qmlRegisterType<NoRetweetIds>(uri, major, minor, "NoRetweetIdsModel");
-        qmlRegisterType<FriendIds>(uri, major, minor, "FriendIdsModel");
-        qmlRegisterType<FollowerIds>(uri, major, minor, "FollowerIdsModel");
+        qmlRegisterType<NoRetweetsIds>(uri, major, minor, "NoRetweetsIdsModel");
+        qmlRegisterType<FriendsIds>(uri, major, minor, "FriendsIdsModel");
+        qmlRegisterType<FollowersIds>(uri, major, minor, "FollowersIdsModel");
         qmlRegisterType<Incoming>(uri, major, minor, "IncomingModel");
         qmlRegisterType<Outgoing>(uri, major, minor, "OutgoingModel");
         qmlRegisterType<ShowFriendships>(uri, major, minor, "ShowFriendships");

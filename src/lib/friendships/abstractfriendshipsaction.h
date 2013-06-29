@@ -24,27 +24,34 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef BLOCKIDS_H
-#define BLOCKIDS_H
+#ifndef ABSTRACTFRIENDSHIPSACTION_H
+#define ABSTRACTFRIENDSHIPSACTION_H
 
-#include "abstractfriendshipsidsmodel.h"
+#include "abstracttwitteraction.h"
 
-class TWITTER4QML_EXPORT BlockIds : public AbstractFriendshipsIdsModel
+class TWITTER4QML_EXPORT AbstractFriendshipsAction : public AbstractTwitterAction
 {
     Q_OBJECT
-    Q_PROPERTY(bool stringify_ids READ stringify_ids WRITE stringify_ids NOTIFY stringify_idsChanged)
-    Q_PROPERTY(QString cursor READ cursor WRITE cursor NOTIFY cursorChanged)
-    Q_DISABLE_COPY(BlockIds)
+    Q_PROPERTY(QString screen_name READ screen_name WRITE screen_name NOTIFY screen_nameChanged)
+    Q_PROPERTY(QString user_id READ user_id WRITE user_id NOTIFY user_idChanged)
+    Q_DISABLE_COPY(AbstractFriendshipsAction)
 public:
-    explicit BlockIds(QObject *parent = 0);
+    explicit AbstractFriendshipsAction(QObject *parent = 0);
 
 signals:
-    void stringify_idsChanged(bool stringify_ids);
-    void cursorChanged(const QString &cursor);
+    void screen_nameChanged(const QString &screen_name);
+    void user_idChanged(const QString &user_id);
+    void followChanged(bool follow);
+//    void include_entitiesChanged(bool include_entities);
 
 protected:
-    QUrl api() const { return QUrl("https://api.twitter.com/1.1/blocks/ids.json"); }
-    AuthorizeBy authenticationMethod() const { return AuthorizeByUrl; }
+    virtual AuthorizeBy authenticationMethod() const { return AuthorizeByHeader; }
+
+private:
+    ADD_PROPERTY(const QString &, screen_name, QString)
+    ADD_PROPERTY(const QString &, user_id, QString)
+    ADD_PROPERTY(bool, follow, bool)
+//    ADD_PROPERTY(bool, include_entities, bool)
 };
 
-#endif // BLOCKIDS_H
+#endif // ABSTRACTFRIENDSHIPSACTION_H

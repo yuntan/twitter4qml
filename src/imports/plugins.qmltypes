@@ -32,7 +32,7 @@ Module {
         }
     }
     Component {
-        name: "AbstractFriendshipIdsModel"
+        name: "AbstractFriendshipsIdsModel"
         defaultProperty: "childObjects"
         prototype: "AbstractTwitterModel"
         Property { name: "next_cursor"; type: "int"; isReadonly: true }
@@ -635,10 +635,10 @@ Module {
         Method { name: "reload" }
     }
     Component {
-        name: "FollowerIds"
+        name: "FollowersIds"
         defaultProperty: "childObjects"
-        prototype: "AbstractFriendshipIdsModel"
-        exports: ["FollowerIdsModel 1.1"]
+        prototype: "AbstractFriendshipsIdsModel"
+        exports: ["FollowersIdsModel 1.1"]
         Property { name: "user_id"; type: "string" }
         Property { name: "screen_name"; type: "string" }
         Property { name: "cursor"; type: "string" }
@@ -718,10 +718,10 @@ Module {
         Method { name: "reload" }
     }
     Component {
-        name: "FriendIds"
+        name: "FriendsIds"
         defaultProperty: "childObjects"
-        prototype: "AbstractFriendshipIdsModel"
-        exports: ["FriendIdsModel 1.1"]
+        prototype: "AbstractFriendshipsIdsModel"
+        exports: ["FriendsIdsModel 1.1"]
         Property { name: "user_id"; type: "string" }
         Property { name: "screen_name"; type: "string" }
         Property { name: "cursor"; type: "string" }
@@ -895,7 +895,7 @@ Module {
     Component {
         name: "Incoming"
         defaultProperty: "childObjects"
-        prototype: "AbstractFriendshipIdsModel"
+        prototype: "AbstractFriendshipsIdsModel"
         exports: ["IncomingModel 1.1"]
         Property { name: "cursor"; type: "string" }
         Property { name: "stringify_ids"; type: "bool" }
@@ -1325,10 +1325,10 @@ Module {
         }
     }
     Component {
-        name: "NoRetweetIds"
+        name: "NoRetweetsIds"
         defaultProperty: "childObjects"
         prototype: "AbstractIdsModel"
-        exports: ["NoRetweetIdsModel 1.1"]
+        exports: ["NoRetweetsIdsModel 1.1"]
         Property { name: "stringify_ids"; type: "bool" }
         Signal {
             name: "stringify_idsChanged"
@@ -1400,7 +1400,7 @@ Module {
     Component {
         name: "Outgoing"
         defaultProperty: "childObjects"
-        prototype: "AbstractFriendshipIdsModel"
+        prototype: "AbstractFriendshipsIdsModel"
         exports: ["OutgoingModel 1.1"]
         Property { name: "cursor"; type: "string" }
         Property { name: "stringify_ids"; type: "bool" }

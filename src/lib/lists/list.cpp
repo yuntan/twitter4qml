@@ -203,7 +203,7 @@ void List::Private::dataChanged(const QVariant &data)
             const char *key = prop.name();
             if (list.contains(key)) {
                 if (QLatin1String("following") == key) {
-//                    if (qobject_cast<AbstractFriendshipAction *>(sender())) {
+//                    if (qobject_cast<AbstractFriendshipsAction *>(sender())) {
 //                        q->setProperty(key, !list.value(key).toBool());
 //                    } else {
                         q->setProperty(key, list.value(key));

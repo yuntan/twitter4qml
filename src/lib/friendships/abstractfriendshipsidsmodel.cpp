@@ -24,17 +24,17 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "abstractfriendshipidsmodel.h"
+#include "abstractfriendshipsidsmodel.h"
 
 #include <QtCore/QTimer>
 
-class AbstractFriendshipIdsModel::Private
+class AbstractFriendshipsIdsModel::Private
 {
 public:
     QTimer timer;
 };
 
-AbstractFriendshipIdsModel::AbstractFriendshipIdsModel(QObject *parent)
+AbstractFriendshipsIdsModel::AbstractFriendshipsIdsModel(QObject *parent)
     : AbstractTwitterModel(parent)
     , d(new Private)
     , m_stringify_ids(true)
@@ -55,18 +55,18 @@ AbstractFriendshipIdsModel::AbstractFriendshipIdsModel(QObject *parent)
     connect(this, SIGNAL(screen_nameChanged(QString)), &d->timer, SLOT(start()));
 }
 
-AbstractFriendshipIdsModel::~AbstractFriendshipIdsModel()
+AbstractFriendshipsIdsModel::~AbstractFriendshipsIdsModel()
 {
     delete d;
 }
 
-void AbstractFriendshipIdsModel::reload() {
+void AbstractFriendshipsIdsModel::reload() {
     if (!user_id().isEmpty() || !screen_name().isEmpty()) {
         AbstractTwitterModel::reload();
     }
 }
 
-void AbstractFriendshipIdsModel::parseDone(const QVariant &data)
+void AbstractFriendshipsIdsModel::parseDone(const QVariant &data)
 {
 //    DEBUG() << data;
     if (data.type() == QVariant::Map) {
