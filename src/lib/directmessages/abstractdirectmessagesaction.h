@@ -24,9 +24,35 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "destroydirectmessage.h"
+#ifndef ABSTRACTDIRECTMESSAGESACTION_H
+#define ABSTRACTDIRECTMESSAGESACTION_H
 
-DestroyDirectMessage::DestroyDirectMessage(QObject *parent )
-    : AbstractDirectMessageAction(parent)
+#include "abstracttwitteraction.h"
+
+class AbstractDirectMessagesAction : public AbstractTwitterAction
 {
-}
+    Q_OBJECT
+    Q_DISABLE_COPY(AbstractDirectMessagesAction)
+public:
+    explicit AbstractDirectMessagesAction(QObject *parent = 0);
+
+signals:
+    void user_idChanged(const QString &user_id);
+    void screen_nameChanged(const QString &screen_name);
+    void textChanged(const QString &text);
+    void idChanged(const QString &id);
+    void include_entitiesChanged(bool include_entities);
+
+protected:
+    AuthorizeBy authenticationMethod() const { return AuthorizeByUrl; }
+    QString httpMethod() const { return "POST"; }
+
+private:
+    ADD_PROPERTY(const QString &, user_id, QString)
+    ADD_PROPERTY(const QString &, screen_name, QString)
+    ADD_PROPERTY(const QString &, text, QString)
+    ADD_PROPERTY(const QString &, id, QString)
+    ADD_PROPERTY(bool, include_entities, bool)
+};
+
+#endif // ABSTRACTDIRECTMESSAGESACTION_H

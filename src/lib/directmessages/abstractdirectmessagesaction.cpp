@@ -24,27 +24,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "showdirectmessage.h"
-#include "datamanager.h"
-#include "twitter4qml_global.h"
+#include "abstractdirectmessagesaction.h"
 
-ShowDirectMessage::ShowDirectMessage(QObject *parent)
-    : AbstractDirectMessageAction(parent)
+AbstractDirectMessagesAction::AbstractDirectMessagesAction(QObject *parent)
+    : AbstractTwitterAction(parent)
+    , m_include_entities(true)
 {
-}
-
-void ShowDirectMessage::exec()
-{
-    DataManager *manager = DataManager::instance();
-    if (manager->contains(DataManager::DirectMessageData, id())) {
-        QVariantMap directMessage = manager->getData(DataManager::DirectMessageData, id());
-        if (directMessage.contains(QLatin1String("entities"))) {
-            setData(directMessage);
-            setLoading(false);
-        } else {
-            AbstractDirectMessageAction::exec();
-        }
-    } else {
-        AbstractDirectMessageAction::exec();
-    }
 }

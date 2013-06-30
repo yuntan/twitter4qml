@@ -5,22 +5,22 @@ DEPENDPATH += $$PWD
 PUBLIC_HEADERS += \
     $$PWD/directmessages.h \
     $$PWD/directmessagessent.h \
-    $$PWD/showdirectmessage.h \
-    $$PWD/destroydirectmessage.h \
-    $$PWD/newdirectmessage.h
+    $$PWD/showdirectmessages.h \
+    $$PWD/destroydirectmessages.h \
+    $$PWD/newdirectmessages.h
 
 SOURCES += \
     $$PWD/directmessages.cpp \
     $$PWD/directmessagessent.cpp \
-    $$PWD/showdirectmessage.cpp \
-    $$PWD/destroydirectmessage.cpp \
-    $$PWD/newdirectmessage.cpp
+    $$PWD/showdirectmessages.cpp \
+    $$PWD/destroydirectmessages.cpp \
+    $$PWD/newdirectmessages.cpp
 
 # Abstract classes
 PUBLIC_HEADERS += \
     $$PWD/abstractdirectmessagesmodel.h \
-    $$PWD/abstractdirectmessageaction.h
+    $$PWD/abstractdirectmessagesaction.h
 
 SOURCES += \
     $$PWD/abstractdirectmessagesmodel.cpp \
-    $$PWD/abstractdirectmessageaction.cpp
+    $$PWD/abstractdirectmessagesaction.cpp

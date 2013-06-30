@@ -24,9 +24,30 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "newdirectmessage.h"
+#ifndef SHOWDIRECTMESSAGES_H
+#define SHOWDIRECTMESSAGES_H
 
-NewDirectMessage::NewDirectMessage(QObject *parent )
-    : AbstractDirectMessageAction(parent)
+#include "abstractdirectmessagesaction.h"
+
+class ShowDirectMessages : public AbstractDirectMessagesAction
 {
-}
+    Q_OBJECT
+    Q_PROPERTY(QString _id READ id WRITE id NOTIFY idChanged)
+//    Q_PROPERTY(bool include_entities READ include_entities WRITE include_entities NOTIFY include_entitiesChanged)
+    Q_DISABLE_COPY(ShowDirectMessages)
+public:
+    explicit ShowDirectMessages(QObject *parent = 0);
+
+public slots:
+    void exec();
+
+signals:
+    void idChanged(const QString &id);
+//    void include_entitiesChanged(bool include_entities);
+
+protected:
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/direct_messages/show.json"); }
+    QString httpMethod() const { return "GET"; }
+};
+
+#endif // SHOWDIRECTMESSAGES_H

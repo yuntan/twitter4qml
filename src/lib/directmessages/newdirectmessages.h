@@ -24,10 +24,29 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "abstractdirectmessageaction.h"
+#ifndef NEWDIRECTMESSAGES_H
+#define NEWDIRECTMESSAGES_H
 
-AbstractDirectMessageAction::AbstractDirectMessageAction(QObject *parent)
-    : AbstractTwitterAction(parent)
-    , m_include_entities(true)
+#include "abstractdirectmessagesaction.h"
+#include <QtCore/QVariantMap>
+
+class NewDirectMessages : public AbstractDirectMessagesAction
 {
-}
+    Q_OBJECT
+    Q_PROPERTY(QString user_id READ user_id WRITE user_id NOTIFY user_idChanged)
+    Q_PROPERTY(QString screen_name READ screen_name WRITE screen_name NOTIFY screen_nameChanged)
+    Q_PROPERTY(QString text READ text WRITE text NOTIFY textChanged)
+    Q_DISABLE_COPY(NewDirectMessages)
+public:
+    explicit NewDirectMessages(QObject *parent = 0);
+
+signals:
+    void user_idChanged(const QString &user_id);
+    void screen_nameChanged(const QString &screen_name);
+    void textChanged(const QString &text);
+
+protected:
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/direct_messages/new.json"); }
+};
+
+#endif // NEWDIRECTMESSAGES_H
