@@ -24,11 +24,27 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "abstractblockaction.h"
+#ifndef BLOCKSIDS_H
+#define BLOCKSIDS_H
 
-AbstractBlockAction::AbstractBlockAction(QObject *parent)
-    : AbstractTwitterAction(parent)
-    , m_include_entities(true)
-    , m_skip_status(false)
+#include "abstractfriendshipsidsmodel.h"
+
+class TWITTER4QML_EXPORT BlocksIds : public AbstractFriendshipsIdsModel
 {
-}
+    Q_OBJECT
+    Q_PROPERTY(bool stringify_ids READ stringify_ids WRITE stringify_ids NOTIFY stringify_idsChanged)
+    Q_PROPERTY(QString cursor READ cursor WRITE cursor NOTIFY cursorChanged)
+    Q_DISABLE_COPY(BlocksIds)
+public:
+    explicit BlocksIds(QObject *parent = 0);
+
+signals:
+    void stringify_idsChanged(bool stringify_ids);
+    void cursorChanged(const QString &cursor);
+
+protected:
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/blocks/ids.json"); }
+    AuthorizeBy authenticationMethod() const { return AuthorizeByUrl; }
+};
+
+#endif // BLOCKSIDS_H

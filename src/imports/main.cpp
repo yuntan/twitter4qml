@@ -71,8 +71,8 @@
 #include <verifycredentials.h>
 #include <updatesettings.h>
 #include <updateprofile.h>
-#include <blocklist.h>
-#include <blockids.h>
+#include <blockslist.h>
+#include <blocksids.h>
 #include <lookupusers.h>
 #include <user.h>
 #include <searchusers.h>

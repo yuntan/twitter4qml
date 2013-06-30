@@ -24,27 +24,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef BLOCKIDS_H
-#define BLOCKIDS_H
+#include "createblocks.h"
 
-#include "abstractfriendshipsidsmodel.h"
-
-class TWITTER4QML_EXPORT BlockIds : public AbstractFriendshipsIdsModel
+CreateBlocks::CreateBlocks(QObject *parent)
+    : AbstractBlocksAction(parent)
 {
-    Q_OBJECT
-    Q_PROPERTY(bool stringify_ids READ stringify_ids WRITE stringify_ids NOTIFY stringify_idsChanged)
-    Q_PROPERTY(QString cursor READ cursor WRITE cursor NOTIFY cursorChanged)
-    Q_DISABLE_COPY(BlockIds)
-public:
-    explicit BlockIds(QObject *parent = 0);
-
-signals:
-    void stringify_idsChanged(bool stringify_ids);
-    void cursorChanged(const QString &cursor);
-
-protected:
-    QUrl api() const { return QUrl("https://api.twitter.com/1.1/blocks/ids.json"); }
-    AuthorizeBy authenticationMethod() const { return AuthorizeByUrl; }
-};
-
-#endif // BLOCKIDS_H
+}

@@ -24,31 +24,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef BLOCKLIST_H
-#define BLOCKLIST_H
+#include "blockslist.h"
 
-#include "abstractusersmodel.h"
-
-class TWITTER4QML_EXPORT BlockList : public AbstractUsersModel
+BlocksList::BlocksList(QObject *parent)
+    : AbstractUsersModel(parent)
+    , m_skip_status(true)
 {
-    Q_OBJECT
-    Q_PROPERTY(bool include_entities READ include_entities WRITE include_entities NOTIFY include_entitiesChanged)
-    Q_PROPERTY(bool skip_status READ skip_status WRITE skip_status NOTIFY skip_statusChanged)
-    Q_PROPERTY(QString cursor READ cursor WRITE cursor NOTIFY cursorChanged)
-
-public:
-    explicit BlockList(QObject *parent = 0);
-
-signals:
-    void include_entitiesChanged(bool include_entities);
-    void skip_statusChanged(bool skip_status);
-    void cursorChanged(const QString &cursor);
-
-protected:
-    QUrl api() const { return QUrl("https://api.twitter.com/1.1/blocks/list.json"); }
-
-private:
-    ADD_PROPERTY(bool, skip_status, bool)
-};
-
-#endif // BLOCKLIST_H
+}

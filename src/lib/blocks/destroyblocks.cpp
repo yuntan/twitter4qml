@@ -24,31 +24,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef ABSTRACTBLOCKACTION_H
-#define ABSTRACTBLOCKACTION_H
+#include "destroyblocks.h"
 
-#include "abstracttwitteraction.h"
-
-class AbstractBlockAction : public AbstractTwitterAction
+DestroyBlocks::DestroyBlocks(QObject *parent)
+    : AbstractBlocksAction(parent)
 {
-    Q_OBJECT
-    Q_PROPERTY(QString screen_name READ screen_name WRITE screen_name NOTIFY screen_nameChanged)
-    Q_PROPERTY(QString user_id READ user_id WRITE user_id NOTIFY user_idChanged)
-    Q_DISABLE_COPY(AbstractBlockAction)
-public:
-    explicit AbstractBlockAction(QObject *parent = 0);
-
-signals:
-    void screen_nameChanged(const QString &screen_name);
-    void user_idChanged(const QString &user_id);
-    void include_entitiesChanged(bool include_entities);
-    void skip_statusChanged(bool skip_status);
-
-private:
-    ADD_PROPERTY(const QString &, screen_name, QString)
-    ADD_PROPERTY(const QString &, user_id, QString)
-    ADD_PROPERTY(bool, include_entities, bool)
-    ADD_PROPERTY(bool, skip_status, bool)
-};
-
-#endif // ABSTRACTBLOCKACTION_H
+}

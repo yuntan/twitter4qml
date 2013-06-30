@@ -24,26 +24,31 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CREATEBLOCK_H
-#define CREATEBLOCK_H
+#ifndef ABSTRACTBLOCKSACTION_H
+#define ABSTRACTBLOCKSACTION_H
 
-#include "abstractblockaction.h"
+#include "abstracttwitteraction.h"
 
-class CreateBlock : public AbstractBlockAction
+class AbstractBlocksAction : public AbstractTwitterAction
 {
     Q_OBJECT
-    Q_PROPERTY(bool include_entities READ include_entities WRITE include_entities NOTIFY include_entitiesChanged)
-    Q_PROPERTY(bool skip_status READ skip_status WRITE skip_status NOTIFY skip_statusChanged)
-    Q_DISABLE_COPY(CreateBlock)
+    Q_PROPERTY(QString screen_name READ screen_name WRITE screen_name NOTIFY screen_nameChanged)
+    Q_PROPERTY(QString user_id READ user_id WRITE user_id NOTIFY user_idChanged)
+    Q_DISABLE_COPY(AbstractBlocksAction)
 public:
-    explicit CreateBlock(QObject *parent = 0);
+    explicit AbstractBlocksAction(QObject *parent = 0);
 
 signals:
+    void screen_nameChanged(const QString &screen_name);
+    void user_idChanged(const QString &user_id);
     void include_entitiesChanged(bool include_entities);
     void skip_statusChanged(bool skip_status);
 
-protected:
-    QUrl api() const { return QUrl("https://api.twitter.com/1.1/blocks/create.json"); }
+private:
+    ADD_PROPERTY(const QString &, screen_name, QString)
+    ADD_PROPERTY(const QString &, user_id, QString)
+    ADD_PROPERTY(bool, include_entities, bool)
+    ADD_PROPERTY(bool, skip_status, bool)
 };
 
-#endif // CREATEBLOCK_H
+#endif // ABSTRACTBLOCKSACTION_H

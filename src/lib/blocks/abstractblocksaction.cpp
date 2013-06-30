@@ -24,26 +24,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef DESTROYBLOCK_H
-#define DESTROYBLOCK_H
+#include "abstractblocksaction.h"
 
-#include "abstractblockaction.h"
-
-class DestroyBlock : public AbstractBlockAction
+AbstractBlocksAction::AbstractBlocksAction(QObject *parent)
+    : AbstractTwitterAction(parent)
+    , m_include_entities(true)
+    , m_skip_status(false)
 {
-    Q_OBJECT
-    Q_PROPERTY(bool include_entities READ include_entities WRITE include_entities NOTIFY include_entitiesChanged)
-    Q_PROPERTY(bool skip_status READ skip_status WRITE skip_status NOTIFY skip_statusChanged)
-    Q_DISABLE_COPY(DestroyBlock)
-public:
-    explicit DestroyBlock(QObject *parent = 0);
-
-signals:
-    void include_entitiesChanged(bool include_entities);
-    void skip_statusChanged(bool skip_status);
-
-protected:
-    QUrl api() const { return QUrl("https://api.twitter.com/1.1/blocks/destroy.json"); }
-};
-
-#endif // DESTROYBLOCK_H
+}

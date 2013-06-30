@@ -24,9 +24,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "destroyblock.h"
+#include "blocksids.h"
 
-DestroyBlock::DestroyBlock(QObject *parent)
-    : AbstractBlockAction(parent)
+BlocksIds::BlocksIds(QObject *parent)
+    : AbstractFriendshipsIdsModel(parent)
 {
 }

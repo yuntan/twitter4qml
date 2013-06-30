@@ -28,8 +28,8 @@
 #include "showuser.h"
 #include "../friendships/createfriendships.h"
 #include "../friendships/destroyfriendships.h"
-#include "../blocks/createblock.h"
-#include "../blocks/destroyblock.h"
+#include "../blocks/createblocks.h"
+#include "../blocks/destroyblocks.h"
 #include "../blocks/reportforspam.h"
 
 #include "datamanager.h"
@@ -184,7 +184,7 @@ void User::Private::unfollow()
 
 void User::Private::block()
 {
-    CreateBlock *action = new CreateBlock(this);
+    CreateBlocks *action = new CreateBlocks(this);
     action->user_id(q->id_str());
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
     if (loading) {
@@ -197,7 +197,7 @@ void User::Private::block()
 
 void User::Private::unblock()
 {
-    DestroyBlock *action = new DestroyBlock(this);
+    DestroyBlocks *action = new DestroyBlocks(this);
     action->user_id(q->id_str());
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
     if (loading) {
@@ -226,10 +226,10 @@ void User::Private::dataChanged(const QVariant &data)
     QVariantMap map = data.toMap();
     AbstractTwitterAction *action = qobject_cast<AbstractTwitterAction *>(sender());
     if (action) {
-        if (qobject_cast<AbstractBlockAction *>(action)) {
-            if (qobject_cast<CreateBlock *>(action)) {
+        if (qobject_cast<AbstractBlocksAction *>(action)) {
+            if (qobject_cast<CreateBlocks *>(action)) {
                 q->blocking(true);
-            } else if (qobject_cast<DestroyBlock *>(action)) {
+            } else if (qobject_cast<DestroyBlocks *>(action)) {
                 q->blocking(false);
             } else if (qobject_cast<ReportForSpam *>(action)) {
                 q->blocking(true);

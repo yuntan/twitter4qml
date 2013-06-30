@@ -27,9 +27,9 @@
 #ifndef REPORTFORSPAM_H
 #define REPORTFORSPAM_H
 
-#include "abstractblockaction.h"
+#include "abstractblocksaction.h"
 
-class ReportForSpam : public AbstractBlockAction
+class ReportForSpam : public AbstractBlocksAction
 {
     Q_OBJECT
     Q_DISABLE_COPY(ReportForSpam)

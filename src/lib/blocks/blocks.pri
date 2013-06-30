@@ -1,21 +1,21 @@
 INCLUDEPATH += $$PWD
 DEPENDPATH += $$PWD
 
-# Block
+# Blocks
 
 PUBLIC_HEADERS += \
-    $$PWD/abstractblockaction.h \
-    $$PWD/blocklist.h \
-    $$PWD/blockids.h \
-    $$PWD/createblock.h \
-    $$PWD/destroyblock.h
+    $$PWD/abstractblocksaction.h \
+    $$PWD/blockslist.h \
+    $$PWD/blocksids.h \
+    $$PWD/createblocks.h \
+    $$PWD/destroyblocks.h
 
 SOURCES += \
-    $$PWD/abstractblockaction.cpp \
-    $$PWD/blocklist.cpp \
-    $$PWD/blockids.cpp \
-    $$PWD/createblock.cpp \
-    $$PWD/destroyblock.cpp
+    $$PWD/abstractblocksaction.cpp \
+    $$PWD/blockslist.cpp \
+    $$PWD/blocksids.cpp \
+    $$PWD/createblocks.cpp \
+    $$PWD/destroyblocks.cpp
 
 # Spam Reporting
 
