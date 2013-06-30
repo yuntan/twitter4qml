@@ -24,10 +24,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "abstractfavoriteaction.h"
+#include "destroyfavorites.h"
 
-AbstractFavoriteAction::AbstractFavoriteAction(QObject *parent)
-    : AbstractStatusAction(parent)
+DestroyFavorites::DestroyFavorites(QObject *parent)
+    : AbstractFavoritesAction(parent)
 {
 }
-

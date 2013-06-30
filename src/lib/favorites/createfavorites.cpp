@@ -24,9 +24,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "createfavorite.h"
+#include "createfavorites.h"
 
-CreateFavorite::CreateFavorite(QObject *parent)
-    : AbstractFavoriteAction(parent)
+CreateFavorites::CreateFavorites(QObject *parent)
+    : AbstractFavoritesAction(parent)
 {
 }

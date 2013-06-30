@@ -32,8 +32,8 @@
 #include "destroystatus.h"
 
 #include "datamanager.h"
-#include "../favorites/createfavorite.h"
-#include "../favorites/destroyfavorite.h"
+#include "../favorites/createfavorites.h"
+#include "../favorites/destroyfavorites.h"
 #include "user.h"
 
 #include "../utils.h"
@@ -172,7 +172,7 @@ void Status::Private::destroy()
 
 void Status::Private::favorite()
 {
-    AbstractFavoriteAction *action = new CreateFavorite(this);
+    AbstractFavoritesAction *action = new CreateFavorites(this);
     action->id(q->m_id_str);
     action->include_entities(true);
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
@@ -186,7 +186,7 @@ void Status::Private::favorite()
 
 void Status::Private::unfavorite()
 {
-    AbstractFavoriteAction *action = new DestroyFavorite(this);
+    AbstractFavoritesAction *action = new DestroyFavorites(this);
     action->id(q->m_id_str);
     action->include_entities(true);
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));

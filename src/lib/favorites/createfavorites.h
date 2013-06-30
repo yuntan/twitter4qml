@@ -24,20 +24,20 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CREATEFAVORITE_H
-#define CREATEFAVORITE_H
+#ifndef CREATEFAVORITES_H
+#define CREATEFAVORITES_H
 
-#include "abstractfavoriteaction.h"
+#include "abstractfavoritesaction.h"
 
-class CreateFavorite : public AbstractFavoriteAction
+class CreateFavorites : public AbstractFavoritesAction
 {
     Q_OBJECT
-    Q_DISABLE_COPY(CreateFavorite)
+    Q_DISABLE_COPY(CreateFavorites)
 public:
-    explicit CreateFavorite(QObject *parent = 0);
+    explicit CreateFavorites(QObject *parent = 0);
 
 protected:
     QUrl api() const { return QUrl("https://api.twitter.com/1.1/favorites/create.json"); }
 };
 
-#endif // CREATEFAVORITE_H
+#endif // CREATEFAVORITES_H

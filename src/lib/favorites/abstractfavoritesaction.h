@@ -24,23 +24,23 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef ABSTRACTFAVORITEACTION_H
-#define ABSTRACTFAVORITEACTION_H
+#ifndef ABSTRACTFAVORITESACTION_H
+#define ABSTRACTFAVORITESACTION_H
 
 #include "abstractstatusaction.h"
 
-class AbstractFavoriteAction : public AbstractStatusAction
+class AbstractFavoritesAction : public AbstractStatusAction
 {
     Q_OBJECT
     Q_PROPERTY(QString _id READ id WRITE id NOTIFY idChanged)
     Q_PROPERTY(bool include_entities READ include_entities WRITE include_entities NOTIFY include_entitiesChanged)
-    Q_DISABLE_COPY(AbstractFavoriteAction)
+    Q_DISABLE_COPY(AbstractFavoritesAction)
 public:
-    explicit AbstractFavoriteAction(QObject *parent = 0);
+    explicit AbstractFavoritesAction(QObject *parent = 0);
 
 signals:
     void idChanged(const QString &id);
     void include_entitiesChanged(bool include_entities);
 };
 
-#endif // ABSTRACTFAVORITEACTION_H
+#endif // ABSTRACTFAVORITESACTION_H

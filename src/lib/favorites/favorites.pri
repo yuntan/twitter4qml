@@ -4,16 +4,16 @@ DEPENDPATH += $$PWD
 # Favorites
 PUBLIC_HEADERS += \
     $$PWD/favoriteslist.h \
-    $$PWD/destroyfavorite.h \
-    $$PWD/createfavorite.h
+    $$PWD/destroyfavorites.h \
+    $$PWD/createfavorites.h
 
 SOURCES += \
     $$PWD/favoriteslist.cpp \
-    $$PWD/destroyfavorite.cpp \
-    $$PWD/createfavorite.cpp
+    $$PWD/destroyfavorites.cpp \
+    $$PWD/createfavorites.cpp
 
 # Abstract classes
 PUBLIC_HEADERS += \
-    $$PWD/abstractfavoriteaction.h
+    $$PWD/abstractfavoritesaction.h
 SOURCES += \
-    $$PWD/abstractfavoriteaction.cpp
+    $$PWD/abstractfavoritesaction.cpp
