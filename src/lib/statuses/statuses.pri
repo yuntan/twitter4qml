@@ -17,19 +17,19 @@ SOURCES += \
 # Tweets
 PUBLIC_HEADERS += \
     $$PWD/retweets.h \
-    $$PWD/showstatus.h \
-    $$PWD/destroystatus.h \
-    $$PWD/updatestatus.h \
-    $$PWD/retweetstatus.h \
-    $$PWD/updatestatuswithmedia.h
+    $$PWD/showstatuses.h \
+    $$PWD/destroystatuses.h \
+    $$PWD/updatestatuses.h \
+    $$PWD/retweetstatuses.h \
+    $$PWD/updatestatuseswithmedia.h
 
 SOURCES += \
     $$PWD/retweets.cpp \
-    $$PWD/showstatus.cpp \
-    $$PWD/destroystatus.cpp \
-    $$PWD/updatestatus.cpp \
-    $$PWD/retweetstatus.cpp \
-    $$PWD/updatestatuswithmedia.cpp
+    $$PWD/showstatuses.cpp \
+    $$PWD/destroystatuses.cpp \
+    $$PWD/updatestatuses.cpp \
+    $$PWD/retweetstatuses.cpp \
+    $$PWD/updatestatuseswithmedia.cpp
 
 # Streaming
 PUBLIC_HEADERS += \

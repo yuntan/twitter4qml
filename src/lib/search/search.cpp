@@ -25,7 +25,7 @@
  */
 
 #include "search.h"
-#include "showstatus.h"
+#include "showstatuses.h"
 #include "status.h"
 #include "../utils.h"
 #include <QtCore/QQueue>

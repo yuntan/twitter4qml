@@ -24,13 +24,28 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "updatestatuswithmedia.h"
+#ifndef RETWEETSTATUSES_H
+#define RETWEETSTATUSES_H
 
-UpdateStatusWithMedia::UpdateStatusWithMedia(QObject *parent)
-    : AbstractStatusAction(parent)
-    , m_possibly_sensitive(false)
-    , m_latitude(0)
-    , m_longitude(0)
+#include "abstractstatusaction.h"
+
+class RetweetStatuses : public AbstractStatusAction
 {
-}
+    Q_OBJECT
+    Q_PROPERTY(QString _id READ id WRITE id NOTIFY idChanged DESIGNABLE false)
+    Q_PROPERTY(bool trim_user READ trim_user WRITE trim_user NOTIFY trim_userChanged)
+//    Q_PROPERTY(bool include_entities READ include_entities WRITE include_entities NOTIFY include_entitiesChanged)
+    Q_DISABLE_COPY(RetweetStatuses)
+public:
+    explicit RetweetStatuses(QObject *parent = 0);
 
+signals:
+    void idChanged(const QString &id);
+    void trim_userChanged(bool trim_user);
+//    void include_entitiesChanged(bool include_entities);
+
+protected:
+    QUrl api() const { return QUrl(QString("https://api.twitter.com/1.1/statuses/retweet/%1.json").arg(id())); }
+};
+
+#endif // RETWEETSTATUSES_H

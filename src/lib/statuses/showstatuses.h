@@ -24,21 +24,21 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef SHOWSTATUS_H
-#define SHOWSTATUS_H
+#ifndef SHOWSTATUSES_H
+#define SHOWSTATUSES_H
 
 #include "abstractstatusaction.h"
 
-class ShowStatus : public AbstractStatusAction
+class ShowStatuses : public AbstractStatusAction
 {
     Q_OBJECT
     Q_PROPERTY(QString _id READ id WRITE id NOTIFY idChanged)
     Q_PROPERTY(bool trim_user READ trim_user WRITE trim_user NOTIFY trim_userChanged)
     Q_PROPERTY(bool include_my_retweet READ include_my_retweet WRITE include_my_retweet NOTIFY include_my_retweetChanged)
     Q_PROPERTY(bool include_entities READ include_entities WRITE include_entities NOTIFY include_entitiesChanged)
-    Q_DISABLE_COPY(ShowStatus)
+    Q_DISABLE_COPY(ShowStatuses)
 public:
-    explicit ShowStatus(QObject *parent = 0);
+    explicit ShowStatuses(QObject *parent = 0);
 
 public slots:
     void exec();
@@ -56,4 +56,4 @@ protected:
     ADD_PROPERTY(bool, include_my_retweet, bool)
 };
 
-#endif // SHOWSTATUS_H
+#endif // SHOWSTATUSES_H

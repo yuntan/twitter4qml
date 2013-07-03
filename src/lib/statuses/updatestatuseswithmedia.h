@@ -24,29 +24,32 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef UPDATESTATUS_H
-#define UPDATESTATUS_H
+#ifndef UPDATESTATUSESWITHMEDIA_H
+#define UPDATESTATUSESWITHMEDIA_H
 
 #include "abstractstatusaction.h"
 
-class TWITTER4QML_EXPORT UpdateStatus : public AbstractStatusAction
+class UpdateStatusesWithMedia : public AbstractStatusAction
 {
     Q_OBJECT
     Q_PROPERTY(QString status READ status WRITE status NOTIFY statusChanged)
+    Q_PROPERTY(QVariantList media READ media WRITE media NOTIFY mediaChanged)
+    Q_PROPERTY(bool possibly_sensitive READ possibly_sensitive WRITE possibly_sensitive NOTIFY possibly_sensitiveChanged)
     Q_PROPERTY(QString in_reply_to_status_id READ in_reply_to_status_id WRITE in_reply_to_status_id NOTIFY in_reply_to_status_idChanged)
     Q_PROPERTY(double _lat READ latitude WRITE latitude NOTIFY latitudeChanged)
     Q_PROPERTY(double _long READ longitude WRITE longitude NOTIFY longitudeChanged)
     Q_PROPERTY(QString place_id READ place_id WRITE place_id NOTIFY place_idChanged)
     Q_PROPERTY(QString display_coordinates READ display_coordinates WRITE display_coordinates NOTIFY display_coordinatesChanged)
-    Q_PROPERTY(bool trim_user READ trim_user WRITE trim_user NOTIFY trim_userChanged)
 //    Q_PROPERTY(bool include_entities READ include_entities WRITE include_entities NOTIFY include_entitiesChanged)
 
-    Q_DISABLE_COPY(UpdateStatus)
+    Q_DISABLE_COPY(UpdateStatusesWithMedia)
 public:
-    explicit UpdateStatus(QObject *parent = 0);
-    
+    explicit UpdateStatusesWithMedia(QObject *parent = 0);
+
 signals:
     void statusChanged(const QString &status);
+    void mediaChanged(const QVariantList &media);
+    void possibly_sensitiveChanged(bool possibly_sensitive);
     void in_reply_to_status_idChanged(const QString &in_reply_to_status_id);
     void latitudeChanged(double latitude);
     void longitudeChanged(double longitude);
@@ -56,10 +59,13 @@ signals:
 //    void include_entitiesChanged(bool include_entities);
 
 protected:
-    virtual AuthorizeBy authenticationMethod() const { return AuthorizeByHeader; }
-    QUrl api() const { return QUrl("https://api.twitter.com/1.1/statuses/update.json"); }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/statuses/update_with_media.json"); }
+    AuthorizeBy authenticationMethod() const { return AuthorizeByHeader; }
+    bool isMultiPart() const { return true; }
 
     ADD_PROPERTY(const QString &, status, QString)
+    ADD_PROPERTY(const QVariantList &, media, QVariantList)
+    ADD_PROPERTY(bool, possibly_sensitive, bool)
     ADD_PROPERTY(const QString &, in_reply_to_status_id, QString)
     ADD_PROPERTY(double, latitude, double)
     ADD_PROPERTY(double, longitude, double)
@@ -67,4 +73,4 @@ protected:
     ADD_PROPERTY(const QString &, display_coordinates, QString)
 };
 
-#endif // UPDATESTATUS_H
+#endif // UPDATESTATUSESWITHMEDIA_H

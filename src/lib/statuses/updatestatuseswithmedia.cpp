@@ -24,28 +24,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "showstatus.h"
-#include "datamanager.h"
-#include "twitter4qml_global.h"
+#include "updatestatuseswithmedia.h"
 
-ShowStatus::ShowStatus(QObject *parent)
+UpdateStatusesWithMedia::UpdateStatusesWithMedia(QObject *parent)
     : AbstractStatusAction(parent)
-    , m_include_my_retweet(true)
+    , m_possibly_sensitive(false)
+    , m_latitude(0)
+    , m_longitude(0)
 {
 }
 
-void ShowStatus::exec()
-{
-    DataManager *manager = DataManager::instance();
-    if (manager->contains(DataManager::StatusData, id())) {
-        QVariantMap data = manager->getData(DataManager::StatusData, id());
-        if (data.contains("in_reply_to_status_id")) {
-            setData(data);
-            setLoading(false);
-        } else {
-            AbstractStatusAction::exec();
-        }
-    } else {
-        AbstractStatusAction::exec();
-    }
-}

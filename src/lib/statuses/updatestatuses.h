@@ -24,28 +24,47 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef DESTROYSTATUS_H
-#define DESTROYSTATUS_H
+#ifndef UPDATESTATUSES_H
+#define UPDATESTATUSES_H
 
 #include "abstractstatusaction.h"
 
-class DestroyStatus : public AbstractStatusAction
+class TWITTER4QML_EXPORT UpdateStatuses : public AbstractStatusAction
 {
     Q_OBJECT
-    Q_PROPERTY(QString _id READ id WRITE id NOTIFY idChanged DESIGNABLE false)
+    Q_PROPERTY(QString status READ status WRITE status NOTIFY statusChanged)
+    Q_PROPERTY(QString in_reply_to_status_id READ in_reply_to_status_id WRITE in_reply_to_status_id NOTIFY in_reply_to_status_idChanged)
+    Q_PROPERTY(double _lat READ latitude WRITE latitude NOTIFY latitudeChanged)
+    Q_PROPERTY(double _long READ longitude WRITE longitude NOTIFY longitudeChanged)
+    Q_PROPERTY(QString place_id READ place_id WRITE place_id NOTIFY place_idChanged)
+    Q_PROPERTY(QString display_coordinates READ display_coordinates WRITE display_coordinates NOTIFY display_coordinatesChanged)
     Q_PROPERTY(bool trim_user READ trim_user WRITE trim_user NOTIFY trim_userChanged)
 //    Q_PROPERTY(bool include_entities READ include_entities WRITE include_entities NOTIFY include_entitiesChanged)
-    Q_DISABLE_COPY(DestroyStatus)
-public:
-    explicit DestroyStatus(QObject *parent = 0);
 
+    Q_DISABLE_COPY(UpdateStatuses)
+public:
+    explicit UpdateStatuses(QObject *parent = 0);
+    
 signals:
-    void idChanged(const QString &id);
+    void statusChanged(const QString &status);
+    void in_reply_to_status_idChanged(const QString &in_reply_to_status_id);
+    void latitudeChanged(double latitude);
+    void longitudeChanged(double longitude);
+    void place_idChanged(const QString &place_id);
+    void display_coordinatesChanged(const QString &display_coordinates);
     void trim_userChanged(bool trim_user);
 //    void include_entitiesChanged(bool include_entities);
 
 protected:
-    QUrl api() const { return QUrl(QString("https://api.twitter.com/1.1/statuses/destroy/%1.json").arg(id())); }
+    virtual AuthorizeBy authenticationMethod() const { return AuthorizeByHeader; }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/statuses/update.json"); }
+
+    ADD_PROPERTY(const QString &, status, QString)
+    ADD_PROPERTY(const QString &, in_reply_to_status_id, QString)
+    ADD_PROPERTY(double, latitude, double)
+    ADD_PROPERTY(double, longitude, double)
+    ADD_PROPERTY(const QString &, place_id, QString)
+    ADD_PROPERTY(const QString &, display_coordinates, QString)
 };
 
-#endif // DESTROYSTATUS_H
+#endif // UPDATESTATUSES_H

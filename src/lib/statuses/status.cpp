@@ -25,11 +25,11 @@
  */
 
 #include "status.h"
-#include "showstatus.h"
-#include "updatestatus.h"
-#include "updatestatuswithmedia.h"
-#include "retweetstatus.h"
-#include "destroystatus.h"
+#include "showstatuses.h"
+#include "updatestatuses.h"
+#include "updatestatuseswithmedia.h"
+#include "retweetstatuses.h"
+#include "destroystatuses.h"
 
 #include "datamanager.h"
 #include "../favorites/createfavorites.h"
@@ -94,7 +94,7 @@ void Status::Private::id_strChanged(const QString &id)
 
     if (id.isEmpty()) {
     } else {
-        ShowStatus *action = new ShowStatus(this);
+        ShowStatuses *action = new ShowStatuses(this);
         action->id(id);
         connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
         if (q->m_loading) {
@@ -110,7 +110,7 @@ void Status::Private::update(const QVariantMap &parameters)
 {
     AbstractTwitterAction *action = 0;
     if (parameters.contains("media") && !parameters.value("media").toList().isEmpty()) {
-        UpdateStatusWithMedia *act = new UpdateStatusWithMedia(this);
+        UpdateStatusesWithMedia *act = new UpdateStatusesWithMedia(this);
         act->status(parameters.value("status").toString());
         act->latitude(parameters.value("_lat").toDouble());
         act->longitude(parameters.value("_long").toDouble());
@@ -122,7 +122,7 @@ void Status::Private::update(const QVariantMap &parameters)
         connect(act, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
         action = act;
     } else {
-        UpdateStatus *act = new UpdateStatus(this);
+        UpdateStatuses *act = new UpdateStatuses(this);
         act->status(parameters.value("status").toString());
         act->latitude(parameters.value("_lat").toDouble());
         act->longitude(parameters.value("_long").toDouble());
@@ -143,7 +143,7 @@ void Status::Private::update(const QVariantMap &parameters)
 
 void Status::Private::retweet(const QVariantMap &parameters)
 {
-    RetweetStatus *action = new RetweetStatus(this);
+    RetweetStatuses *action = new RetweetStatuses(this);
     action->id(parameters.value("id").toString());
     action->trim_user(true);
     action->include_entities(true);
@@ -158,7 +158,7 @@ void Status::Private::retweet(const QVariantMap &parameters)
 
 void Status::Private::destroy()
 {
-    DestroyStatus *action = new DestroyStatus(this);
+    DestroyStatuses *action = new DestroyStatuses(this);
     action->id(q->m_id_str);
     action->include_entities(true);
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
@@ -200,7 +200,7 @@ void Status::Private::unfavorite()
 
 void Status::Private::dataChanged(const QVariant &data)
 {
-    if (qobject_cast<DestroyStatus *>(sender())) {
+    if (qobject_cast<DestroyStatuses *>(sender())) {
         DEBUG() << data;
         q->id_str(QString());
         emit q->dataChanged();
@@ -222,7 +222,7 @@ void Status::Private::dataChanged(const QVariant &data)
                 q->setProperty(key, QVariant());
             }
         }
-        if (!qobject_cast<RetweetStatus *>(action)) {
+        if (!qobject_cast<RetweetStatuses *>(action)) {
             DataManager::instance()->addData(DataManager::StatusData, q->id_str(), status);
         }
         emit q->dataChanged();
@@ -248,17 +248,17 @@ Status::Status(QObject *parent)
 {
 }
 
-void Status::updateStatus(QVariantMap parameters)
+void Status::updateStatuses(QVariantMap parameters)
 {
     d->update(parameters);
 }
 
-void Status::retweetStatus(QVariantMap parameters)
+void Status::retweetStatuses(QVariantMap parameters)
 {
     d->retweet(parameters);
 }
 
-void Status::destroyStatus()
+void Status::destroyStatuses()
 {
     d->destroy();
 }

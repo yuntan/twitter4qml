@@ -24,9 +24,28 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "destroystatus.h"
+#ifndef DESTROYSTATUSES_H
+#define DESTROYSTATUSES_H
 
-DestroyStatus::DestroyStatus(QObject *parent)
-    : AbstractStatusAction(parent)
+#include "abstractstatusaction.h"
+
+class DestroyStatuses : public AbstractStatusAction
 {
-}
+    Q_OBJECT
+    Q_PROPERTY(QString _id READ id WRITE id NOTIFY idChanged DESIGNABLE false)
+    Q_PROPERTY(bool trim_user READ trim_user WRITE trim_user NOTIFY trim_userChanged)
+//    Q_PROPERTY(bool include_entities READ include_entities WRITE include_entities NOTIFY include_entitiesChanged)
+    Q_DISABLE_COPY(DestroyStatuses)
+public:
+    explicit DestroyStatuses(QObject *parent = 0);
+
+signals:
+    void idChanged(const QString &id);
+    void trim_userChanged(bool trim_user);
+//    void include_entitiesChanged(bool include_entities);
+
+protected:
+    QUrl api() const { return QUrl(QString("https://api.twitter.com/1.1/statuses/destroy/%1.json").arg(id())); }
+};
+
+#endif // DESTROYSTATUSES_H

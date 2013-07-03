@@ -1880,14 +1880,14 @@ Module {
             Parameter { name: "media"; type: "QVariantList" }
         }
         Method {
-            name: "updateStatus"
+            name: "updateStatuses"
             Parameter { name: "parameters"; type: "QVariantMap" }
         }
         Method {
-            name: "retweetStatus"
+            name: "retweetStatuses"
             Parameter { name: "parameters"; type: "QVariantMap" }
         }
-        Method { name: "destroyStatus" }
+        Method { name: "destroyStatuses" }
         Method { name: "favorite" }
         Method { name: "unfavorite" }
         Method { name: "debug" }

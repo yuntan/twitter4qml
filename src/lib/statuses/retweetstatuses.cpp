@@ -24,28 +24,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef RETWEETSTATUS_H
-#define RETWEETSTATUS_H
+#include "retweetstatuses.h"
 
-#include "abstractstatusaction.h"
-
-class RetweetStatus : public AbstractStatusAction
+RetweetStatuses::RetweetStatuses(QObject *parent)
+    : AbstractStatusAction(parent)
 {
-    Q_OBJECT
-    Q_PROPERTY(QString _id READ id WRITE id NOTIFY idChanged DESIGNABLE false)
-    Q_PROPERTY(bool trim_user READ trim_user WRITE trim_user NOTIFY trim_userChanged)
-//    Q_PROPERTY(bool include_entities READ include_entities WRITE include_entities NOTIFY include_entitiesChanged)
-    Q_DISABLE_COPY(RetweetStatus)
-public:
-    explicit RetweetStatus(QObject *parent = 0);
-
-signals:
-    void idChanged(const QString &id);
-    void trim_userChanged(bool trim_user);
-//    void include_entitiesChanged(bool include_entities);
-
-protected:
-    QUrl api() const { return QUrl(QString("https://api.twitter.com/1.1/statuses/retweet/%1.json").arg(id())); }
-};
-
-#endif // RETWEETSTATUS_H
+}

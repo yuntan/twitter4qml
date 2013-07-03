@@ -24,9 +24,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "retweetstatus.h"
+#include "destroystatuses.h"
 
-RetweetStatus::RetweetStatus(QObject *parent)
+DestroyStatuses::DestroyStatuses(QObject *parent)
     : AbstractStatusAction(parent)
 {
 }
