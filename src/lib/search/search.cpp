@@ -51,8 +51,7 @@ void Search::parseDone(const QVariant &result)
             } else {
                 foreach (const QVariant &result, results) {
                     if (result.type() == QVariant::Map) {
-                        QVariantMap map = Search::parse(result.toMap());
-                        addData(map);
+                        addData(Search::parse(result.toMap()));
                     }
                 }
             }
@@ -70,110 +69,7 @@ void Search::dataAdded(const QString &key, const QVariantMap &value)
     }
 }
 
-bool Search::indicesGreaterThan(const QVariant &v1, const QVariant &v2)
-{
-    return v1.toMap().value("indices").toList().first().toInt() > v2.toMap().value("indices").toList().first().toInt();
-}
-
 QVariantMap Search::parse(const QVariantMap &status)
 {
-    QVariantMap ret = status;
-
-    QString source = ret.value("source").toString();
-    source.replace("&lt;", "<").replace("&gt;", ">").replace("&quat;", "\"");
-    ret.insert("source", source);
-
-    QString text = ret.value("text").toString();
-    if (ret.contains("entities") && !ret.value("entities").isNull()) {
-//        DEBUG() << text;
-        QString plain_text = text;
-        QString rich_text = text.replace(" ", "\t");
-        QVariantList entitiesSortedByIndices;
-        QVariantMap entities = ret.value("entities").toMap();
-        foreach (const QString &key, entities.keys()) {
-            QVariant entity = entities.value(key);
-            if (entity.type() == QVariant::List) {
-                QVariantList e = entity.toList();
-                foreach (const QVariant &ee, e) {
-                    QVariantMap eee = ee.toMap();
-                    eee.insert("type", key);
-                    entitiesSortedByIndices.append(eee);
-                }
-            } else {
-                DEBUG() << entity;
-            }
-        }
-        qSort(entitiesSortedByIndices.begin(), entitiesSortedByIndices.end(), &Search::indicesGreaterThan);
-        QVariantList media;
-        foreach (const QVariant &item, entitiesSortedByIndices) {
-            QVariantMap entity = item.toMap();
-            QVariantList indices = entity.value("indices").toList();
-            int start = indices.first().toInt();
-            int end = indices.last().toInt();
-            QString type = entity.value("type").toString();
-            QString plain_textAfter;
-            QString rich_textAfter;
-            if (type == "urls") {
-                if (entity.contains("display_url")) {
-                    plain_textAfter = entity.value("display_url").toString();
-                    rich_textAfter = QString("<a class=\"link\" href=\"")
-                            .append(entity.value("expanded_url").toString())
-                            .append("\" title=\"")
-                            .append(entity.value("url").toString())
-                            .append("\">")
-                            .append(entity.value("display_url").toString())
-                            .append("</a>");
-                } else {
-                    plain_textAfter = entity.value("url").toString();
-                    rich_textAfter = QString("<a class=\"link\" href=\"")
-                            .append(entity.value("url").toString())
-                            .append("\" title=\"")
-                            .append(entity.value("url").toString())
-                            .append("\">")
-                            .append(entity.value("url").toString())
-                            .append("</a>");
-                }
-            } else if (type == "user_mentions") {
-                rich_textAfter = QString("<a class=\"screen_name\" href=\"user://%1\" title=\"@%2\">@%2</a>")
-                        .arg(entity.value("id_str").toString())
-                        .arg(entity.value("screen_name").toString());
-            } else if (type == "hashtags") {
-                rich_textAfter = QString("<a class=\"hash_tag\" href=\"search://#%1\" title=\"#%2\">#%2</a>")
-                        .arg(entity.value("text").toString())
-                        .arg(entity.value("text").toString());
-            } else if (type == "media") {
-                plain_textAfter = entity.value("display_url").toString();
-                rich_textAfter = QString("<a class=\"media\" href=\"")
-                        .append(entity.value("media_url").toString())
-                        .append("\" title=\"")
-                        .append(entity.value("url").toString())
-                        .append("\">")
-                        .append(entity.value("display_url").toString())
-                        .append("</a>");
-                media.append(entity.value("media_url"));
-            } else {
-                DEBUG() << type << item;
-            }
-            if (!plain_textAfter.isNull())
-                plain_text.replace(start, end - start, plain_textAfter);
-            if (!rich_textAfter.isNull())
-                rich_text.replace(start, end - start, rich_textAfter);
-        }
-
-
-//        DEBUG() << ret.value("text").toString();
-        ret.insert("plain_text", escapeHtml(plain_text));
-//        DEBUG() << ret.value("plain_text").toString();
-        ret.insert("rich_text", rich_text.replace("\n", "<br />").replace("\t", "&nbsp;").replace(QString::fromUtf8("　"), "&nbsp;&nbsp;&nbsp;&nbsp;"));
-//        DEBUG() << ret.value("rich_text").toString();
-        ret.insert("media", media);
-    } else {
-        DEBUG() << text;
-        if (!ret.contains("plain_text"))
-            ret.insert("plain_text", escapeHtml(text));
-        if (!ret.contains("rich_text"))
-            ret.insert("rich_text", text.replace(" ", "&nbsp;").replace("\n", "<br />").replace(QString::fromUtf8("　"), "&nbsp;&nbsp;&nbsp;&nbsp;"));
-    }
-
-    return ret;
+    return Status::parse(status);
 }

@@ -49,7 +49,6 @@ public:
     explicit Search(QObject *parent = 0);
 
     static QVariantMap parse(const QVariantMap &status);
-    static bool indicesGreaterThan(const QVariant &v1, const QVariant &v2);
 
     bool dataIsReliable() const { return false; }
 
