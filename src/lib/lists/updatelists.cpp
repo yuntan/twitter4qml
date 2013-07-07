@@ -24,16 +24,16 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "subscribelist.h"
+#include "updatelists.h"
 
-SubscribeList::SubscribeList(QObject *parent)
-    : AbstractListAction(parent)
+UpdateLists::UpdateLists(QObject *parent)
+    : AbstractListsAction(parent)
 {
 }
 
-void SubscribeList::exec()
+void UpdateLists::exec()
 {
     if (!list_id().isEmpty() || ((!owner_id().isEmpty() || !owner_screen_name().isEmpty()) && !slug().isEmpty())) {
-        AbstractListAction::exec();
+        AbstractListsAction::exec();
     }
 }

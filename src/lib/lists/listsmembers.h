@@ -24,12 +24,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef LISTMEMBERS_H
-#define LISTMEMBERS_H
+#ifndef LISTSMEMBERS_H
+#define LISTSMEMBERS_H
 
 #include "abstractusersmodel.h"
 
-class TWITTER4QML_EXPORT ListMembers : public AbstractUsersModel
+class TWITTER4QML_EXPORT ListsMembers : public AbstractUsersModel
 {
     Q_OBJECT
     Q_PROPERTY(QString list_id READ list_id WRITE list_id NOTIFY list_idChanged)
@@ -44,10 +44,10 @@ class TWITTER4QML_EXPORT ListMembers : public AbstractUsersModel
     Q_PROPERTY(QString next_cursor_str READ next_cursor_str NOTIFY next_cursor_strChanged DESIGNABLE false)
     Q_PROPERTY(int previous_cursor READ previous_cursor NOTIFY previous_cursorChanged DESIGNABLE false)
     Q_PROPERTY(QString previous_cursor_str READ previous_cursor_str NOTIFY previous_cursor_strChanged DESIGNABLE false)
-    Q_DISABLE_COPY(ListMembers)
+    Q_DISABLE_COPY(ListsMembers)
 
 public:
-    explicit ListMembers(QObject *parent = 0);
+    explicit ListsMembers(QObject *parent = 0);
 
 public slots:
     void reload();
@@ -76,4 +76,4 @@ private:
     ADD_PROPERTY(bool, skip_status, bool)
 };
 
-#endif // LISTMEMBERS_H
+#endif // LISTSMEMBERS_H

@@ -24,33 +24,37 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef SUBSCRIBELIST_H
-#define SUBSCRIBELIST_H
+#ifndef ABSTRACTLISTSACTION_H
+#define ABSTRACTLISTSACTION_H
 
-#include "abstractlistaction.h"
+#include "abstracttwitteraction.h"
 
-class SubscribeList : public AbstractListAction
+class AbstractListsAction : public AbstractTwitterAction
 {
     Q_OBJECT
-    Q_PROPERTY(QString owner_screen_name READ owner_screen_name WRITE owner_screen_name NOTIFY owner_screen_nameChanged)
-    Q_PROPERTY(QString owner_id READ owner_id WRITE owner_id NOTIFY owner_idChanged)
-    Q_PROPERTY(QString list_id READ list_id WRITE list_id NOTIFY list_idChanged)
-    Q_PROPERTY(QString slug READ slug WRITE slug NOTIFY slugChanged)
-    Q_DISABLE_COPY(SubscribeList)
+    Q_DISABLE_COPY(AbstractListsAction)
 public:
-    explicit SubscribeList(QObject *parent = 0);
-
-public slots:
-    void exec();
+    explicit AbstractListsAction(QObject *parent = 0);
 
 signals:
-    void owner_screen_nameChanged(const QString &owner_screen_name);
-    void owner_idChanged(const QString &owner_id);
     void list_idChanged(const QString &list_id);
     void slugChanged(const QString &slug);
+    void owner_idChanged(const QString &owner_id);
+    void owner_screen_nameChanged(const QString &owner_screen_name);
 
-protected:
-    QUrl api() const { return QUrl("https://api.twitter.com/1.1/lists/subscribers/create.json"); }
+    void descriptionChanged(const QString &description);
+    void modeChanged(const QString &mode);
+    void nameChanged(const QString &name);
+
+private:
+    ADD_PROPERTY(const QString &, list_id, QString)
+    ADD_PROPERTY(const QString &, slug, QString)
+    ADD_PROPERTY(const QString &, owner_id, QString)
+    ADD_PROPERTY(const QString &, owner_screen_name, QString)
+
+    ADD_PROPERTY(const QString &, description, QString)
+    ADD_PROPERTY(const QString &, mode, QString)
+    ADD_PROPERTY(const QString &, name, QString)
 };
 
-#endif // SUBSCRIBELIST_H
+#endif // ABSTRACTLISTSACTION_H

@@ -24,24 +24,24 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "showlist.h"
+#include "showlists.h"
 #include "datamanager.h"
 
-ShowList::ShowList(QObject *parent)
-    : AbstractListAction(parent)
+ShowLists::ShowLists(QObject *parent)
+    : AbstractListsAction(parent)
     , m_following(false)
     , m_member_count(0)
     , m_subscriber_count(0)
 {
 }
 
-void ShowList::exec()
+void ShowLists::exec()
 {
     DataManager *manager = DataManager::instance();
     if (manager->contains(DataManager::ListData, list_id())) {
         setData(manager->getData(DataManager::ListData, list_id()));
         setLoading(false);
     } else {
-        AbstractListAction::exec();
+        AbstractListsAction::exec();
     }
 }

@@ -71,9 +71,9 @@ public:
 
     QVariantMap data() const;
 
-    Q_INVOKABLE void createList(QVariantMap parameters);
-    Q_INVOKABLE void updateList(QVariantMap parameters);
-    Q_INVOKABLE void destroyList();
+    Q_INVOKABLE void createLists(QVariantMap parameters);
+    Q_INVOKABLE void updateLists(QVariantMap parameters);
+    Q_INVOKABLE void destroyLists();
     Q_INVOKABLE void subscribe();
     Q_INVOKABLE void unsubscribe();
 

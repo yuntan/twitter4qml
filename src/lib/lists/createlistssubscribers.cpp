@@ -24,37 +24,16 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef ABSTRACTLISTACTION_H
-#define ABSTRACTLISTACTION_H
+#include "createlistssubscribers.h"
 
-#include "abstracttwitteraction.h"
-
-class AbstractListAction : public AbstractTwitterAction
+CreateListsSubscribers::CreateListsSubscribers(QObject *parent)
+    : AbstractListsAction(parent)
 {
-    Q_OBJECT
-    Q_DISABLE_COPY(AbstractListAction)
-public:
-    explicit AbstractListAction(QObject *parent = 0);
+}
 
-signals:
-    void list_idChanged(const QString &list_id);
-    void slugChanged(const QString &slug);
-    void owner_idChanged(const QString &owner_id);
-    void owner_screen_nameChanged(const QString &owner_screen_name);
-
-    void descriptionChanged(const QString &description);
-    void modeChanged(const QString &mode);
-    void nameChanged(const QString &name);
-
-private:
-    ADD_PROPERTY(const QString &, list_id, QString)
-    ADD_PROPERTY(const QString &, slug, QString)
-    ADD_PROPERTY(const QString &, owner_id, QString)
-    ADD_PROPERTY(const QString &, owner_screen_name, QString)
-
-    ADD_PROPERTY(const QString &, description, QString)
-    ADD_PROPERTY(const QString &, mode, QString)
-    ADD_PROPERTY(const QString &, name, QString)
-};
-
-#endif // ABSTRACTLISTACTION_H
+void CreateListsSubscribers::exec()
+{
+    if (!list_id().isEmpty() || ((!owner_id().isEmpty() || !owner_screen_name().isEmpty()) && !slug().isEmpty())) {
+        AbstractListsAction::exec();
+    }
+}

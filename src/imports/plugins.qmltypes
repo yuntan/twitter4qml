@@ -1033,23 +1033,23 @@ Module {
             Parameter { name: "user"; type: "QVariantMap" }
         }
         Method {
-            name: "createList"
+            name: "createLists"
             Parameter { name: "parameters"; type: "QVariantMap" }
         }
         Method {
-            name: "updateList"
+            name: "updateLists"
             Parameter { name: "parameters"; type: "QVariantMap" }
         }
-        Method { name: "destroyList" }
+        Method { name: "destroyLists" }
         Method { name: "subscribe" }
         Method { name: "unsubscribe" }
         Method { name: "debug" }
     }
     Component {
-        name: "ListMembers"
+        name: "ListsMembers"
         defaultProperty: "childObjects"
         prototype: "AbstractUsersModel"
-        exports: ["ListMembersModel 1.1"]
+        exports: ["ListsMembersModel 1.1"]
         Property { name: "list_id"; type: "string" }
         Property { name: "slug"; type: "string" }
         Property { name: "owner_screen_name"; type: "string" }
@@ -1108,10 +1108,10 @@ Module {
         Method { name: "reload" }
     }
     Component {
-        name: "ListStatuses"
+        name: "ListsStatuses"
         defaultProperty: "childObjects"
         prototype: "AbstractStatusesModel"
-        exports: ["ListStatusesModel 1.1"]
+        exports: ["ListsStatusesModel 1.1"]
         Property { name: "list_id"; type: "string" }
         Property { name: "slug"; type: "string" }
         Property { name: "owner_screen_name"; type: "string" }

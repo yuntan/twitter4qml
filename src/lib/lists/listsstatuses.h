@@ -24,12 +24,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef LISTSTATUSES_H
-#define LISTSTATUSES_H
+#ifndef LISTSSTATUSES_H
+#define LISTSSTATUSES_H
 
 #include "abstractstatusesmodel.h"
 
-class TWITTER4QML_EXPORT ListStatuses : public AbstractStatusesModel
+class TWITTER4QML_EXPORT ListsStatuses : public AbstractStatusesModel
 {
     Q_OBJECT
     Q_PROPERTY(QString list_id READ id WRITE id NOTIFY idChanged)
@@ -41,9 +41,9 @@ class TWITTER4QML_EXPORT ListStatuses : public AbstractStatusesModel
     Q_PROPERTY(int count READ count WRITE count NOTIFY countChanged)
     Q_PROPERTY(bool include_entities READ include_entities WRITE include_entities NOTIFY include_entitiesChanged)
     Q_PROPERTY(bool include_rts READ include_rts WRITE include_rts NOTIFY include_rtsChanged)
-    Q_DISABLE_COPY(ListStatuses)
+    Q_DISABLE_COPY(ListsStatuses)
 public:
-    explicit ListStatuses(QObject *parent = 0);
+    explicit ListsStatuses(QObject *parent = 0);
 
 signals:
     void idChanged(const QString &id);
@@ -63,4 +63,4 @@ protected:
     ADD_PROPERTY(bool, include_rts, bool)
 };
 
-#endif // LISTSTATUSES_H
+#endif // LISTSSTATUSES_H

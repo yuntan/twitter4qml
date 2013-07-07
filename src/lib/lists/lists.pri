@@ -3,31 +3,31 @@ DEPENDPATH += $$PWD
 
 # Lists
 PUBLIC_HEADERS += \
-    $$PWD/abstractlistaction.h \
+    $$PWD/abstractlistsaction.h \
     $$PWD/lists.h \
-    $$PWD/liststatuses.h \
+    $$PWD/listsstatuses.h \
     $$PWD/listsmemberships.h \
-    $$PWD/subscribelist.h \
-    $$PWD/unsubscribelist.h \
-    $$PWD/listmembers.h \
-    $$PWD/destroylist.h \
-    $$PWD/updatelist.h \
-    $$PWD/createlist.h \
-    $$PWD/showlist.h \
+    $$PWD/createlistssubscribers.h \
+    $$PWD/destroylistssubscribers.h \
+    $$PWD/listsmembers.h \
+    $$PWD/destroylists.h \
+    $$PWD/updatelists.h \
+    $$PWD/createlists.h \
+    $$PWD/showlists.h \
     $$PWD/listssubscriptions.h
 
 SOURCES += \
-    $$PWD/abstractlistaction.cpp \
+    $$PWD/abstractlistsaction.cpp \
     $$PWD/lists.cpp \
-    $$PWD/liststatuses.cpp \
+    $$PWD/listsstatuses.cpp \
     $$PWD/listsmemberships.cpp \
-    $$PWD/subscribelist.cpp \
-    $$PWD/unsubscribelist.cpp \
-    $$PWD/listmembers.cpp \
-    $$PWD/destroylist.cpp \
-    $$PWD/updatelist.cpp \
-    $$PWD/createlist.cpp \
-    $$PWD/showlist.cpp \
+    $$PWD/createlistssubscribers.cpp \
+    $$PWD/destroylistssubscribers.cpp \
+    $$PWD/listsmembers.cpp \
+    $$PWD/destroylists.cpp \
+    $$PWD/updatelists.cpp \
+    $$PWD/createlists.cpp \
+    $$PWD/showlists.cpp \
     $$PWD/listssubscriptions.cpp
 
 # Abstract classes

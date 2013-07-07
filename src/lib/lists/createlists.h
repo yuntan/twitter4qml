@@ -24,9 +24,28 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "abstractlistaction.h"
+#ifndef CREATELISTS_H
+#define CREATELISTS_H
 
-AbstractListAction::AbstractListAction(QObject *parent)
-    : AbstractTwitterAction(parent)
+#include "abstractlistsaction.h"
+
+class CreateLists : public AbstractListsAction
 {
-}
+    Q_OBJECT
+    Q_PROPERTY(QString name READ name WRITE name NOTIFY nameChanged)
+    Q_PROPERTY(QString mode READ mode WRITE mode NOTIFY modeChanged)
+    Q_PROPERTY(QString description READ description WRITE description NOTIFY descriptionChanged)
+    Q_DISABLE_COPY(CreateLists)
+public:
+    explicit CreateLists(QObject *parent = 0);
+
+signals:
+    void nameChanged(const QString &name);
+    void modeChanged(const QString &mode);
+    void descriptionChanged(const QString &description);
+
+protected:
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/lists/create.json"); }
+};
+
+#endif // CREATELISTS_H

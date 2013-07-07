@@ -25,12 +25,12 @@
  */
 
 #include "list.h"
-#include "showlist.h"
-#include "createlist.h"
-#include "updatelist.h"
-#include "destroylist.h"
-#include "subscribelist.h"
-#include "unsubscribelist.h"
+#include "showlists.h"
+#include "createlists.h"
+#include "updatelists.h"
+#include "destroylists.h"
+#include "createlistssubscribers.h"
+#include "destroylistssubscribers.h"
 
 #include "datamanager.h"
 
@@ -108,7 +108,7 @@ void List::Private::id_strChanged(const QString &id)
     DEBUG() << id;
     if (id.isEmpty()) {
     } else {
-        ShowList *action = new ShowList(this);
+        ShowLists *action = new ShowLists(this);
         action->list_id(id);
         connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
         if (loading) {
@@ -122,7 +122,7 @@ void List::Private::id_strChanged(const QString &id)
 
 void List::Private::create(const QVariantMap &parameters)
 {
-    CreateList *action = new CreateList(this);
+    CreateLists *action = new CreateLists(this);
     action->description(parameters.value("description").toString());
     action->mode(parameters.value("mode").toString());
     action->name(parameters.value("name").toString());
@@ -137,7 +137,7 @@ void List::Private::create(const QVariantMap &parameters)
 
 void List::Private::update(const QVariantMap &parameters)
 {
-    UpdateList *action = new UpdateList(this);
+    UpdateLists *action = new UpdateLists(this);
     action->list_id(id_str);
     action->description(parameters.value("description").toString());
     action->mode(parameters.value("mode").toString());
@@ -153,7 +153,7 @@ void List::Private::update(const QVariantMap &parameters)
 
 void List::Private::destroy()
 {
-    DestroyList *action = new DestroyList(this);
+    DestroyLists *action = new DestroyLists(this);
     action->list_id(id_str);
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
     if (loading) {
@@ -166,7 +166,7 @@ void List::Private::destroy()
 
 void List::Private::subscribe()
 {
-    SubscribeList *action = new SubscribeList(this);
+    CreateListsSubscribers *action = new CreateListsSubscribers(this);
     action->list_id(id_str);
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
     if (loading) {
@@ -179,7 +179,7 @@ void List::Private::subscribe()
 
 void List::Private::unsubscribe()
 {
-    UnsubscribeList *action = new UnsubscribeList(this);
+    DestroyListsSubscribers *action = new DestroyListsSubscribers(this);
     action->list_id(id_str);
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
     if (loading) {
@@ -233,18 +233,18 @@ List::List(QObject *parent)
 {
 }
 
-void List::createList(QVariantMap parameters)
+void List::createLists(QVariantMap parameters)
 {
     d->create(parameters);
 }
 
-void List::updateList(QVariantMap parameters)
+void List::updateLists(QVariantMap parameters)
 {
     d->update(parameters);
 }
 
 
-void List::destroyList()
+void List::destroyLists()
 {
     d->destroy();
 }

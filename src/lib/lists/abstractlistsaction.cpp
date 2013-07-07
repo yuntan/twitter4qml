@@ -24,16 +24,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "updatelist.h"
+#include "abstractlistsaction.h"
 
-UpdateList::UpdateList(QObject *parent)
-    : AbstractListAction(parent)
+AbstractListsAction::AbstractListsAction(QObject *parent)
+    : AbstractTwitterAction(parent)
 {
-}
-
-void UpdateList::exec()
-{
-    if (!list_id().isEmpty() || ((!owner_id().isEmpty() || !owner_screen_name().isEmpty()) && !slug().isEmpty())) {
-        AbstractListAction::exec();
-    }
 }

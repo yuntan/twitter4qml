@@ -24,16 +24,33 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "unsubscribelist.h"
+#ifndef CREATELISTSSUBSCRIBERS_H
+#define CREATELISTSSUBSCRIBERS_H
 
-UnsubscribeList::UnsubscribeList(QObject *parent)
-    : AbstractListAction(parent)
-{
-}
+#include "abstractlistsaction.h"
 
-void UnsubscribeList::exec()
+class CreateListsSubscribers : public AbstractListsAction
 {
-    if (!list_id().isEmpty() || ((!owner_id().isEmpty() || !owner_screen_name().isEmpty()) && !slug().isEmpty())) {
-        AbstractListAction::exec();
-    }
-}
+    Q_OBJECT
+    Q_PROPERTY(QString owner_screen_name READ owner_screen_name WRITE owner_screen_name NOTIFY owner_screen_nameChanged)
+    Q_PROPERTY(QString owner_id READ owner_id WRITE owner_id NOTIFY owner_idChanged)
+    Q_PROPERTY(QString list_id READ list_id WRITE list_id NOTIFY list_idChanged)
+    Q_PROPERTY(QString slug READ slug WRITE slug NOTIFY slugChanged)
+    Q_DISABLE_COPY(CreateListsSubscribers)
+public:
+    explicit CreateListsSubscribers(QObject *parent = 0);
+
+public slots:
+    void exec();
+
+signals:
+    void owner_screen_nameChanged(const QString &owner_screen_name);
+    void owner_idChanged(const QString &owner_id);
+    void list_idChanged(const QString &list_id);
+    void slugChanged(const QString &slug);
+
+protected:
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/lists/subscribers/create.json"); }
+};
+
+#endif // CREATELISTSSUBSCRIBERS_H

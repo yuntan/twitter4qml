@@ -24,10 +24,16 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "liststatuses.h"
+#include "destroylistssubscribers.h"
 
-ListStatuses::ListStatuses(QObject *parent)
-    : AbstractStatusesModel(parent)
-    , m_include_rts(true)
+DestroyListsSubscribers::DestroyListsSubscribers(QObject *parent)
+    : AbstractListsAction(parent)
 {
+}
+
+void DestroyListsSubscribers::exec()
+{
+    if (!list_id().isEmpty() || ((!owner_id().isEmpty() || !owner_screen_name().isEmpty()) && !slug().isEmpty())) {
+        AbstractListsAction::exec();
+    }
 }

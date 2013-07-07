@@ -86,9 +86,9 @@
 
 // Lists
 #include <lists.h>
-#include <liststatuses.h>
+#include <listsstatuses.h>
 #include <listsmemberships.h>
-#include <listmembers.h>
+#include <listsmembers.h>
 #include <listssubscriptions.h>
 #include <list.h> // TODO ?
 
@@ -185,8 +185,8 @@ public:
         qmlRegisterType<Lists>(uri, major, minor, "ListsModel");
         qmlRegisterType<ListsSubscriptions>(uri, major, minor, "ListsSubscriptionsModel");
         qmlRegisterType<ListsMemberships>(uri, major, minor, "ListsMembershipsModel");
-        qmlRegisterType<ListStatuses>(uri, major, minor, "ListStatusesModel");
-        qmlRegisterType<ListMembers>(uri, major, minor, "ListMembersModel");
+        qmlRegisterType<ListsStatuses>(uri, major, minor, "ListsStatusesModel");
+        qmlRegisterType<ListsMembers>(uri, major, minor, "ListsMembersModel");
         qmlRegisterType<List>(uri, major, minor, "List");
 
         qmlRegisterType<VerifyCredentials>(uri, major, minor, "VerifyCredentials");

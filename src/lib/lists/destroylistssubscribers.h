@@ -24,28 +24,33 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CREATELIST_H
-#define CREATELIST_H
+#ifndef DESTROYLISTSSUBSCRIBERS_H
+#define DESTROYLISTSSUBSCRIBERS_H
 
-#include "abstractlistaction.h"
+#include "abstractlistsaction.h"
 
-class CreateList : public AbstractListAction
+class DestroyListsSubscribers : public AbstractListsAction
 {
     Q_OBJECT
-    Q_PROPERTY(QString name READ name WRITE name NOTIFY nameChanged)
-    Q_PROPERTY(QString mode READ mode WRITE mode NOTIFY modeChanged)
-    Q_PROPERTY(QString description READ description WRITE description NOTIFY descriptionChanged)
-    Q_DISABLE_COPY(CreateList)
+    Q_PROPERTY(QString owner_screen_name READ owner_screen_name WRITE owner_screen_name NOTIFY owner_screen_nameChanged)
+    Q_PROPERTY(QString owner_id READ owner_id WRITE owner_id NOTIFY owner_idChanged)
+    Q_PROPERTY(QString list_id READ list_id WRITE list_id NOTIFY list_idChanged)
+    Q_PROPERTY(QString slug READ slug WRITE slug NOTIFY slugChanged)
+    Q_DISABLE_COPY(DestroyListsSubscribers)
 public:
-    explicit CreateList(QObject *parent = 0);
+    explicit DestroyListsSubscribers(QObject *parent = 0);
+
+public slots:
+    void exec();
 
 signals:
-    void nameChanged(const QString &name);
-    void modeChanged(const QString &mode);
-    void descriptionChanged(const QString &description);
+    void owner_screen_nameChanged(const QString &owner_screen_name);
+    void owner_idChanged(const QString &owner_id);
+    void list_idChanged(const QString &list_id);
+    void slugChanged(const QString &slug);
 
 protected:
-    QUrl api() const { return QUrl("https://api.twitter.com/1.1/lists/create.json"); }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/lists/subscribers/destroy.json"); }
 };
 
-#endif // CREATELIST_H
+#endif // DESTROYLISTSSUBSCRIBERS_H
