@@ -1,6 +1,6 @@
 /* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
- *
+ * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
  *     * Neither the name of the Twitter4QML nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- *
+ * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,25 +24,29 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "abstracttwitter4qmltest.h"
+#ifndef HELPTOS_H
+#define HELPTOS_H
 
-#include <languages.h>
+#include "abstracttwitteraction.h"
 
-class LanguagesTest : public AbstractTwitter4QMLTest
+class TWITTER4QML_EXPORT HelpTos : public AbstractTwitterAction
 {
     Q_OBJECT
+    Q_PROPERTY(QString tos READ tos WRITE tos NOTIFY tosChanged DESIGNABLE false USER true)
+    Q_DISABLE_COPY(HelpTos)
+public:
+    explicit HelpTos(QObject *parent = 0);
 
-private Q_SLOTS:
-    void load();
+signals:
+    void tosChanged(const QString &tos);
+
+protected:
+    virtual AuthorizeBy authenticationMethod() const { return AuthorizeByHeader; }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/help/tos.json"); }
+    QString httpMethod() const { return "GET"; }
+
+private:
+    ADD_PROPERTY(const QString &, tos, QString)
 };
 
-void LanguagesTest::load()
-{
-    Languages languages;
-    QVERIFY2(reload(&languages), "Languages::reload()");
-    QVERIFY2(languages.rowCount() > 0, "loaded");
-}
-
-QTEST_MAIN(LanguagesTest)
-
-#include "tst_languages.moc"
+#endif // HELPTOS_H

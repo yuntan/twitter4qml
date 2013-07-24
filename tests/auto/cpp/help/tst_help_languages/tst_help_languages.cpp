@@ -26,23 +26,23 @@
 
 #include "abstracttwitter4qmltest.h"
 
-#include <privacy.h>
+#include <helplanguages.h>
 
-class tst_privacy : public AbstractTwitter4QMLTest
+class HelpLanguagesTest : public AbstractTwitter4QMLTest
 {
     Q_OBJECT
 
 private Q_SLOTS:
-    void run();
+    void load();
 };
 
-void tst_privacy::run()
+void HelpLanguagesTest::load()
 {
-    Privacy privacy;
-    QVERIFY2(exec(&privacy), "Privacy::exec()");
-    QVERIFY2(!privacy.privacy().isEmpty(), "loaded");
+    HelpLanguages languages;
+    QVERIFY2(reload(&languages), "HelpLanguages::reload()");
+    QVERIFY2(languages.rowCount() > 0, "loaded");
 }
 
-QTEST_MAIN(tst_privacy)
+QTEST_MAIN(HelpLanguagesTest)
 
-#include "tst_privacy.moc"
+#include "tst_help_languages.moc"

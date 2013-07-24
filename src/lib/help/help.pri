@@ -4,13 +4,13 @@ DEPENDPATH += $$PWD
 # Help
 
 PUBLIC_HEADERS += \
-    $$PWD/configuration.h \
-    $$PWD/languages.h \
-    $$PWD/privacy.h \
-    $$PWD/tos.h
+    $$PWD/helpconfiguration.h \
+    $$PWD/helplanguages.h \
+    $$PWD/helpprivacy.h \
+    $$PWD/helptos.h
 
 SOURCES += \
-    $$PWD/configuration.cpp \
-    $$PWD/languages.cpp \
-    $$PWD/privacy.cpp \
-    $$PWD/tos.cpp
+    $$PWD/helpconfiguration.cpp \
+    $$PWD/helplanguages.cpp \
+    $$PWD/helpprivacy.cpp \
+    $$PWD/helptos.cpp

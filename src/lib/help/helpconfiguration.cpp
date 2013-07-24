@@ -24,29 +24,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PRIVACY_H
-#define PRIVACY_H
+#include "helpconfiguration.h"
 
-#include "abstracttwitteraction.h"
-
-class TWITTER4QML_EXPORT Privacy : public AbstractTwitterAction
+HelpConfiguration::HelpConfiguration(QObject *parent)
+    : AbstractTwitterAction(parent)
+    , m_max_media_per_upload(0)
+    , m_photo_size_limit(0)
+    , m_short_url_length(0)
+    , m_short_url_length_https(0)
 {
-    Q_OBJECT
-    Q_PROPERTY(QString privacy READ privacy WRITE privacy NOTIFY privacyChanged DESIGNABLE false USER true)
-    Q_DISABLE_COPY(Privacy)
-public:
-    explicit Privacy(QObject *parent = 0);
-
-signals:
-    void privacyChanged(const QString &privacy);
-
-protected:
-    virtual AuthorizeBy authenticationMethod() const { return AuthorizeByHeader; }
-    QUrl api() const { return QUrl("https://api.twitter.com/1.1/help/privacy.json"); }
-    QString httpMethod() const { return "GET"; }
-
-private:
-    ADD_PROPERTY(const QString &, privacy, QString)
-};
-
-#endif // PRIVACY_H
+    QMetaObject::invokeMethod(this, "exec", Qt::QueuedConnection);
+}

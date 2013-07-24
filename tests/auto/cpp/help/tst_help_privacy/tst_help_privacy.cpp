@@ -1,6 +1,6 @@
 /* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
  *     * Neither the name of the Twitter4QML nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,14 +24,25 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "configuration.h"
+#include "abstracttwitter4qmltest.h"
 
-Configuration::Configuration(QObject *parent)
-    : AbstractTwitterAction(parent)
-    , m_max_media_per_upload(0)
-    , m_photo_size_limit(0)
-    , m_short_url_length(0)
-    , m_short_url_length_https(0)
+#include <helpprivacy.h>
+
+class HelpPrivacyTest : public AbstractTwitter4QMLTest
 {
-    QMetaObject::invokeMethod(this, "exec", Qt::QueuedConnection);
+    Q_OBJECT
+
+private Q_SLOTS:
+    void run();
+};
+
+void HelpPrivacyTest::run()
+{
+    HelpPrivacy privacy;
+    QVERIFY2(exec(&privacy), "HelpPrivacy::exec()");
+    QVERIFY2(!privacy.privacy().isEmpty(), "loaded");
 }
+
+QTEST_MAIN(HelpPrivacyTest)
+
+#include "tst_help_privacy.moc"

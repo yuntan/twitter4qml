@@ -109,10 +109,10 @@
 #include <oauth.h>
 
 // Help
-#include <configuration.h>
-#include <languages.h>
-#include <privacy.h>
-#include <tos.h>
+#include <helpconfiguration.h>
+#include <helplanguages.h>
+#include <helpprivacy.h>
+#include <helptos.h>
 #include <applicationratelimitstatus.h>
 
 #include <oauthmanager.h>
@@ -204,11 +204,11 @@ public:
 
         qmlRegisterType<OAuth>(uri, major, minor, "OAuth");
 
-        qmlRegisterType<Configuration>(uri, major, minor, "Configuration");
-        qmlRegisterType<Languages>(uri, major, minor, "LanguagesModel");
+        qmlRegisterType<HelpConfiguration>(uri, major, minor, "HelpConfiguration");
+        qmlRegisterType<HelpLanguages>(uri, major, minor, "HelpLanguagesModel");
 
-        qmlRegisterType<Privacy>(uri, major, minor, "Privacy");
-        qmlRegisterType<Tos>(uri, major, minor, "Tos");
+        qmlRegisterType<HelpPrivacy>(uri, major, minor, "HelpPrivacy");
+        qmlRegisterType<HelpTos>(uri, major, minor, "HelpTos");
 
         qmlRegisterType<ShowRelatedResults>(uri, major, minor, "RelatedResultsModel");
         qmlRegisterType<ActivitySummary>(uri, major, minor, "ActivitySummary");

@@ -24,12 +24,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CONFIGURATION_H
-#define CONFIGURATION_H
+#ifndef HELPCONFIGURATION_H
+#define HELPCONFIGURATION_H
 
 #include "abstracttwitteraction.h"
 
-class TWITTER4QML_EXPORT Configuration : public AbstractTwitterAction
+class TWITTER4QML_EXPORT HelpConfiguration : public AbstractTwitterAction
 {
     Q_OBJECT
     Q_PROPERTY(QString characters_reserved_per_media READ characters_reserved_per_media WRITE characters_reserved_per_media NOTIFY characters_reserved_per_mediaChanged DESIGNABLE false USER true)
@@ -40,7 +40,7 @@ class TWITTER4QML_EXPORT Configuration : public AbstractTwitterAction
     Q_PROPERTY(int short_url_length_https READ short_url_length_https WRITE short_url_length_https NOTIFY short_url_length_httpsChanged DESIGNABLE false USER true)
     Q_PROPERTY(QVariantMap photo_sizes READ photo_sizes WRITE photo_sizes NOTIFY photo_sizesChanged DESIGNABLE false USER true)
 public:
-    explicit Configuration(QObject *parent = 0);
+    explicit HelpConfiguration(QObject *parent = 0);
 
 signals:
     void characters_reserved_per_mediaChanged(const QString &characters_reserved_per_media);
@@ -66,4 +66,4 @@ private:
     ADD_PROPERTY(const QVariantMap &, photo_sizes, QVariantMap)
 };
 
-#endif // CONFIGURATION_H
+#endif // HELPCONFIGURATION_H

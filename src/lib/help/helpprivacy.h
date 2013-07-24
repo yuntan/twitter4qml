@@ -24,28 +24,29 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef LANGUAGES_H
-#define LANGUAGES_H
+#ifndef HELPPRIVACY_H
+#define HELPPRIVACY_H
 
-#include "abstracttwittermodel.h"
+#include "abstracttwitteraction.h"
 
-class TWITTER4QML_EXPORT Languages : public AbstractTwitterModel
+class TWITTER4QML_EXPORT HelpPrivacy : public AbstractTwitterAction
 {
     Q_OBJECT
-    Q_DISABLE_COPY(Languages)
+    Q_PROPERTY(QString privacy READ privacy WRITE privacy NOTIFY privacyChanged DESIGNABLE false USER true)
+    Q_DISABLE_COPY(HelpPrivacy)
 public:
-    enum Roles {
-        code_role = Qt::UserRole + 1
-        , name_role
-        , status_role
-    };
-    explicit Languages(QObject *parent = 0);
+    explicit HelpPrivacy(QObject *parent = 0);
+
+signals:
+    void privacyChanged(const QString &privacy);
 
 protected:
     virtual AuthorizeBy authenticationMethod() const { return AuthorizeByHeader; }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/help/privacy.json"); }
     QString httpMethod() const { return "GET"; }
-    QUrl api() const { return QUrl("https://api.twitter.com/1.1/help/languages.json"); }
-    void parseDone(const QVariant &result);
+
+private:
+    ADD_PROPERTY(const QString &, privacy, QString)
 };
 
-#endif // LANGUAGES_H
+#endif // HELPPRIVACY_H

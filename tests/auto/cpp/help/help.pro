@@ -1,6 +1,6 @@
 TEMPLATE = subdirs
 SUBDIRS = \
-	tst_languages \
-	tst_privacy \
-	tst_ratelimit \
-	tst_tos
+	tst_help_languages \
+	tst_help_privacy \
+	tst_help_ratelimit \
+	tst_help_tos

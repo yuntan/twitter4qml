@@ -24,9 +24,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "tos.h"
+#include "helptos.h"
 
-Tos::Tos(QObject *parent)
+HelpTos::HelpTos(QObject *parent)
     : AbstractTwitterAction(parent)
 {
     QMetaObject::invokeMethod(this, "exec", Qt::QueuedConnection);

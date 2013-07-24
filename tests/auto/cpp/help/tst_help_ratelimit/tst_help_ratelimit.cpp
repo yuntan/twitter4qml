@@ -30,7 +30,7 @@
 
 #include <QtCore/QDateTime>
 
-class tst_ratelimit : public AbstractTwitter4QMLTest
+class HelpRatelimitTest : public AbstractTwitter4QMLTest
 {
     Q_OBJECT
 
@@ -38,7 +38,7 @@ private Q_SLOTS:
     void run();
 };
 
-void tst_ratelimit::run()
+void HelpRatelimitTest::run()
 {
     HomeTimeline timeline;
     QVERIFY2(reload(&timeline), "HomeTimeline::reload()");
@@ -50,6 +50,6 @@ void tst_ratelimit::run()
     QVERIFY2(QDateTime::currentDateTime().secsTo(timeline.xrlReset()) <= 60 * 15, "AbstractTwitterModel::xrlReset()");
 }
 
-QTEST_MAIN(tst_ratelimit)
+QTEST_MAIN(HelpRatelimitTest)
 
-#include "tst_ratelimit.moc"
+#include "tst_help_ratelimit.moc"

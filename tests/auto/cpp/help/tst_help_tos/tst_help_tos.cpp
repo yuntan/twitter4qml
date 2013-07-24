@@ -1,6 +1,6 @@
 /* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
  *     * Neither the name of the Twitter4QML nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,29 +24,25 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "languages.h"
+#include "abstracttwitter4qmltest.h"
 
-Languages::Languages(QObject *parent)
-    : AbstractTwitterModel(parent)
+#include <helptos.h>
+
+class HelpTosTest : public AbstractTwitter4QMLTest
 {
-    QHash<int, QByteArray> roles;
-    roles[code_role] = "code";
-    roles[name_role] = "name";
-    roles[status_role] = "status";
-    setRoleNames(roles);
+    Q_OBJECT
+
+private Q_SLOTS:
+    void run();
+};
+
+void HelpTosTest::run()
+{
+    HelpTos tos;
+    QVERIFY2(exec(&tos), "HelpTos::exec()");
+    QVERIFY2(!tos.tos().isEmpty(), "loaded");
 }
 
-void Languages::parseDone(const QVariant &result)
-{
-//    DEBUG() << result;
-    if (result.type() == QVariant::List) {
-        QVariantList array = result.toList();
-        foreach (const QVariant &result, array) {
-            if (result.type() == QVariant::Map) {
-                QVariantMap map = result.toMap();
-                map.insert("id_str", map.value("name").toString());
-                addData(map);
-            }
-        }
-    }
-}
+QTEST_MAIN(HelpTosTest)
+
+#include "tst_help_tos.moc"

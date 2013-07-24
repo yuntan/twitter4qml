@@ -24,29 +24,28 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef TOS_H
-#define TOS_H
+#ifndef HELPLANGUAGES_H
+#define HELPLANGUAGES_H
 
-#include "abstracttwitteraction.h"
+#include "abstracttwittermodel.h"
 
-class TWITTER4QML_EXPORT Tos : public AbstractTwitterAction
+class TWITTER4QML_EXPORT HelpLanguages : public AbstractTwitterModel
 {
     Q_OBJECT
-    Q_PROPERTY(QString tos READ tos WRITE tos NOTIFY tosChanged DESIGNABLE false USER true)
-    Q_DISABLE_COPY(Tos)
+    Q_DISABLE_COPY(HelpLanguages)
 public:
-    explicit Tos(QObject *parent = 0);
-
-signals:
-    void tosChanged(const QString &tos);
+    enum Roles {
+        code_role = Qt::UserRole + 1
+        , name_role
+        , status_role
+    };
+    explicit HelpLanguages(QObject *parent = 0);
 
 protected:
     virtual AuthorizeBy authenticationMethod() const { return AuthorizeByHeader; }
-    QUrl api() const { return QUrl("https://api.twitter.com/1.1/help/tos.json"); }
     QString httpMethod() const { return "GET"; }
-
-private:
-    ADD_PROPERTY(const QString &, tos, QString)
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/help/languages.json"); }
+    void parseDone(const QVariant &result);
 };
 
-#endif // TOS_H
+#endif // HELPLANGUAGES_H

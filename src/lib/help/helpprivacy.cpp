@@ -24,9 +24,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "privacy.h"
+#include "helpprivacy.h"
 
-Privacy::Privacy(QObject *parent)
+HelpPrivacy::HelpPrivacy(QObject *parent)
     : AbstractTwitterAction(parent)
 {
     QMetaObject::invokeMethod(this, "exec", Qt::QueuedConnection);

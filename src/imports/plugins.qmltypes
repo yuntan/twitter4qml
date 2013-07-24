@@ -389,9 +389,9 @@ Module {
         exports: ["TrendsAvailableModel 1.1"]
     }
     Component {
-        name: "Configuration"
+        name: "HelpConfiguration"
         prototype: "AbstractTwitterAction"
-        exports: ["Configuration 1.1"]
+        exports: ["HelpConfiguration 1.1"]
         Property { name: "characters_reserved_per_media"; type: "string" }
         Property { name: "non_username_paths"; type: "QVariantList" }
         Property { name: "max_media_per_upload"; type: "int" }
@@ -909,10 +909,10 @@ Module {
         }
     }
     Component {
-        name: "Languages"
+        name: "HelpLanguages"
         defaultProperty: "childObjects"
         prototype: "AbstractTwitterModel"
-        exports: ["LanguagesModel 1.1"]
+        exports: ["HelpLanguagesModel 1.1"]
     }
     Component {
         name: "List"
@@ -1431,9 +1431,9 @@ Module {
         Method { name: "reload" }
     }
     Component {
-        name: "Privacy"
+        name: "HelpPrivacy"
         prototype: "AbstractTwitterAction"
-        exports: ["Privacy 1.1"]
+        exports: ["HelpPrivacy 1.1"]
         Property { name: "privacy"; type: "string" }
         Signal {
             name: "privacyChanged"
@@ -1909,9 +1909,9 @@ Module {
         }
     }
     Component {
-        name: "Tos"
+        name: "HelpTos"
         prototype: "AbstractTwitterAction"
-        exports: ["Tos 1.1"]
+        exports: ["HelpTos 1.1"]
         Property { name: "tos"; type: "string" }
         Signal {
             name: "tosChanged"
