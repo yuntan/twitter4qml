@@ -113,7 +113,7 @@
 #include <languages.h>
 #include <privacy.h>
 #include <tos.h>
-#include <ratelimitstatus.h>
+#include <applicationratelimitstatus.h>
 
 #include <oauthmanager.h>
 
@@ -192,7 +192,7 @@ public:
         qmlRegisterType<VerifyCredentials>(uri, major, minor, "VerifyCredentials");
         qmlRegisterType<UpdateProfile>(uri, major, minor, "UpdateProfile");
         qmlRegisterType<Settings>(uri, major, minor, "Settings");
-        qmlRegisterType<RateLimitStatus>(uri, major, minor, "RateLimitStatus");
+        qmlRegisterType<ApplicationRateLimitStatus>(uri, major, minor, "ApplicationRateLimitStatus");
 
         qmlRegisterType<SavedSearches>(uri, major, minor, "SavedSearchesModel");
 

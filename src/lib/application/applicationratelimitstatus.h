@@ -24,10 +24,31 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "ratelimitstatus.h"
+#ifndef APPLICATIONRATELIMITSTATUS_H
+#define APPLICATIONRATELIMITSTATUS_H
 
-RateLimitStatus::RateLimitStatus(QObject *parent)
-    : AbstractTwitterAction(parent)
+#include "abstracttwitteraction.h"
+
+class TWITTER4QML_EXPORT ApplicationRateLimitStatus : public AbstractTwitterAction
 {
-    QMetaObject::invokeMethod(this, "exec", Qt::QueuedConnection);
-}
+    Q_OBJECT
+    Q_DISABLE_COPY(ApplicationRateLimitStatus)
+    Q_PROPERTY(QVariantMap rate_limit_context READ rate_limit_context WRITE rate_limit_context NOTIFY rate_limit_contextChanged DESIGNABLE false USER true)
+    Q_PROPERTY(QVariantMap resources READ resources WRITE resources NOTIFY resourcesChanged)
+public:
+    explicit ApplicationRateLimitStatus(QObject *parent = 0);
+
+signals:
+    void rate_limit_contextChanged(const QVariantMap &rate_limit_context);
+    void resourcesChanged(const QVariantMap &resources);
+
+protected:
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/application/rate_limit_status.json"); }
+    QString httpMethod() const { return "GET"; }
+
+private:
+    ADD_PROPERTY(const QVariantMap &, rate_limit_context, QVariantMap)
+    ADD_PROPERTY(const QVariantMap &, resources, QVariantMap)
+};
+
+#endif // APPLICATIONRATELIMITSTATUS_H

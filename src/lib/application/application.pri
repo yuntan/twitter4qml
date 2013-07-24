@@ -4,7 +4,7 @@ DEPENDPATH += $$PWD
 # Application
 
 PUBLIC_HEADERS += \
-    $$PWD/ratelimitstatus.h
+    $$PWD/applicationratelimitstatus.h
 
 SOURCES += \
-    $$PWD/ratelimitstatus.cpp
+    $$PWD/applicationratelimitstatus.cpp

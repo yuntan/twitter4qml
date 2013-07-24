@@ -1441,9 +1441,9 @@ Module {
         }
     }
     Component {
-        name: "RateLimitStatus"
+        name: "ApplicationRateLimitStatus"
         prototype: "AbstractTwitterAction"
-        exports: ["RateLimitStatus 1.1"]
+        exports: ["ApplicationRateLimitStatus 1.1"]
         Property { name: "rate_limit_context"; type: "QVariantMap" }
         Property { name: "resources"; type: "QVariantMap" }
         Signal {
