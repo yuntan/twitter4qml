@@ -24,9 +24,26 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "destroyblocks.h"
+#ifndef BLOCKSCREATE_H
+#define BLOCKSCREATE_H
 
-DestroyBlocks::DestroyBlocks(QObject *parent)
-    : AbstractBlocksAction(parent)
+#include "abstractblocksaction.h"
+
+class BlocksCreate : public AbstractBlocksAction
 {
-}
+    Q_OBJECT
+    Q_PROPERTY(bool include_entities READ include_entities WRITE include_entities NOTIFY include_entitiesChanged)
+    Q_PROPERTY(bool skip_status READ skip_status WRITE skip_status NOTIFY skip_statusChanged)
+    Q_DISABLE_COPY(BlocksCreate)
+public:
+    explicit BlocksCreate(QObject *parent = 0);
+
+signals:
+    void include_entitiesChanged(bool include_entities);
+    void skip_statusChanged(bool skip_status);
+
+protected:
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/blocks/create.json"); }
+};
+
+#endif // BLOCKSCREATE_H

@@ -24,9 +24,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "createblocks.h"
+#include "blocksdestroy.h"
 
-CreateBlocks::CreateBlocks(QObject *parent)
+BlocksDestroy::BlocksDestroy(QObject *parent)
     : AbstractBlocksAction(parent)
 {
 }
