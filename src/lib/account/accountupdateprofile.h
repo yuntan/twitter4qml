@@ -24,15 +24,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef UPDATEPROFILE_H
-#define UPDATEPROFILE_H
+#ifndef ACCOUNTUPDATEPROFILE_H
+#define ACCOUNTUPDATEPROFILE_H
 
 #include "abstracttwitteraction.h"
 
-class TWITTER4QML_EXPORT UpdateProfile : public AbstractTwitterAction
+class TWITTER4QML_EXPORT AccountUpdateProfile : public AbstractTwitterAction
 {
     Q_OBJECT
-    Q_DISABLE_COPY(UpdateProfile)
+    Q_DISABLE_COPY(AccountUpdateProfile)
     Q_PROPERTY(QString name READ name WRITE name NOTIFY nameChanged)
     Q_PROPERTY(QString url READ url WRITE url NOTIFY urlChanged)
     Q_PROPERTY(QString location READ location WRITE location NOTIFY locationChanged)
@@ -40,7 +40,7 @@ class TWITTER4QML_EXPORT UpdateProfile : public AbstractTwitterAction
     Q_PROPERTY(bool include_entities READ include_entities WRITE include_entities NOTIFY include_entitiesChanged)
     Q_PROPERTY(bool skip_status READ skip_status WRITE skip_status NOTIFY skip_statusChanged)
 public:
-    explicit UpdateProfile(QObject *parent = 0);
+    explicit AccountUpdateProfile(QObject *parent = 0);
 
 signals:
     void nameChanged(const QString &name);
@@ -62,4 +62,4 @@ private:
     ADD_PROPERTY(bool, skip_status, bool)
 };
 
-#endif // UPDATEPROFILE_H
+#endif // ACCOUNTUPDATEPROFILE_H

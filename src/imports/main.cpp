@@ -67,10 +67,9 @@
 #include <friendshipsshow.h>
 
 // Users
-#include <settings.h>
-#include <verifycredentials.h>
-#include <updatesettings.h>
-#include <updateprofile.h>
+#include <accountsettings.h>
+#include <accountverifycredentials.h>
+#include <accountupdateprofile.h>
 #include <blockslist.h>
 #include <blocksids.h>
 #include <lookupusers.h>
@@ -189,9 +188,9 @@ public:
         qmlRegisterType<ListsMembers>(uri, major, minor, "ListsMembersModel");
         qmlRegisterType<List>(uri, major, minor, "List");
 
-        qmlRegisterType<VerifyCredentials>(uri, major, minor, "VerifyCredentials");
-        qmlRegisterType<UpdateProfile>(uri, major, minor, "UpdateProfile");
-        qmlRegisterType<Settings>(uri, major, minor, "Settings");
+        qmlRegisterType<AccountVerifyCredentials>(uri, major, minor, "AccountVerifyCredentials");
+        qmlRegisterType<AccountUpdateProfile>(uri, major, minor, "AccountUpdateProfile");
+        qmlRegisterType<AccountSettings>(uri, major, minor, "AccountSettings");
         qmlRegisterType<ApplicationRateLimitStatus>(uri, major, minor, "ApplicationRateLimitStatus");
 
         qmlRegisterType<SavedSearches>(uri, major, minor, "SavedSearchesModel");

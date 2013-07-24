@@ -24,12 +24,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef VERIFYCREDENTIALS_H
-#define VERIFYCREDENTIALS_H
+#ifndef ACCOUNTVERIFYCREDENTIALS_H
+#define ACCOUNTVERIFYCREDENTIALS_H
 
 #include "abstracttwitteraction.h"
 
-class TWITTER4QML_EXPORT VerifyCredentials : public AbstractTwitterAction
+class TWITTER4QML_EXPORT AccountVerifyCredentials : public AbstractTwitterAction
 {
     Q_OBJECT
     Q_PROPERTY(bool contributors_enabled READ contributors_enabled WRITE contributors_enabled NOTIFY contributors_enabledChanged DESIGNABLE false USER true)
@@ -71,9 +71,9 @@ class TWITTER4QML_EXPORT VerifyCredentials : public AbstractTwitterAction
     Q_PROPERTY(int utc_offset READ utc_offset WRITE utc_offset NOTIFY utc_offsetChanged DESIGNABLE false USER true)
     Q_PROPERTY(bool verified READ verified WRITE verified NOTIFY verifiedChanged DESIGNABLE false USER true)
 
-    Q_DISABLE_COPY(VerifyCredentials)
+    Q_DISABLE_COPY(AccountVerifyCredentials)
 public:
-    explicit VerifyCredentials(QObject *parent = 0);
+    explicit AccountVerifyCredentials(QObject *parent = 0);
 
     static QVariantMap parse(const QVariantMap &status);
 
@@ -173,4 +173,4 @@ private:
 
 };
 
-#endif // VERIFYCREDENTIALS_H
+#endif // ACCOUNTVERIFYCREDENTIALS_H

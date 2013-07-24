@@ -1647,9 +1647,9 @@ Module {
         Method { name: "reload" }
     }
     Component {
-        name: "Settings"
+        name: "AccountSettings"
         prototype: "AbstractTwitterAction"
-        exports: ["Settings 1.1"]
+        exports: ["AccountSettings 1.1"]
         Property { name: "always_use_https"; type: "bool" }
         Property { name: "discoverable_by_email"; type: "bool" }
         Property { name: "geo_enabled"; type: "bool" }
@@ -1919,9 +1919,9 @@ Module {
         }
     }
     Component {
-        name: "UpdateProfile"
+        name: "AccountUpdateProfile"
         prototype: "AbstractTwitterAction"
-        exports: ["UpdateProfile 1.1"]
+        exports: ["AccountUpdateProfile 1.1"]
         Property { name: "name"; type: "string" }
         Property { name: "url"; type: "string" }
         Property { name: "location"; type: "string" }

@@ -24,15 +24,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "settings.h"
+#include "accountupdateprofile.h"
 
-Settings::Settings(QObject *parent)
+AccountUpdateProfile::AccountUpdateProfile(QObject *parent)
     : AbstractTwitterAction(parent)
-    , m_always_use_https(false)
-    , m_discoverable_by_email(false)
-    , m_geo_enabled(false)
-    , m__protected(false)
-    , m_show_all_inline_media(false)
+    , m_include_entities(true)
+    , m_skip_status(false)
 {
-    QMetaObject::invokeMethod(this, "exec", Qt::QueuedConnection);
 }

@@ -24,15 +24,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef UPDATESETTINGS_H
-#define UPDATESETTINGS_H
+#ifndef ACCOUNTSETTINGSUPDATE_H
+#define ACCOUNTSETTINGSUPDATE_H
 
 #include "abstracttwitteraction.h"
 
-class TWITTER4QML_EXPORT UpdateSettings : public AbstractTwitterAction
+class TWITTER4QML_EXPORT AccountSettingsUpdate : public AbstractTwitterAction
 {
     Q_OBJECT
-    Q_DISABLE_COPY(UpdateSettings)
+    Q_DISABLE_COPY(AccountSettingsUpdate)
     Q_PROPERTY(int trend_location_woeid READ trend_location_woeid WRITE trend_location_woeid NOTIFY trend_location_woeidChanged)
     Q_PROPERTY(bool sleep_time_enabled READ sleep_time_enabled WRITE sleep_time_enabled NOTIFY sleep_time_enabledChanged)
     Q_PROPERTY(int start_sleep_time READ start_sleep_time WRITE start_sleep_time NOTIFY start_sleep_timeChanged)
@@ -40,7 +40,7 @@ class TWITTER4QML_EXPORT UpdateSettings : public AbstractTwitterAction
     Q_PROPERTY(QString time_zone READ time_zone WRITE time_zone NOTIFY time_zoneChanged)
     Q_PROPERTY(QString lang READ lang WRITE lang NOTIFY langChanged)
 public:
-    explicit UpdateSettings(QObject *parent = 0);
+    explicit AccountSettingsUpdate(QObject *parent = 0);
 
 signals:
     void trend_location_woeidChanged(int trend_location_woeid);
@@ -62,4 +62,4 @@ private:
     ADD_PROPERTY(const QString &, lang, QString)
 };
 
-#endif // UPDATESETTINGS_H
+#endif // ACCOUNTSETTINGSUPDATE_H

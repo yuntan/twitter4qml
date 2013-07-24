@@ -24,9 +24,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "updatesettings.h"
+#include "accountsettingsupdate.h"
 
-UpdateSettings::UpdateSettings(QObject *parent)
+AccountSettingsUpdate::AccountSettingsUpdate(QObject *parent)
     : AbstractTwitterAction(parent)
     , m_trend_location_woeid(0)
     , m_sleep_time_enabled(false)

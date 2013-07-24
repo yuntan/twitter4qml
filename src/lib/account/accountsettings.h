@@ -24,15 +24,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef SETTINGS_H
-#define SETTINGS_H
+#ifndef ACCOUNTSETTINGS_H
+#define ACCOUNTSETTINGS_H
 
 #include "abstracttwitteraction.h"
 
-class TWITTER4QML_EXPORT Settings : public AbstractTwitterAction
+class TWITTER4QML_EXPORT AccountSettings : public AbstractTwitterAction
 {
     Q_OBJECT
-    Q_DISABLE_COPY(Settings)
+    Q_DISABLE_COPY(AccountSettings)
     Q_PROPERTY(bool always_use_https READ always_use_https WRITE always_use_https NOTIFY always_use_httpsChanged DESIGNABLE false USER true)
     Q_PROPERTY(bool discoverable_by_email READ discoverable_by_email WRITE discoverable_by_email NOTIFY discoverable_by_emailChanged DESIGNABLE false USER true)
     Q_PROPERTY(bool geo_enabled READ geo_enabled WRITE geo_enabled NOTIFY geo_enabledChanged DESIGNABLE false USER true)
@@ -45,7 +45,7 @@ class TWITTER4QML_EXPORT Settings : public AbstractTwitterAction
     Q_PROPERTY(QVariantList trend_location READ trend_location WRITE trend_location NOTIFY trend_locationChanged DESIGNABLE false USER true)
 
 public:
-    explicit Settings(QObject *parent = 0);
+    explicit AccountSettings(QObject *parent = 0);
 
 signals:
     void always_use_httpsChanged(bool always_use_https);
@@ -76,4 +76,4 @@ private:
     ADD_PROPERTY(const QVariantList &, trend_location, QVariantList)
 };
 
-#endif // SETTINGS_H
+#endif // ACCOUNTSETTINGS_H

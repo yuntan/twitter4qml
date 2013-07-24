@@ -26,9 +26,9 @@
 
 #include "abstracttwitter4qmltest.h"
 
-#include <verifycredentials.h>
+#include <accountverifycredentials.h>
 
-class VerifyCredentialsTest : public AbstractTwitter4QMLTest
+class AccountVerifyCredentialsTest : public AbstractTwitter4QMLTest
 {
     Q_OBJECT
 
@@ -36,14 +36,14 @@ private Q_SLOTS:
     void screen_name();
 };
 
-void VerifyCredentialsTest::screen_name()
+void AccountVerifyCredentialsTest::screen_name()
 {
-    VerifyCredentials test;
-    QVERIFY2(exec(&test), "VerifyCredentials::exec()");
+    AccountVerifyCredentials test;
+    QVERIFY2(exec(&test), "AccountVerifyCredentials::exec()");
 
     QCOMPARE(test.screen_name(), QLatin1String("twit_ter4qml"));
 }
 
-QTEST_MAIN(VerifyCredentialsTest)
+QTEST_MAIN(AccountVerifyCredentialsTest)
 
-#include "tst_verify_credentials.moc"
+#include "tst_account_verify_credentials.moc"

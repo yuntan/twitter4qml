@@ -4,13 +4,13 @@ DEPENDPATH += $$PWD
 # Users
 
 PUBLIC_HEADERS += \
-    $$PWD/settings.h \
-    $$PWD/verifycredentials.h \
-    $$PWD/updatesettings.h \
-    $$PWD/updateprofile.h
+    $$PWD/accountsettings.h \
+    $$PWD/accountverifycredentials.h \
+    $$PWD/accountsettingsupdate.h \
+    $$PWD/accountupdateprofile.h
 
 SOURCES += \
-    $$PWD/settings.cpp \
-    $$PWD/verifycredentials.cpp \
-    $$PWD/updatesettings.cpp \
-    $$PWD/updateprofile.cpp
+    $$PWD/accountsettings.cpp \
+    $$PWD/accountverifycredentials.cpp \
+    $$PWD/accountsettingsupdate.cpp \
+    $$PWD/accountupdateprofile.cpp

@@ -27,7 +27,6 @@
 #include "abstracttwitter4qmltest.h"
 
 #include <statusesupdatewithmedia.h>
-#include <verifycredentials.h>
 
 class StatusesUpdateWithMediaTest : public AbstractTwitter4QMLTest
 {

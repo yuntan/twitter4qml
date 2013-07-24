@@ -1,3 +1,3 @@
 TEMPLATE = subdirs
 SUBDIRS = \
-        tst_verify_credentials
+        tst_account_verify_credentials

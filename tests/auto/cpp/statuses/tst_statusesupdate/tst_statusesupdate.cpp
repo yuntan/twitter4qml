@@ -27,7 +27,7 @@
 #include "abstracttwitter4qmltest.h"
 
 #include <statusesupdate.h>
-#include <verifycredentials.h>
+#include <accountverifycredentials.h>
 
 class StatusesUpdateTest : public AbstractTwitter4QMLTest
 {
@@ -42,13 +42,13 @@ private Q_SLOTS:
     void geo_data();
 
 private:
-    VerifyCredentials verifyCredentials;
+    AccountVerifyCredentials accountVerifyCredentials;
     QString lastTweetId;
 };
 
 void StatusesUpdateTest::initTestCase()
 {
-    QVERIFY2(exec(&verifyCredentials), "VerifyCredentials::exec()");
+    QVERIFY2(exec(&accountVerifyCredentials), "AccountVerifyCredentials::exec()");
 }
 
 void StatusesUpdateTest::status()
@@ -83,7 +83,7 @@ void StatusesUpdateTest::in_reply_to_status_id()
 
     StatusesUpdate statusesUpdate;
 
-    statusesUpdate.status(QString("@%1 %2").arg(verifyCredentials.screen_name()).arg(QDateTime::currentDateTime().toString()));
+    statusesUpdate.status(QString("@%1 %2").arg(accountVerifyCredentials.screen_name()).arg(QDateTime::currentDateTime().toString()));
     statusesUpdate.in_reply_to_status_id(lastTweetId);
 
     QVERIFY2(exec(&statusesUpdate), "StatusesUpdate::exec()");
@@ -109,7 +109,7 @@ void StatusesUpdateTest::geo()
 
     QVariantMap response = statusesUpdate.data().toMap();
     QCOMPARE(response.value("id").isValid(), true);
-    QCOMPARE(response.value("geo").isValid(), verifyCredentials.geo_enabled());
+    QCOMPARE(response.value("geo").isValid(), accountVerifyCredentials.geo_enabled());
 }
 
 void StatusesUpdateTest::geo_data()

@@ -24,17 +24,17 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "verifycredentials.h"
+#include "accountverifycredentials.h"
 
 #include "datamanager.h"
 
 #include <QtCore/QMetaProperty>
 
-class VerifyCredentials::Private : public QObject
+class AccountVerifyCredentials::Private : public QObject
 {
     Q_OBJECT
 public:
-    Private(VerifyCredentials *parent);
+    Private(AccountVerifyCredentials *parent);
 
     bool loading;
 
@@ -44,10 +44,10 @@ private slots:
 //    void dataChanged(DataManager::DataType type, const QString &key, const QVariantMap &value);
 
 private:
-    VerifyCredentials *q;
+    AccountVerifyCredentials *q;
 };
 
-VerifyCredentials::Private::Private(VerifyCredentials *parent)
+AccountVerifyCredentials::Private::Private(AccountVerifyCredentials *parent)
     : QObject(parent)
     , q(parent)
 {
@@ -56,7 +56,7 @@ VerifyCredentials::Private::Private(VerifyCredentials *parent)
 //    connect(DataManager::instance(), SIGNAL(dataChanged(DataManager::DataType,QString,QVariantMap)), this, SLOT(dataChanged(DataManager::DataType,QString,QVariantMap)));
 }
 
-void VerifyCredentials::Private::dataAdded(DataManager::DataType type, const QString &key, const QVariantMap &value)
+void AccountVerifyCredentials::Private::dataAdded(DataManager::DataType type, const QString &key, const QVariantMap &value)
 {
     Q_UNUSED(key)
     if (type != DataManager::StatusData) return;
@@ -65,7 +65,7 @@ void VerifyCredentials::Private::dataAdded(DataManager::DataType type, const QSt
     }
 }
 
-void VerifyCredentials::Private::dataAboutToBeRemoved(DataManager::DataType type, const QString &key, const QVariantMap &value)
+void AccountVerifyCredentials::Private::dataAboutToBeRemoved(DataManager::DataType type, const QString &key, const QVariantMap &value)
 {
     Q_UNUSED(key)
     if (type != DataManager::StatusData) return;
@@ -74,7 +74,7 @@ void VerifyCredentials::Private::dataAboutToBeRemoved(DataManager::DataType type
     }
 }
 
-//void VerifyCredentials::Private::dataChanged(DataManager::DataType type, const QString &key, const QVariantMap &value)
+//void AccountVerifyCredentials::Private::dataChanged(DataManager::DataType type, const QString &key, const QVariantMap &value)
 //{
 //    Q_UNUSED(key)
 //    if (type != DataManager::StatusData) return;
@@ -82,7 +82,7 @@ void VerifyCredentials::Private::dataAboutToBeRemoved(DataManager::DataType type
 //    }
 //}
 
-VerifyCredentials::VerifyCredentials(QObject *parent)
+AccountVerifyCredentials::AccountVerifyCredentials(QObject *parent)
     : AbstractTwitterAction(parent)
     , d(new Private(this))
     , m_contributors_enabled(false)
@@ -105,7 +105,7 @@ VerifyCredentials::VerifyCredentials(QObject *parent)
     QMetaObject::invokeMethod(this, "exec", Qt::QueuedConnection);
 }
 
-QVariantMap VerifyCredentials::data() const
+QVariantMap AccountVerifyCredentials::data() const
 {
     QVariantMap ret;
     const QMetaObject *mo = metaObject();
@@ -118,10 +118,10 @@ QVariantMap VerifyCredentials::data() const
     return ret;
 }
 
-QVariantMap VerifyCredentials::parse(const QVariantMap &verifyCredentials)
+QVariantMap AccountVerifyCredentials::parse(const QVariantMap &accountVerifyCredentials)
 {
-    QVariantMap ret = verifyCredentials;
+    QVariantMap ret = accountVerifyCredentials;
     return ret;
 }
 
-#include "verifycredentials.moc"
+#include "accountverifycredentials.moc"
