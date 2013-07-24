@@ -1513,10 +1513,10 @@ Module {
         }
     }
     Component {
-        name: "ReverseGeocode"
+        name: "GeoReverseGeocode"
         defaultProperty: "childObjects"
         prototype: "AbstractTwitterModel"
-        exports: ["ReverseGeocodeModel 1.1"]
+        exports: ["GeoReverseGeocodeModel 1.1"]
         Property { name: "_lat"; type: "double" }
         Property { name: "_long"; type: "double" }
         Property { name: "granularity"; type: "string" }

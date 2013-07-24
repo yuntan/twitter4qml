@@ -96,7 +96,7 @@
 #include <savedsearches.h>
 
 // Places & Geo
-#include <reversegeocode.h>
+#include <georeversegeocode.h>
 #include <geosearch.h>
 
 // Trends
@@ -197,7 +197,7 @@ public:
         qmlRegisterType<SavedSearches>(uri, major, minor, "SavedSearchesModel");
 
         qmlRegisterType<GeoSearch>(uri, major, minor, "GeoSearchModel");
-        qmlRegisterType<ReverseGeocode>(uri, major, minor, "ReverseGeocodeModel");
+        qmlRegisterType<GeoReverseGeocode>(uri, major, minor, "GeoReverseGeocodeModel");
 
         qmlRegisterType<Place>(uri, major, minor, "TrendsPlaceModel");
         qmlRegisterType<Available>(uri, major, minor, "TrendsAvailableModel");

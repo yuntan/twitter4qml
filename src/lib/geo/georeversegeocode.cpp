@@ -24,25 +24,25 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "reversegeocode.h"
+#include "georeversegeocode.h"
 
 #include <QtCore/qnumeric.h>
 #include <QtCore/QTimer>
 
-class ReverseGeocode::Private
+class GeoReverseGeocode::Private
 {
 public:
     Private();
     QTimer timer;
 };
 
-ReverseGeocode::Private::Private()
+GeoReverseGeocode::Private::Private()
 {
     timer.setInterval(0);
     timer.setSingleShot(true);
 }
 
-ReverseGeocode::ReverseGeocode(QObject *parent)
+GeoReverseGeocode::GeoReverseGeocode(QObject *parent)
     : AbstractTwitterModel(parent)
     , d(new Private)
     , m_latitude(0)
@@ -68,12 +68,12 @@ ReverseGeocode::ReverseGeocode(QObject *parent)
     connect(this, SIGNAL(accuracyChanged(QString)), &d->timer, SLOT(start()));
 }
 
-ReverseGeocode::~ReverseGeocode()
+GeoReverseGeocode::~GeoReverseGeocode()
 {
     delete d;
 }
 
-void ReverseGeocode::reload()
+void GeoReverseGeocode::reload()
 {
     if (qIsNaN(latitude())) return;
     if (qIsNaN(longitude())) return;
@@ -83,7 +83,7 @@ void ReverseGeocode::reload()
     AbstractTwitterModel::reload();
 }
 
-void ReverseGeocode::parseDone(const QVariant &result)
+void GeoReverseGeocode::parseDone(const QVariant &result)
 {
 //    DEBUG() << result;
     if (result.type() == QVariant::Map && result.toMap().value("result").type() == QVariant::Map) {

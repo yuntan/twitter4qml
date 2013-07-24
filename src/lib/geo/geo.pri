@@ -4,9 +4,9 @@ DEPENDPATH += $$PWD
 # Places & Geo
 
 PUBLIC_HEADERS += \
-    $$PWD/reversegeocode.h \
+    $$PWD/georeversegeocode.h \
     $$PWD/geosearch.h
 
 SOURCES += \
-    $$PWD/reversegeocode.cpp \
+    $$PWD/georeversegeocode.cpp \
     $$PWD/geosearch.cpp

@@ -24,12 +24,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef REVERSEGEOCODE_H
-#define REVERSEGEOCODE_H
+#ifndef GEOREVERSEGEOCODE_H
+#define GEOREVERSEGEOCODE_H
 
 #include "abstracttwittermodel.h"
 
-class TWITTER4QML_EXPORT ReverseGeocode : public AbstractTwitterModel
+class TWITTER4QML_EXPORT GeoReverseGeocode : public AbstractTwitterModel
 {
     Q_OBJECT
     Q_PROPERTY(double _lat READ latitude WRITE latitude NOTIFY latitudeChanged)
@@ -37,7 +37,7 @@ class TWITTER4QML_EXPORT ReverseGeocode : public AbstractTwitterModel
     Q_PROPERTY(QString granularity READ granularity WRITE granularity NOTIFY granularityChanged)
     Q_PROPERTY(QString accuracy READ accuracy WRITE accuracy NOTIFY accuracyChanged)
     Q_PROPERTY(int max_results READ max_results WRITE max_results NOTIFY max_resultsChanged)
-    Q_DISABLE_COPY(ReverseGeocode)
+    Q_DISABLE_COPY(GeoReverseGeocode)
 public:
     enum Roles {
         attrubutes_role = Qt::UserRole + 1
@@ -52,8 +52,8 @@ public:
         , place_type_role
         , url_role
     };
-    explicit ReverseGeocode(QObject *parent = 0);
-    ~ReverseGeocode();
+    explicit GeoReverseGeocode(QObject *parent = 0);
+    ~GeoReverseGeocode();
 
 public slots:
     void reload();
@@ -82,4 +82,4 @@ private:
     ADD_PROPERTY(int, max_results, int)
 };
 
-#endif // REVERSEGEOCODE_H
+#endif // GEOREVERSEGEOCODE_H
