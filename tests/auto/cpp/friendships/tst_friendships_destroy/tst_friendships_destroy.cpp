@@ -26,9 +26,9 @@
 
 #include "abstracttwitter4qmltest.h"
 
-#include <createfriendships.h>
+#include <friendshipsdestroy.h>
 
-class CreateFriendshipsTest : public AbstractTwitter4QMLTest
+class FriendshipsDestroyTest : public AbstractTwitter4QMLTest
 {
     Q_OBJECT
 
@@ -36,13 +36,13 @@ private Q_SLOTS:
     void screen_name();
 };
 
-void CreateFriendshipsTest::screen_name()
+void FriendshipsDestroyTest::screen_name()
 {
-    CreateFriendships test;
+    FriendshipsDestroy test;
     test.screen_name("kenya888");
-    QVERIFY2(exec(&test), "CreateFriendships::exec()");
+    QVERIFY2(exec(&test), "FriendshipsDestroy::exec()");
 }
 
-QTEST_MAIN(CreateFriendshipsTest)
+QTEST_MAIN(FriendshipsDestroyTest)
 
-#include "tst_create_friendships.moc"
+#include "tst_friendships_destroy.moc"

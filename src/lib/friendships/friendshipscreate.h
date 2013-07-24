@@ -24,9 +24,24 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "destroyfriendships.h"
+#ifndef FRIENDSHIPSCREATE_H
+#define FRIENDSHIPSCREATE_H
 
-DestroyFriendships::DestroyFriendships(QObject *parent)
-    : AbstractFriendshipsAction(parent)
+#include "abstractfriendshipsaction.h"
+
+class TWITTER4QML_EXPORT FriendshipsCreate : public AbstractFriendshipsAction
 {
-}
+    Q_OBJECT
+    Q_PROPERTY(bool follow READ follow WRITE follow NOTIFY followChanged)
+    Q_DISABLE_COPY(FriendshipsCreate)
+public:
+    explicit FriendshipsCreate(QObject *parent = 0);
+
+signals:
+    void followChanged(bool follow);
+
+protected:
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/friendships/create.json"); }
+};
+
+#endif // FRIENDSHIPSCREATE_H

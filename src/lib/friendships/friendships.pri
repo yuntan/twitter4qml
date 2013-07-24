@@ -3,32 +3,32 @@ DEPENDPATH += $$PWD
 
 # Friends & Followers
 PUBLIC_HEADERS += \
-    $$PWD/noretweetsids.h \
+    $$PWD/friendshipsnoretweetsids.h \
     $$PWD/friendsids.h \
     $$PWD/followersids.h \
     # $$PWD/lookup.h \
-    $$PWD/incoming.h \
-    $$PWD/outgoing.h \
-    $$PWD/createfriendships.h \
-    $$PWD/destroyfriendships.h \
-    $$PWD/updatefriendships.h \
-    $$PWD/showfriendships.h \
-    $$PWD/friends.h \
-    $$PWD/followers.h
+    $$PWD/friendshipsincoming.h \
+    $$PWD/friendshipsoutgoing.h \
+    $$PWD/friendshipscreate.h \
+    $$PWD/friendshipsdestroy.h \
+    $$PWD/friendshipsupdate.h \
+    $$PWD/friendshipsshow.h \
+    $$PWD/friendslist.h \
+    $$PWD/followerslist.h
 
 SOURCES += \
-    $$PWD/noretweetsids.cpp \
+    $$PWD/friendshipsnoretweetsids.cpp \
     $$PWD/friendsids.cpp \
     $$PWD/followersids.cpp \
     # $$PWD/lookup.cpp \
-    $$PWD/incoming.cpp \
-    $$PWD/outgoing.cpp \
-    $$PWD/createfriendships.cpp \
-    $$PWD/destroyfriendships.cpp \
-    $$PWD/updatefriendships.cpp \
-    $$PWD/showfriendships.cpp \
-    $$PWD/friends.cpp \
-    $$PWD/followers.cpp
+    $$PWD/friendshipsincoming.cpp \
+    $$PWD/friendshipsoutgoing.cpp \
+    $$PWD/friendshipscreate.cpp \
+    $$PWD/friendshipsdestroy.cpp \
+    $$PWD/friendshipsupdate.cpp \
+    $$PWD/friendshipsshow.cpp \
+    $$PWD/friendslist.cpp \
+    $$PWD/followerslist.cpp
 
 # Abstract classes
 PUBLIC_HEADERS += \

@@ -26,8 +26,8 @@
 
 #include "user.h"
 #include "showuser.h"
-#include "../friendships/createfriendships.h"
-#include "../friendships/destroyfriendships.h"
+#include "../friendships/friendshipscreate.h"
+#include "../friendships/friendshipsdestroy.h"
 #include "../blocks/blockscreate.h"
 #include "../blocks/blocksdestroy.h"
 #include "../blocks/reportforspam.h"
@@ -158,7 +158,7 @@ void User::Private::clear()
 
 void User::Private::follow()
 {
-    CreateFriendships *action = new CreateFriendships(this);
+    FriendshipsCreate *action = new FriendshipsCreate(this);
     action->user_id(q->id_str());
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
     if (loading) {
@@ -171,7 +171,7 @@ void User::Private::follow()
 
 void User::Private::unfollow()
 {
-    DestroyFriendships *action = new DestroyFriendships(this);
+    FriendshipsDestroy *action = new FriendshipsDestroy(this);
     action->user_id(q->id_str());
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
     if (loading) {
@@ -243,9 +243,9 @@ void User::Private::dataChanged(const QVariant &data)
                 const char *key = prop.name();
                 if (user.contains(key)) {
                     if (QLatin1String("following") == key) {
-                        if (qobject_cast<CreateFriendships *>(sender())) {
+                        if (qobject_cast<FriendshipsCreate *>(sender())) {
                             q->setProperty(key, true);
-                        } else if (qobject_cast<DestroyFriendships *>(sender())) {
+                        } else if (qobject_cast<FriendshipsDestroy *>(sender())) {
                                 q->setProperty(key, false);
                         } else {
                             q->setProperty(key, user.value(key));

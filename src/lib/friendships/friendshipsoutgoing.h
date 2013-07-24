@@ -24,20 +24,25 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef DESTROYFRIENDSHIPS_H
-#define DESTROYFRIENDSHIPS_H
+#ifndef FRIENDSHIPSOUTGOING_H
+#define FRIENDSHIPSOUTGOING_H
 
-#include "abstractfriendshipsaction.h"
+#include "abstractfriendshipsidsmodel.h"
 
-class TWITTER4QML_EXPORT DestroyFriendships : public AbstractFriendshipsAction
+class TWITTER4QML_EXPORT FriendshipsOutgoing : public AbstractFriendshipsIdsModel
 {
     Q_OBJECT
-    Q_DISABLE_COPY(DestroyFriendships)
+    Q_PROPERTY(QString cursor READ cursor WRITE cursor NOTIFY cursorChanged)
+    Q_PROPERTY(bool stringify_ids READ stringify_ids WRITE stringify_ids NOTIFY stringify_idsChanged)
 public:
-    explicit DestroyFriendships(QObject *parent = 0);
+    explicit FriendshipsOutgoing(QObject *parent = 0);
+
+signals:
+    void cursorChanged(const QString &cursor);
+    void stringify_idsChanged(bool stringify_ids);
 
 protected:
-    QUrl api() const { return QUrl("https://api.twitter.com/1.1/friendships/destroy.json"); }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/friendships/outgoing.json"); }
 };
 
-#endif // DESTROYFRIENDSHIPS_H
+#endif // FRIENDSHIPSOUTGOING_H

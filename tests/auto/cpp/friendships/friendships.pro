@@ -1,4 +1,4 @@
 TEMPLATE = subdirs
 SUBDIRS = \
-        tst_create_friendships \
-                tst_destroy_friendships
+        tst_friendships_create \
+                tst_friendships_destroy

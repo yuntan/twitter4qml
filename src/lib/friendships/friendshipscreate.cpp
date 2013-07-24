@@ -24,10 +24,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "incoming.h"
+#include "friendshipscreate.h"
 
-Incoming::Incoming(QObject *parent)
-    : AbstractFriendshipsIdsModel(parent)
+FriendshipsCreate::FriendshipsCreate(QObject *parent)
+    : AbstractFriendshipsAction(parent)
 {
 }
-

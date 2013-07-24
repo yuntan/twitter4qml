@@ -57,14 +57,14 @@
 #include <directmessage.h>
 
 // Friends & Followers
-#include <noretweetsids.h>
+#include <friendshipsnoretweetsids.h>
 #include <followersids.h>
 #include <friendsids.h>
-#include <incoming.h>
-#include <outgoing.h>
-#include <followers.h>
-#include <friends.h>
-#include <showfriendships.h>
+#include <friendshipsincoming.h>
+#include <friendshipsoutgoing.h>
+#include <followerslist.h>
+#include <friendslist.h>
+#include <friendshipsshow.h>
 
 // Users
 #include <settings.h>
@@ -163,14 +163,14 @@ public:
         qmlRegisterType<DirectMessage>(uri, major, minor, "DirectMessage");
 
         // Friends & Followers
-        qmlRegisterType<NoRetweetsIds>(uri, major, minor, "NoRetweetsIdsModel");
+        qmlRegisterType<FriendshipsNoRetweetsIds>(uri, major, minor, "FriendshipsNoRetweetsIdsModel");
         qmlRegisterType<FriendsIds>(uri, major, minor, "FriendsIdsModel");
         qmlRegisterType<FollowersIds>(uri, major, minor, "FollowersIdsModel");
-        qmlRegisterType<Incoming>(uri, major, minor, "IncomingModel");
-        qmlRegisterType<Outgoing>(uri, major, minor, "OutgoingModel");
-        qmlRegisterType<ShowFriendships>(uri, major, minor, "ShowFriendships");
-        qmlRegisterType<Friends>(uri, major, minor, "FriendsModel");
-        qmlRegisterType<Followers>(uri, major, minor, "FollowersModel");
+        qmlRegisterType<FriendshipsIncoming>(uri, major, minor, "FriendshipsIncomingModel");
+        qmlRegisterType<FriendshipsOutgoing>(uri, major, minor, "FriendshipsOutgoingModel");
+        qmlRegisterType<FriendshipsShow>(uri, major, minor, "FriendshipsShow");
+        qmlRegisterType<FriendsList>(uri, major, minor, "FriendsListModel");
+        qmlRegisterType<FollowersList>(uri, major, minor, "FollowersListModel");
 
 
 

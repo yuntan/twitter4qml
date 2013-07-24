@@ -24,52 +24,37 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FOLLOWERS_H
-#define FOLLOWERS_H
+#ifndef FRIENDSHIPSUPDATE_H
+#define FRIENDSHIPSUPDATE_H
 
-#include "abstractusersmodel.h"
+#include "abstracttwitteraction.h"
 
-class TWITTER4QML_EXPORT Followers : public AbstractUsersModel
+class FriendshipsUpdate : public AbstractTwitterAction
 {
     Q_OBJECT
-    Q_PROPERTY(QString user_id READ id WRITE id NOTIFY idChanged)
+    Q_PROPERTY(QString user_id READ user_id WRITE user_id NOTIFY user_idChanged)
     Q_PROPERTY(QString screen_name READ screen_name WRITE screen_name NOTIFY screen_nameChanged)
-    Q_PROPERTY(QString cursor READ cursor WRITE cursor NOTIFY cursorChanged)
-    Q_PROPERTY(bool skip_status READ skip_status WRITE skip_status NOTIFY skip_statusChanged)
-    Q_PROPERTY(bool include_user_entities READ include_entities WRITE include_entities NOTIFY include_entitiesChanged)
-
-    Q_PROPERTY(int next_cursor READ next_cursor NOTIFY next_cursorChanged DESIGNABLE false)
-    Q_PROPERTY(QString next_cursor_str READ next_cursor_str NOTIFY next_cursor_strChanged DESIGNABLE false)
-    Q_PROPERTY(int previous_cursor READ previous_cursor NOTIFY previous_cursorChanged DESIGNABLE false)
-    Q_PROPERTY(QString previous_cursor_str READ previous_cursor_str NOTIFY previous_cursor_strChanged DESIGNABLE false)
-    Q_DISABLE_COPY(Followers)
-
-
+    Q_PROPERTY(bool device READ device WRITE device NOTIFY deviceChanged)
+    Q_PROPERTY(bool retweets READ retweets WRITE retweets NOTIFY retweetsChanged)
 public:
-    explicit Followers(QObject *parent = 0);
-
-public slots:
-    void reload();
+    explicit FriendshipsUpdate(QVariantMap parameters, QObject *parent = 0);
 
 signals:
-    void idChanged(const QString &id);
+    void user_idChanged(const QString &user_id);
     void screen_nameChanged(const QString &screen_name);
-    void cursorChanged(const QString &cursor);
-    void skip_statusChanged(bool skip_status);
-    void include_entitiesChanged(bool include_entities);
-
-    void next_cursorChanged(int next_cursor) const;
-    void next_cursor_strChanged(const QString &next_cursor_str) const;
-    void previous_cursorChanged(int previous_cursor) const;
-    void previous_cursor_strChanged(const QString &previous_cursor_str) const;
+    void deviceChanged(bool device);
+    void retweetsChanged(bool retweets);
 
 protected:
-    QUrl api() const { return QUrl("https://api.twitter.com/1.1/followers/list.json"); }
-    void parseDone(const QVariant &result);
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/friendships/update.json"); }
+    AuthorizeBy authenticationMethod() const { return AuthorizeByUrl; }
+    QString httpMethod() const { return "POST"; }
 
 private:
-    ADD_PROPERTY(const QString &, id, QString)
-    ADD_PROPERTY(bool, skip_status, bool)
+    ADD_PROPERTY(const QString &, user_id, QString)
+    ADD_PROPERTY(const QString &, screen_name, QString)
+    ADD_PROPERTY(bool, device, bool)
+    ADD_PROPERTY(bool, retweets, bool)
 };
 
-#endif // FOLLOWERS_H
+#endif // FRIENDSHIPSUPDATE_H

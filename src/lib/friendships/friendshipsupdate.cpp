@@ -1,6 +1,6 @@
 /* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
- *
+ * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
  *     * Neither the name of the Twitter4QML nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- *
+ * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,25 +24,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "abstracttwitter4qmltest.h"
+#include "friendshipsupdate.h"
 
-#include <createfriendship.h>
-
-class CreateFriendshipTest : public AbstractTwitter4QMLTest
+FriendshipsUpdate::FriendshipsUpdate(QVariantMap parameters, QObject *parent)
+    : AbstractTwitterAction(parent)
+    , m_device(false)
+    , m_retweets(true)
 {
-    Q_OBJECT
-
-private Q_SLOTS:
-    void screen_name();
-};
-
-void CreateFriendshipTest::screen_name()
-{
-    CreateFriendship test;
-    test.screen_name("kenya888");
-    QVERIFY2(exec(&test), "CreateFriendship::exec()");
+    setParameters(parameters);
 }
-
-QTEST_MAIN(CreateFriendshipTest)
-
-#include "tst_create_friendship.moc"

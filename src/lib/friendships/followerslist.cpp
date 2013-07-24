@@ -24,56 +24,35 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "showfriendships.h"
-#include <QtCore/QTimer>
+#include "followerslist.h"
 
-class ShowFriendships::Private : public QObject
+FollowersList::FollowersList(QObject *parent)
+    : AbstractUsersModel(parent)
+    , m_skip_status(true)
 {
-    Q_OBJECT
-public:
-    Private(ShowFriendships *parent);
-
-private slots:
-    void changed();
-
-private:
-    ShowFriendships *q;
-    QTimer timer;
-};
-
-ShowFriendships::Private::Private(ShowFriendships *parent)
-    : QObject(parent)
-    , q(parent)
-{
-    connect(q, SIGNAL(source_idChanged(QString)), this, SLOT(changed()));
-    connect(q, SIGNAL(source_screen_nameChanged(QString)), this, SLOT(changed()));
-    connect(q, SIGNAL(target_idChanged(QString)), this, SLOT(changed()));
-    connect(q, SIGNAL(target_screen_nameChanged(QString)), this, SLOT(changed()));
-
-    timer.setInterval(0);
-    timer.setSingleShot(true);
-    connect(&timer, SIGNAL(timeout()), q, SLOT(exec()));
 }
 
-void ShowFriendships::Private::changed()
+void FollowersList::reload()
 {
-    if (timer.isActive()) return;
-    q->relationship(QVariantMap());
-    timer.start();
+    if (!id().isEmpty() || !screen_name().isEmpty()) {
+        AbstractUsersModel::reload();
+    }
 }
 
-ShowFriendships::ShowFriendships(QObject *parent)
-    : AbstractTwitterAction(parent)
-    , d(new Private(this))
+void FollowersList::parseDone(const QVariant &result)
 {
-    QMetaObject::invokeMethod(this, "exec", Qt::QueuedConnection);
+    if (result.type() == QVariant::Map) {
+        QVariantMap object = result.toMap();
+        if (object.contains("users") && object.value("users").type() == QVariant::List) {
+            AbstractUsersModel::parseDone(object.value("users"));
+        }
+        if (object.contains("next_cursor"))
+            next_cursor(object.value("next_cursor").toInt());
+        if (object.contains("next_cursor_str"))
+            next_cursor_str(object.value("next_cursor_str").toString());
+        if (object.contains("previous_cursor"))
+            previous_cursor(object.value("previous_cursor").toInt());
+        if (object.contains("previous_cursor_str"))
+            previous_cursor_str(object.value("previous_cursor_str").toString());
+    }
 }
-
-void ShowFriendships::exec()
-{
-    if (source_id().isEmpty() && source_screen_name().isEmpty()) return;
-    if (target_id().isEmpty() && target_screen_name().isEmpty()) return;
-    AbstractTwitterAction::exec();
-}
-
-#include "showfriendships.moc"

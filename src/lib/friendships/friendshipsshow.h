@@ -24,12 +24,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef SHOWFRIENDSHIP_H
-#define SHOWFRIENDSHIP_H
+#ifndef FRIENDSHIPSSHOW_H
+#define FRIENDSHIPSSHOW_H
 
 #include "abstracttwitteraction.h"
 
-class TWITTER4QML_EXPORT ShowFriendships : public AbstractTwitterAction
+class TWITTER4QML_EXPORT FriendshipsShow : public AbstractTwitterAction
 {
     Q_OBJECT
     Q_PROPERTY(QString source_id READ source_id WRITE source_id NOTIFY source_idChanged)
@@ -38,7 +38,7 @@ class TWITTER4QML_EXPORT ShowFriendships : public AbstractTwitterAction
     Q_PROPERTY(QString target_screen_name READ target_screen_name WRITE target_screen_name NOTIFY target_screen_nameChanged)
     Q_PROPERTY(QVariantMap relationship READ relationship WRITE relationship NOTIFY relationshipChanged DESIGNABLE false USER true)
 public:
-    explicit ShowFriendships(QObject *parent = 0);
+    explicit FriendshipsShow(QObject *parent = 0);
 
 public slots:
     void exec();
@@ -66,4 +66,4 @@ private:
     ADD_PROPERTY(const QVariantMap &, relationship, QVariantMap)
 };
 
-#endif // SHOWFRIENDSHIP_H
+#endif // FRIENDSHIPSSHOW_H

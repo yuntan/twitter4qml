@@ -24,9 +24,28 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "createfriendships.h"
+#ifndef FRIENDSHIPSNORETWEETSIDS_H
+#define FRIENDSHIPSNORETWEETSIDS_H
 
-CreateFriendships::CreateFriendships(QObject *parent)
-    : AbstractFriendshipsAction(parent)
+#include "abstractidsmodel.h"
+
+class TWITTER4QML_EXPORT FriendshipsNoRetweetsIds : public AbstractIdsModel
 {
-}
+    Q_OBJECT
+    Q_PROPERTY(bool stringify_ids READ stringify_ids WRITE stringify_ids NOTIFY stringify_idsChanged)
+public:
+    explicit FriendshipsNoRetweetsIds(QObject *parent = 0);
+
+signals:
+    void stringify_idsChanged(bool stringify_ids);
+
+protected:
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/friendships/no_retweets/ids.json"); }
+    AuthorizeBy authenticationMethod() const { return AuthorizeByUrl; }
+    void parseDone(const QVariant &result);
+
+private:
+    Q_DISABLE_COPY(FriendshipsNoRetweetsIds)
+};
+
+#endif // FRIENDSHIPSNORETWEETSIDS_H

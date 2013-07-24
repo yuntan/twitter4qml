@@ -24,9 +24,56 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "outgoing.h"
+#include "friendshipsshow.h"
+#include <QtCore/QTimer>
 
-Outgoing::Outgoing(QObject *parent)
-    : AbstractFriendshipsIdsModel(parent)
+class FriendshipsShow::Private : public QObject
 {
+    Q_OBJECT
+public:
+    Private(FriendshipsShow *parent);
+
+private slots:
+    void changed();
+
+private:
+    FriendshipsShow *q;
+    QTimer timer;
+};
+
+FriendshipsShow::Private::Private(FriendshipsShow *parent)
+    : QObject(parent)
+    , q(parent)
+{
+    connect(q, SIGNAL(source_idChanged(QString)), this, SLOT(changed()));
+    connect(q, SIGNAL(source_screen_nameChanged(QString)), this, SLOT(changed()));
+    connect(q, SIGNAL(target_idChanged(QString)), this, SLOT(changed()));
+    connect(q, SIGNAL(target_screen_nameChanged(QString)), this, SLOT(changed()));
+
+    timer.setInterval(0);
+    timer.setSingleShot(true);
+    connect(&timer, SIGNAL(timeout()), q, SLOT(exec()));
 }
+
+void FriendshipsShow::Private::changed()
+{
+    if (timer.isActive()) return;
+    q->relationship(QVariantMap());
+    timer.start();
+}
+
+FriendshipsShow::FriendshipsShow(QObject *parent)
+    : AbstractTwitterAction(parent)
+    , d(new Private(this))
+{
+    QMetaObject::invokeMethod(this, "exec", Qt::QueuedConnection);
+}
+
+void FriendshipsShow::exec()
+{
+    if (source_id().isEmpty() && source_screen_name().isEmpty()) return;
+    if (target_id().isEmpty() && target_screen_name().isEmpty()) return;
+    AbstractTwitterAction::exec();
+}
+
+#include "friendshipsshow.moc"
