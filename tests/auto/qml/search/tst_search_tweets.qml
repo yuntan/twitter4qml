@@ -24,42 +24,34 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "abstracttwitter4qmltest.h"
+import QtTest 1.0
+import TwitterAPI 1.1
 
-#include <search.h>
+TestCase {
+    id: root
 
-class tst_search : public AbstractTwitter4QMLTest
-{
-    Q_OBJECT
-private Q_SLOTS:
-    void q();
-    void q_data();
-};
+    OAuth {
+        consumer_key: 'K6eWjgzGz1qE4oOOBYkdMg'
+        consumer_secret: 't4ku8EEo8Sw7ywZ26vAxuQuH7sH0CQYH4DvhizEX4'
+        token: '798286350-Za9khIT9UFYdNKMwjuha1zyrbeiVInr2p8iLtetk'
+        token_secret: 'xfGg5t21TmJQdxxOpD4KYaxjRUZgIf8KIV33Z9s'
+        user_id: '798286350'
+        screen_name: 'twit_ter4qml'
+    }
 
-void tst_search::q()
-{
-    QFETCH(QString, query);
+    SearchTweetsModel {
+        id: model
+    }
 
-    Search search;
-    QCOMPARE(search.q(), QString());
-    search.q(query);
+    function init() {
+        model.reset()
+    }
 
-    QCOMPARE(search.q(), query);
-
-    QVERIFY2(reload(&search), "Search::reload()");
-
-    QCOMPARE(search.q(), query);
-    QVERIFY2(search.rowCount() > 0, "Empty");
+    function test_search_tweets() {
+        model.q = '#twitter'
+        model.reload()
+        tryCompare(model, 'loading', true)
+        tryCompare(model, 'loading', false, 10000)
+        verify(model.size > 0)
+    }
 }
-
-void tst_search::q_data()
-{
-    QTest::addColumn<QString>("query");
-    QTest::newRow("Twitter") << QString("Twitter");
-    QTest::newRow("#Qt") << QString("#Qt");
-    QTest::newRow("QML") << QString("QML");
-}
-
-QTEST_MAIN(tst_search)
-
-#include "tst_search.moc"

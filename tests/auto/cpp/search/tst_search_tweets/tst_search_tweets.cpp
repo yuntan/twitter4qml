@@ -1,6 +1,6 @@
 /* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
  *     * Neither the name of the Twitter4QML nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,52 +24,42 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "search.h"
-#include "showstatuses.h"
-#include "status.h"
-#include "../utils.h"
-#include <QtCore/QQueue>
+#include "abstracttwitter4qmltest.h"
 
-Search::Search(QObject *parent)
-    : AbstractStatusesModel(parent)
-    , m_result_type("mixed")
+#include <searchtweets.h>
+
+class tst_search_tweets : public AbstractTwitter4QMLTest
 {
+    Q_OBJECT
+private Q_SLOTS:
+    void q();
+    void q_data();
+};
+
+void tst_search_tweets::q()
+{
+    QFETCH(QString, query);
+
+    SearchTweets search;
+    QCOMPARE(search.q(), QString());
+    search.q(query);
+
+    QCOMPARE(search.q(), query);
+
+    QVERIFY2(reload(&search), "SearchTweets::reload()");
+
+    QCOMPARE(search.q(), query);
+    QVERIFY2(search.rowCount() > 0, "Empty");
 }
 
-void Search::parseDone(const QVariant &result)
+void tst_search_tweets::q_data()
 {
-    if (result.type() == QVariant::Map) {
-        QVariantMap object = result.toMap();
-        if (object.contains("search_metadata"))
-            search_metadata(object.value("search_metadata").toMap());
-//        if (object.contains("query"))
-//            setQ(object.value("query").toString());
-        if (object.contains("statuses") && object.value("statuses").type() == QVariant::List) {
-            QVariantList results = object.value("statuses").toList();
-            if (results.isEmpty()) {
-                emit loadingChanged(false);
-            } else {
-                foreach (const QVariant &result, results) {
-                    if (result.type() == QVariant::Map) {
-                        addData(Search::parse(result.toMap()));
-                    }
-                }
-            }
-        } else {
-            DEBUG() << object;
-        }
-    }
+    QTest::addColumn<QString>("query");
+    QTest::newRow("Twitter") << QString("Twitter");
+    QTest::newRow("#Qt") << QString("#Qt");
+    QTest::newRow("QML") << QString("QML");
 }
 
-void Search::dataAdded(const QString &key, const QVariantMap &value)
-{
-    Q_UNUSED(key)
-    if (value.value("text").toString().contains(QString(QByteArray::fromPercentEncoding(q().toUtf8())), Qt::CaseInsensitive)) {
-        addData(value);
-    }
-}
+QTEST_MAIN(tst_search_tweets)
 
-QVariantMap Search::parse(const QVariantMap &status)
-{
-    return Status::parse(status);
-}
+#include "tst_search_tweets.moc"

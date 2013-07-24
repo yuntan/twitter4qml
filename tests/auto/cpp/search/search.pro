@@ -1,3 +1,3 @@
 TEMPLATE = subdirs
 SUBDIRS = \
-	tst_search
+	tst_search_tweets

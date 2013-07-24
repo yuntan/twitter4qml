@@ -44,7 +44,7 @@
 #include <status.h>
 
 // Search
-#include <search.h>
+#include <searchtweets.h>
 
 // Streaming
 #include <userstream.h>
@@ -150,7 +150,7 @@ public:
         qmlRegisterType<Status>(uri, major, minor, "Status");
 
         // Search
-        qmlRegisterType<Search>(uri, major, minor, "SearchModel");
+        qmlRegisterType<SearchTweets>(uri, major, minor, "SearchTweetsModel");
 
         // Streaming
         qmlRegisterType<UserStream>(uri, major, minor, "UserStreamModel");

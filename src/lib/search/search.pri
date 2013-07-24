@@ -3,7 +3,7 @@ DEPENDPATH += $$PWD
 
 # Search
 PUBLIC_HEADERS += \
-    $$PWD/search.h
+    $$PWD/searchtweets.h
 
 SOURCES += \
-    $$PWD/search.cpp
+    $$PWD/searchtweets.cpp

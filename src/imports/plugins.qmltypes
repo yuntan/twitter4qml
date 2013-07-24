@@ -1559,10 +1559,10 @@ Module {
         }
     }
     Component {
-        name: "Search"
+        name: "SearchTweets"
         defaultProperty: "childObjects"
         prototype: "AbstractStatusesModel"
-        exports: ["SearchModel 1.1"]
+        exports: ["SearchTweetsModel 1.1"]
         Property { name: "q"; type: "string" }
         Property { name: "geocode"; type: "string" }
         Property { name: "lang"; type: "string" }

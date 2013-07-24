@@ -24,12 +24,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef SEARCH_H
-#define SEARCH_H
+#ifndef SEARCHTWEETS_H
+#define SEARCHTWEETS_H
 
 #include "abstractstatusesmodel.h"
 
-class TWITTER4QML_EXPORT Search : public AbstractStatusesModel
+class TWITTER4QML_EXPORT SearchTweets : public AbstractStatusesModel
 {
     Q_OBJECT
     Q_PROPERTY(QString q READ q WRITE q NOTIFY qChanged)
@@ -46,7 +46,7 @@ class TWITTER4QML_EXPORT Search : public AbstractStatusesModel
     Q_PROPERTY(QVariantMap search_metadata READ search_metadata WRITE search_metadata NOTIFY search_metadataChanged DESIGNABLE false)
 
 public:
-    explicit Search(QObject *parent = 0);
+    explicit SearchTweets(QObject *parent = 0);
 
     static QVariantMap parse(const QVariantMap &status);
 
@@ -73,7 +73,7 @@ protected:
     void dataAdded(const QString &key, const QVariantMap &value);
 
 private:
-    Q_DISABLE_COPY(Search)
+    Q_DISABLE_COPY(SearchTweets)
 
     ADD_PROPERTY(const QString &, q, QString)
     ADD_PROPERTY(const QString &, geocode, QString)
@@ -85,4 +85,4 @@ private:
     ADD_PROPERTY(const QVariantMap &, search_metadata, QVariantMap)
 };
 
-#endif // SEARCH_H
+#endif // SEARCHTWEETS_H
