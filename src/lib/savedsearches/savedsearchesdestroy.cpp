@@ -24,9 +24,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "destroysavedsearch.h"
+#include "savedsearchesdestroy.h"
 
-DestroySavedSearch::DestroySavedSearch(QObject *parent)
+SavedSearchesDestroy::SavedSearchesDestroy(QObject *parent)
     : AbstractTwitterAction(parent)
 {
 }

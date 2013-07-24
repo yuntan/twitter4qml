@@ -25,8 +25,8 @@
  */
 
 #include "savedsearches.h"
-#include "createsavedsearch.h"
-#include "destroysavedsearch.h"
+#include "savedsearchescreate.h"
+#include "savedsearchesdestroy.h"
 
 class SavedSearches::Private : public QObject
 {
@@ -56,7 +56,7 @@ SavedSearches::Private::Private(SavedSearches *parent)
 
 void SavedSearches::Private::create(const QVariantMap &parameters)
 {
-    CreateSavedSearch *action = new CreateSavedSearch(this);
+    SavedSearchesCreate *action = new SavedSearchesCreate(this);
     action->query(parameters.value("query").toString());
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
     if (loading) {
@@ -69,7 +69,7 @@ void SavedSearches::Private::create(const QVariantMap &parameters)
 
 void SavedSearches::Private::destroy(const QVariantMap &parameters)
 {
-    DestroySavedSearch *action = new DestroySavedSearch(this);
+    SavedSearchesDestroy *action = new SavedSearchesDestroy(this);
     action->id(parameters.value("id").toString());
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
     if (loading) {
@@ -84,13 +84,13 @@ void SavedSearches::Private::dataChanged(const QVariant &data)
 {
     QVariantMap map = data.toMap();
 //    DEBUG() << data;
-    if (qobject_cast<CreateSavedSearch *>(sender())) {
+    if (qobject_cast<SavedSearchesCreate *>(sender())) {
         if (map.contains("id_str")) {
             DataManager::instance()->addData(q->dataType(), map.value("id_str").toString(), map);
         }
         sender()->deleteLater();
     }
-    if (qobject_cast<DestroySavedSearch *>(sender())) {
+    if (qobject_cast<SavedSearchesDestroy *>(sender())) {
         if (map.contains("id_str")) {
             DataManager::instance()->removeData(q->dataType(), map.value("id_str").toString());
         }
@@ -124,12 +124,12 @@ SavedSearches::SavedSearches(QObject *parent)
     setRoleNames(roles);
 }
 
-void SavedSearches::createSavedSearch(QVariantMap parameters)
+void SavedSearches::savedSearchesCreate(QVariantMap parameters)
 {
     d->create(parameters);
 }
 
-void SavedSearches::destroySavedSearch(QVariantMap parameters)
+void SavedSearches::savedSearchesDestroy(QVariantMap parameters)
 {
     d->destroy(parameters);
 }

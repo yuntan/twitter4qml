@@ -43,8 +43,8 @@ public:
     };
     explicit SavedSearches(QObject *parent = 0);
 
-    Q_INVOKABLE void createSavedSearch(QVariantMap parameters);
-    Q_INVOKABLE void destroySavedSearch(QVariantMap parameters);
+    Q_INVOKABLE void savedSearchesCreate(QVariantMap parameters);
+    Q_INVOKABLE void savedSearchesDestroy(QVariantMap parameters);
 
     bool isLoading() const;
     DataManager::DataType dataType() const { return DataManager::SavedSearchData; }

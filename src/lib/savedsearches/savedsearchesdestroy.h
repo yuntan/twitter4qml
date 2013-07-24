@@ -24,9 +24,28 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "createsavedsearch.h"
+#ifndef SAVEDSEARCHESDESTROY_H
+#define SAVEDSEARCHESDESTROY_H
 
-CreateSavedSearch::CreateSavedSearch(QObject *parent)
-    : AbstractTwitterAction(parent)
+#include "abstracttwitteraction.h"
+
+class SavedSearchesDestroy : public AbstractTwitterAction
 {
-}
+    Q_OBJECT
+    Q_PROPERTY(QString _id READ id WRITE id NOTIFY idChanged DESIGNABLE false)
+    Q_DISABLE_COPY(SavedSearchesDestroy)
+public:
+    SavedSearchesDestroy(QObject *parent = 0);
+
+signals:
+    void idChanged(const QString &id);
+
+protected:
+    virtual AuthorizeBy authenticationMethod() const { return AuthorizeByHeader; }
+    QUrl api() const { return QUrl(QString("https://api.twitter.com/1.1/saved_searches/destroy/%1.json").arg(id())); }
+
+private:
+    ADD_PROPERTY(const QString &, id, QString)
+};
+
+#endif // SAVEDSEARCHESDESTROY_H

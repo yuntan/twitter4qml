@@ -24,18 +24,18 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CREATESAVEDSEARCH_H
-#define CREATESAVEDSEARCH_H
+#ifndef SAVEDSEARCHESCREATE_H
+#define SAVEDSEARCHESCREATE_H
 
 #include "abstracttwitteraction.h"
 
-class CreateSavedSearch : public AbstractTwitterAction
+class SavedSearchesCreate : public AbstractTwitterAction
 {
     Q_OBJECT
     Q_PROPERTY(QString query READ query WRITE query NOTIFY queryChanged)
-    Q_DISABLE_COPY(CreateSavedSearch)
+    Q_DISABLE_COPY(SavedSearchesCreate)
 public:
-    CreateSavedSearch(QObject *parent = 0);
+    SavedSearchesCreate(QObject *parent = 0);
 
 signals:
     void queryChanged(const QString &query);
@@ -48,4 +48,4 @@ private:
     ADD_PROPERTY(const QString &, query, QString)
 };
 
-#endif // CREATESAVEDSEARCH_H
+#endif // SAVEDSEARCHESCREATE_H

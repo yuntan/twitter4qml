@@ -48,7 +48,7 @@ TestCase {
         tryCompare(model, 'loading', false, 10000)
 
         for (var i = 0; i < model.size; i++) {
-            model.destroySavedSearch({id: model.get(i).id} )
+            model.savedSearchesDestroy({id: model.get(i).id} )
             tryCompare(model, 'loading', true)
         }
         tryCompare(model, 'loading', false, 10000)
@@ -62,12 +62,12 @@ TestCase {
     function test_create_and_destroy() {
         model.reload()
 
-        model.createSavedSearch({query: '#twitter4qml'})
+        model.savedSearchesCreate({query: '#twitter4qml'})
         tryCompare(model, 'loading', true)
         tryCompare(model, 'loading', false, 10000)
         tryCompare(model.size, 1)
 
-        model.destroySavedSearch({id: model.get(0).id} )
+        model.savedSearchesDestroy({id: model.get(0).id} )
         tryCompare(model, 'loading', true)
         tryCompare(model, 'loading', false, 10000)
         tryCompare(model.size, 0)

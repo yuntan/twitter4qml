@@ -1550,11 +1550,11 @@ Module {
         prototype: "AbstractTwitterModel"
         exports: ["SavedSearchesModel 1.1"]
         Method {
-            name: "createSavedSearch"
+            name: "savedSearchesCreate"
             Parameter { name: "parameters"; type: "QVariantMap" }
         }
         Method {
-            name: "destroySavedSearch"
+            name: "savedSearchesDestroy"
             Parameter { name: "parameters"; type: "QVariantMap" }
         }
     }
