@@ -5,16 +5,16 @@ DEPENDPATH += $$PWD
 PUBLIC_HEADERS += \
     $$PWD/directmessages.h \
     $$PWD/directmessagessent.h \
-    $$PWD/showdirectmessages.h \
-    $$PWD/destroydirectmessages.h \
-    $$PWD/newdirectmessages.h
+    $$PWD/directmessagesshow.h \
+    $$PWD/directmessagesdestroy.h \
+    $$PWD/directmessagesnew.h
 
 SOURCES += \
     $$PWD/directmessages.cpp \
     $$PWD/directmessagessent.cpp \
-    $$PWD/showdirectmessages.cpp \
-    $$PWD/destroydirectmessages.cpp \
-    $$PWD/newdirectmessages.cpp
+    $$PWD/directmessagesshow.cpp \
+    $$PWD/directmessagesdestroy.cpp \
+    $$PWD/directmessagesnew.cpp
 
 # Abstract classes
 PUBLIC_HEADERS += \

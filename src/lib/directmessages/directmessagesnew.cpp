@@ -24,26 +24,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef DESTROYDIRECTMESSAGES_H
-#define DESTROYDIRECTMESSAGES_H
+#include "directmessagesnew.h"
 
-#include "abstractdirectmessagesaction.h"
-
-class DestroyDirectMessages : public AbstractDirectMessagesAction
+DirectMessagesNew::DirectMessagesNew(QObject *parent )
+    : AbstractDirectMessagesAction(parent)
 {
-    Q_OBJECT
-    Q_PROPERTY(QString _id READ id WRITE id NOTIFY idChanged)
-    Q_PROPERTY(bool include_entities READ include_entities WRITE include_entities NOTIFY include_entitiesChanged)
-    Q_DISABLE_COPY(DestroyDirectMessages)
-public:
-    explicit DestroyDirectMessages(QObject *parent = 0);
-
-signals:
-    void idChanged(const QString &id);
-    void include_entitiesChanged(bool include_entities);
-
-protected:
-    QUrl api() const { return QUrl("https://api.twitter.com/1.1/direct_messages/destroy.json"); }
-};
-
-#endif // DESTROYDIRECTMESSAGES_H
+}

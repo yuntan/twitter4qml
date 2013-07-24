@@ -24,9 +24,27 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "destroydirectmessages.h"
+#include "directmessagesshow.h"
+#include "datamanager.h"
+#include "twitter4qml_global.h"
 
-DestroyDirectMessages::DestroyDirectMessages(QObject *parent )
+DirectMessagesShow::DirectMessagesShow(QObject *parent)
     : AbstractDirectMessagesAction(parent)
 {
+}
+
+void DirectMessagesShow::exec()
+{
+    DataManager *manager = DataManager::instance();
+    if (manager->contains(DataManager::DirectMessageData, id())) {
+        QVariantMap directMessage = manager->getData(DataManager::DirectMessageData, id());
+        if (directMessage.contains(QLatin1String("entities"))) {
+            setData(directMessage);
+            setLoading(false);
+        } else {
+            AbstractDirectMessagesAction::exec();
+        }
+    } else {
+        AbstractDirectMessagesAction::exec();
+    }
 }

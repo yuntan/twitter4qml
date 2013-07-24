@@ -71,8 +71,8 @@ public:
     bool loading() const;
     QVariantMap data() const;
 
-    Q_INVOKABLE void newDirectMessages(QVariantMap parameters);
-    Q_INVOKABLE void destroyDirectMessages();
+    Q_INVOKABLE void directMessagesNew(QVariantMap parameters);
+    Q_INVOKABLE void directMessagesDestroy();
 
     Q_INVOKABLE void debug() const;
 

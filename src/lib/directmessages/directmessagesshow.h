@@ -24,27 +24,30 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "showdirectmessages.h"
-#include "datamanager.h"
-#include "twitter4qml_global.h"
+#ifndef DIRECTMESSAGESSHOW_H
+#define DIRECTMESSAGESSHOW_H
 
-ShowDirectMessages::ShowDirectMessages(QObject *parent)
-    : AbstractDirectMessagesAction(parent)
-{
-}
+#include "abstractdirectmessagesaction.h"
 
-void ShowDirectMessages::exec()
+class DirectMessagesShow : public AbstractDirectMessagesAction
 {
-    DataManager *manager = DataManager::instance();
-    if (manager->contains(DataManager::DirectMessageData, id())) {
-        QVariantMap directMessage = manager->getData(DataManager::DirectMessageData, id());
-        if (directMessage.contains(QLatin1String("entities"))) {
-            setData(directMessage);
-            setLoading(false);
-        } else {
-            AbstractDirectMessagesAction::exec();
-        }
-    } else {
-        AbstractDirectMessagesAction::exec();
-    }
-}
+    Q_OBJECT
+    Q_PROPERTY(QString _id READ id WRITE id NOTIFY idChanged)
+//    Q_PROPERTY(bool include_entities READ include_entities WRITE include_entities NOTIFY include_entitiesChanged)
+    Q_DISABLE_COPY(DirectMessagesShow)
+public:
+    explicit DirectMessagesShow(QObject *parent = 0);
+
+public slots:
+    void exec();
+
+signals:
+    void idChanged(const QString &id);
+//    void include_entitiesChanged(bool include_entities);
+
+protected:
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/direct_messages/show.json"); }
+    QString httpMethod() const { return "GET"; }
+};
+
+#endif // DIRECTMESSAGESSHOW_H

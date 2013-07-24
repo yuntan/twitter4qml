@@ -504,10 +504,10 @@ Module {
             Parameter { name: "media"; type: "QVariantList" }
         }
         Method {
-            name: "newDirectMessages"
+            name: "directMessagesNew"
             Parameter { name: "parameters"; type: "QVariantMap" }
         }
-        Method { name: "destroyDirectMessages" }
+        Method { name: "directMessagesDestroy" }
         Method { name: "debug" }
     }
     Component {

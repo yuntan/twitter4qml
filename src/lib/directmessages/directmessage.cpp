@@ -25,9 +25,9 @@
  */
 
 #include "directmessage.h"
-#include "showdirectmessages.h"
-#include "newdirectmessages.h"
-#include "destroydirectmessages.h"
+#include "directmessagesshow.h"
+#include "directmessagesnew.h"
+#include "directmessagesdestroy.h"
 
 #include "datamanager.h"
 #include "user.h"
@@ -88,7 +88,7 @@ void DirectMessage::Private::id_strChanged(const QString &id)
     q->media(QVariantList());
     if (id.isEmpty()) {
     } else {
-        ShowDirectMessages *action = new ShowDirectMessages(this);
+        DirectMessagesShow *action = new DirectMessagesShow(this);
         action->id(id);
         connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
         if (loading) {
@@ -102,7 +102,7 @@ void DirectMessage::Private::id_strChanged(const QString &id)
 
 void DirectMessage::Private::create(const QVariantMap &parameters)
 {
-    NewDirectMessages *action = new NewDirectMessages(this);
+    DirectMessagesNew *action = new DirectMessagesNew(this);
     action->user_id(parameters.value("user_id").toString());
     action->text(parameters.value("text").toString());
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
@@ -116,7 +116,7 @@ void DirectMessage::Private::create(const QVariantMap &parameters)
 
 void DirectMessage::Private::destroy()
 {
-    DestroyDirectMessages *action = new DestroyDirectMessages(this);
+    DirectMessagesDestroy *action = new DirectMessagesDestroy(this);
     action->id(q->id_str());
     action->include_entities(true);
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
@@ -130,7 +130,7 @@ void DirectMessage::Private::destroy()
 
 void DirectMessage::Private::dataChanged(const QVariant &data)
 {
-    if (qobject_cast<DestroyDirectMessages *>(QObject::sender())) {
+    if (qobject_cast<DirectMessagesDestroy *>(QObject::sender())) {
         DEBUG() << data;
         q->id_str(QString());
         emit q->dataChanged();
@@ -170,12 +170,12 @@ DirectMessage::DirectMessage(QObject *parent)
 {
 }
 
-void DirectMessage::newDirectMessages(QVariantMap parameters)
+void DirectMessage::directMessagesNew(QVariantMap parameters)
 {
     d->create(parameters);
 }
 
-void DirectMessage::destroyDirectMessages()
+void DirectMessage::directMessagesDestroy()
 {
     d->destroy();
 }
