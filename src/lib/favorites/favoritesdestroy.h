@@ -24,20 +24,20 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef DESTROYFAVORITES_H
-#define DESTROYFAVORITES_H
+#ifndef FAVORITESDESTROY_H
+#define FAVORITESDESTROY_H
 
 #include "abstractfavoritesaction.h"
 
-class DestroyFavorites : public AbstractFavoritesAction
+class FavoritesDestroy : public AbstractFavoritesAction
 {
     Q_OBJECT
-    Q_DISABLE_COPY(DestroyFavorites)
+    Q_DISABLE_COPY(FavoritesDestroy)
 public:
-    explicit DestroyFavorites(QObject *parent = 0);
+    explicit FavoritesDestroy(QObject *parent = 0);
 
 protected:
     QUrl api() const { return QUrl("https://api.twitter.com/1.1/favorites/destroy.json"); }
 };
 
-#endif // DESTROYFAVORITES_H
+#endif // FAVORITESDESTROY_H
