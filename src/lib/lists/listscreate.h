@@ -24,16 +24,28 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "destroylists.h"
+#ifndef LISTSCREATE_H
+#define LISTSCREATE_H
 
-DestroyLists::DestroyLists(QObject *parent)
-    : AbstractListsAction(parent)
-{
-}
+#include "abstractlistsaction.h"
 
-void DestroyLists::exec()
+class ListsCreate : public AbstractListsAction
 {
-    if (!list_id().isEmpty() || ((!owner_id().isEmpty() || !owner_screen_name().isEmpty()) && !slug().isEmpty())) {
-        AbstractListsAction::exec();
-    }
-}
+    Q_OBJECT
+    Q_PROPERTY(QString name READ name WRITE name NOTIFY nameChanged)
+    Q_PROPERTY(QString mode READ mode WRITE mode NOTIFY modeChanged)
+    Q_PROPERTY(QString description READ description WRITE description NOTIFY descriptionChanged)
+    Q_DISABLE_COPY(ListsCreate)
+public:
+    explicit ListsCreate(QObject *parent = 0);
+
+signals:
+    void nameChanged(const QString &name);
+    void modeChanged(const QString &mode);
+    void descriptionChanged(const QString &description);
+
+protected:
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/lists/create.json"); }
+};
+
+#endif // LISTSCREATE_H

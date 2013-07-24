@@ -24,12 +24,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef UPDATELISTS_H
-#define UPDATELISTS_H
+#ifndef LISTSUPDATE_H
+#define LISTSUPDATE_H
 
 #include "abstractlistsaction.h"
 
-class UpdateLists : public AbstractListsAction
+class ListsUpdate : public AbstractListsAction
 {
     Q_OBJECT
     Q_PROPERTY(QString list_id READ list_id WRITE list_id NOTIFY list_idChanged)
@@ -39,9 +39,9 @@ class UpdateLists : public AbstractListsAction
     Q_PROPERTY(QString description READ description WRITE description NOTIFY descriptionChanged)
     Q_PROPERTY(QString owner_screen_name READ owner_screen_name WRITE owner_screen_name NOTIFY owner_screen_nameChanged)
     Q_PROPERTY(QString owner_id READ owner_id WRITE owner_id NOTIFY owner_idChanged)
-    Q_DISABLE_COPY(UpdateLists)
+    Q_DISABLE_COPY(ListsUpdate)
 public:
-    explicit UpdateLists(QObject *parent = 0);
+    explicit ListsUpdate(QObject *parent = 0);
 
 public slots:
     void exec();
@@ -59,4 +59,4 @@ protected:
     QUrl api() const { return QUrl("https://api.twitter.com/1.1/lists/update.json"); }
 };
 
-#endif // UPDATELISTS_H
+#endif // LISTSUPDATE_H

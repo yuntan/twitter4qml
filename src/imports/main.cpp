@@ -85,7 +85,7 @@
 #include <favoriteslist.h>
 
 // Lists
-#include <lists.h>
+#include <listslist.h>
 #include <listsstatuses.h>
 #include <listsmemberships.h>
 #include <listsmembers.h>
@@ -182,7 +182,7 @@ public:
 
         qmlRegisterType<FavoritesList>(uri, major, minor, "FavoritesModel");
 
-        qmlRegisterType<Lists>(uri, major, minor, "ListsModel");
+        qmlRegisterType<ListsList>(uri, major, minor, "ListsListModel");
         qmlRegisterType<ListsSubscriptions>(uri, major, minor, "ListsSubscriptionsModel");
         qmlRegisterType<ListsMemberships>(uri, major, minor, "ListsMembershipsModel");
         qmlRegisterType<ListsStatuses>(uri, major, minor, "ListsStatusesModel");

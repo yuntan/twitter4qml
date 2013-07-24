@@ -1033,14 +1033,14 @@ Module {
             Parameter { name: "user"; type: "QVariantMap" }
         }
         Method {
-            name: "createLists"
+            name: "listsCreate"
             Parameter { name: "parameters"; type: "QVariantMap" }
         }
         Method {
-            name: "updateLists"
+            name: "listsUpdate"
             Parameter { name: "parameters"; type: "QVariantMap" }
         }
-        Method { name: "destroyLists" }
+        Method { name: "listsDestroy" }
         Method { name: "subscribe" }
         Method { name: "unsubscribe" }
         Method { name: "debug" }
@@ -1159,10 +1159,10 @@ Module {
         }
     }
     Component {
-        name: "Lists"
+        name: "ListsList"
         defaultProperty: "childObjects"
         prototype: "AbstractListsModel"
-        exports: ["ListsModel 1.1"]
+        exports: ["ListsListModel 1.1"]
         Property { name: "user_id"; type: "string" }
         Property { name: "screen_name"; type: "string" }
         Signal {

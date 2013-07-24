@@ -24,28 +24,27 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CREATELISTS_H
-#define CREATELISTS_H
+#ifndef LISTSLIST_H
+#define LISTSLIST_H
 
-#include "abstractlistsaction.h"
+#include "abstractlistsmodel.h"
 
-class CreateLists : public AbstractListsAction
+class TWITTER4QML_EXPORT ListsList : public AbstractListsModel
 {
     Q_OBJECT
-    Q_PROPERTY(QString name READ name WRITE name NOTIFY nameChanged)
-    Q_PROPERTY(QString mode READ mode WRITE mode NOTIFY modeChanged)
-    Q_PROPERTY(QString description READ description WRITE description NOTIFY descriptionChanged)
-    Q_DISABLE_COPY(CreateLists)
+    Q_PROPERTY(QString user_id READ user_id WRITE user_id NOTIFY user_idChanged)
+    Q_PROPERTY(QString screen_name READ screen_name WRITE screen_name NOTIFY screen_nameChanged)
+
+    Q_DISABLE_COPY(ListsList)
 public:
-    explicit CreateLists(QObject *parent = 0);
+    explicit ListsList(QObject *parent = 0);
 
 signals:
-    void nameChanged(const QString &name);
-    void modeChanged(const QString &mode);
-    void descriptionChanged(const QString &description);
+    void user_idChanged(const QString &user_id);
+    void screen_nameChanged(const QString &screen_name);
 
 protected:
-    QUrl api() const { return QUrl("https://api.twitter.com/1.1/lists/create.json"); }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/lists/list.json"); }
 };
 
-#endif // CREATELISTS_H
+#endif // LISTSLIST_H

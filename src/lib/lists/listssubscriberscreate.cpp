@@ -24,27 +24,16 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef LISTS_H
-#define LISTS_H
+#include "listssubscriberscreate.h"
 
-#include "abstractlistsmodel.h"
-
-class TWITTER4QML_EXPORT Lists : public AbstractListsModel
+ListsSubscribersCreate::ListsSubscribersCreate(QObject *parent)
+    : AbstractListsAction(parent)
 {
-    Q_OBJECT
-    Q_PROPERTY(QString user_id READ user_id WRITE user_id NOTIFY user_idChanged)
-    Q_PROPERTY(QString screen_name READ screen_name WRITE screen_name NOTIFY screen_nameChanged)
+}
 
-    Q_DISABLE_COPY(Lists)
-public:
-    explicit Lists(QObject *parent = 0);
-
-signals:
-    void user_idChanged(const QString &user_id);
-    void screen_nameChanged(const QString &screen_name);
-
-protected:
-    QUrl api() const { return QUrl("https://api.twitter.com/1.1/lists/list.json"); }
-};
-
-#endif // LISTS_H
+void ListsSubscribersCreate::exec()
+{
+    if (!list_id().isEmpty() || ((!owner_id().isEmpty() || !owner_screen_name().isEmpty()) && !slug().isEmpty())) {
+        AbstractListsAction::exec();
+    }
+}

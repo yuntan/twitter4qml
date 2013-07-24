@@ -24,14 +24,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "updatelists.h"
+#include "listsdestroy.h"
 
-UpdateLists::UpdateLists(QObject *parent)
+ListsDestroy::ListsDestroy(QObject *parent)
     : AbstractListsAction(parent)
 {
 }
 
-void UpdateLists::exec()
+void ListsDestroy::exec()
 {
     if (!list_id().isEmpty() || ((!owner_id().isEmpty() || !owner_screen_name().isEmpty()) && !slug().isEmpty())) {
         AbstractListsAction::exec();

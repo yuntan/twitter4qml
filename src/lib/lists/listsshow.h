@@ -24,12 +24,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef SHOWLISTS_H
-#define SHOWLISTS_H
+#ifndef LISTSSHOW_H
+#define LISTSSHOW_H
 
 #include "abstractlistsaction.h"
 
-class ShowLists : public AbstractListsAction
+class ListsShow : public AbstractListsAction
 {
     Q_OBJECT
     Q_PROPERTY(QString list_id READ list_id WRITE list_id NOTIFY list_idChanged)
@@ -48,9 +48,9 @@ class ShowLists : public AbstractListsAction
     Q_PROPERTY(QString id_str READ id_str WRITE id_str NOTIFY id_strChanged DESIGNABLE false USER true)
     Q_PROPERTY(int subscriber_count READ subscriber_count WRITE subscriber_count NOTIFY subscriber_countChanged DESIGNABLE false USER true)
     Q_PROPERTY(QString uri READ uri WRITE uri NOTIFY uriChanged DESIGNABLE false USER true)
-    Q_DISABLE_COPY(ShowLists)
+    Q_DISABLE_COPY(ListsShow)
 public:
-    explicit ShowLists(QObject *parent = 0);
+    explicit ListsShow(QObject *parent = 0);
 
 public slots:
     void exec();
@@ -88,4 +88,4 @@ private:
     ADD_PROPERTY(const QString &, uri, QString)
 };
 
-#endif // SHOWLISTS_H
+#endif // LISTSSHOW_H

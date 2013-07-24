@@ -25,12 +25,12 @@
  */
 
 #include "list.h"
-#include "showlists.h"
-#include "createlists.h"
-#include "updatelists.h"
-#include "destroylists.h"
-#include "createlistssubscribers.h"
-#include "destroylistssubscribers.h"
+#include "listsshow.h"
+#include "listscreate.h"
+#include "listsupdate.h"
+#include "listsdestroy.h"
+#include "listssubscriberscreate.h"
+#include "listssubscribersdestroy.h"
 
 #include "datamanager.h"
 
@@ -108,7 +108,7 @@ void List::Private::id_strChanged(const QString &id)
     DEBUG() << id;
     if (id.isEmpty()) {
     } else {
-        ShowLists *action = new ShowLists(this);
+        ListsShow *action = new ListsShow(this);
         action->list_id(id);
         connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
         if (loading) {
@@ -122,7 +122,7 @@ void List::Private::id_strChanged(const QString &id)
 
 void List::Private::create(const QVariantMap &parameters)
 {
-    CreateLists *action = new CreateLists(this);
+    ListsCreate *action = new ListsCreate(this);
     action->description(parameters.value("description").toString());
     action->mode(parameters.value("mode").toString());
     action->name(parameters.value("name").toString());
@@ -137,7 +137,7 @@ void List::Private::create(const QVariantMap &parameters)
 
 void List::Private::update(const QVariantMap &parameters)
 {
-    UpdateLists *action = new UpdateLists(this);
+    ListsUpdate *action = new ListsUpdate(this);
     action->list_id(id_str);
     action->description(parameters.value("description").toString());
     action->mode(parameters.value("mode").toString());
@@ -153,7 +153,7 @@ void List::Private::update(const QVariantMap &parameters)
 
 void List::Private::destroy()
 {
-    DestroyLists *action = new DestroyLists(this);
+    ListsDestroy *action = new ListsDestroy(this);
     action->list_id(id_str);
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
     if (loading) {
@@ -166,7 +166,7 @@ void List::Private::destroy()
 
 void List::Private::subscribe()
 {
-    CreateListsSubscribers *action = new CreateListsSubscribers(this);
+    ListsSubscribersCreate *action = new ListsSubscribersCreate(this);
     action->list_id(id_str);
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
     if (loading) {
@@ -179,7 +179,7 @@ void List::Private::subscribe()
 
 void List::Private::unsubscribe()
 {
-    DestroyListsSubscribers *action = new DestroyListsSubscribers(this);
+    ListsSubscribersDestroy *action = new ListsSubscribersDestroy(this);
     action->list_id(id_str);
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
     if (loading) {

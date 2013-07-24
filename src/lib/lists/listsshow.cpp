@@ -24,16 +24,24 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "createlistssubscribers.h"
+#include "listsshow.h"
+#include "datamanager.h"
 
-CreateListsSubscribers::CreateListsSubscribers(QObject *parent)
+ListsShow::ListsShow(QObject *parent)
     : AbstractListsAction(parent)
+    , m_following(false)
+    , m_member_count(0)
+    , m_subscriber_count(0)
 {
 }
 
-void CreateListsSubscribers::exec()
+void ListsShow::exec()
 {
-    if (!list_id().isEmpty() || ((!owner_id().isEmpty() || !owner_screen_name().isEmpty()) && !slug().isEmpty())) {
+    DataManager *manager = DataManager::instance();
+    if (manager->contains(DataManager::ListData, list_id())) {
+        setData(manager->getData(DataManager::ListData, list_id()));
+        setLoading(false);
+    } else {
         AbstractListsAction::exec();
     }
 }
