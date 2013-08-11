@@ -30,7 +30,7 @@
 #include <QtCore/qglobal.h>
 #include <QtCore/QDebug>
 
-#define DEBUG() qDebug() << __PRETTY_FUNCTION__ << __LINE__
+#define DEBUG() qDebug() << Q_FUNC_INFO << __LINE__
 
 #if defined(TWITTER4QML_LIBRARY)
 #  define TWITTER4QML_EXPORT Q_DECL_EXPORT

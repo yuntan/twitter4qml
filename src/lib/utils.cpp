@@ -32,18 +32,18 @@ QString escapeHtml(const QString &text)
 {
     static QMap<QString, QString> table;
     if (table.isEmpty()) {
-        table.insert("&quot;", "\"");
-        table.insert("&apos;", "'");
-        table.insert("&lsquo;", QString::fromUtf8("‘"));
-        table.insert("&rsquo;", QString::fromUtf8("’"));
-        table.insert("&ldquo;", QString::fromUtf8("“"));
-        table.insert("&rdquo;", QString::fromUtf8("”"));
-        table.insert("&yen;", QString::fromUtf8("¥"));
-        table.insert("&gt;", ">");
-        table.insert("&lt;", "<");
-        table.insert("&mdash;", QString::fromUtf8("—"));
-        table.insert("\r\n", "\n");
-        table.insert("\r", "\n");
+        table.insert(QStringLiteral("&quot;"), QStringLiteral("\""));
+        table.insert(QStringLiteral("&apos;"), QStringLiteral("'"));
+        table.insert(QStringLiteral("&lsquo;"), QString::fromUtf8("\u2018"));
+        table.insert(QStringLiteral("&rsquo;"), QString::fromUtf8("\u2019"));
+        table.insert(QStringLiteral("&ldquo;"), QString::fromUtf8("\u201C"));
+        table.insert(QStringLiteral("&rdquo;"), QString::fromUtf8("\u201D"));
+        table.insert(QStringLiteral("&yen;"), QString::fromUtf8("\u00A5"));
+        table.insert(QStringLiteral("&gt;"), QStringLiteral(">"));
+        table.insert(QStringLiteral("&lt;"), QStringLiteral(">"));
+        table.insert(QStringLiteral("&mdash;"), QString::fromUtf8("\u2014"));
+        table.insert(QStringLiteral("\r\n"), QStringLiteral("\n"));
+        table.insert(QStringLiteral("\r"), QStringLiteral("\n"));
     }
 
     QString ret = text;
@@ -51,19 +51,19 @@ QString escapeHtml(const QString &text)
         ret.replace(from, table[from]);
     }
     {
-        QRegExp regexp("&#x([0-9a-f]+);");
+        QRegExp regexp(QStringLiteral("&#x([0-9a-f]+);"));
         while (regexp.indexIn(ret) != -1) {
             ret.replace(regexp.cap(0), QChar(regexp.cap(1).toInt(0, 16)));
         }
     }
     {
-        QRegExp regexp("&#([0-9]+);");
+        QRegExp regexp(QStringLiteral("&#([0-9]+);"));
         while (regexp.indexIn(ret) != -1) {
             ret.replace(regexp.cap(0), QChar(regexp.cap(1).toInt()));
         }
     }
 
-    ret.replace("&amp;", "&");
+    ret.replace(QStringLiteral("&amp;"), QStringLiteral("&"));
 
 //    if (text != ret) {
 //        DEBUG() << text;
