@@ -29,7 +29,7 @@
 
 #include "abstractstatusaction.h"
 
-class UpdateStatusesWithMedia : public AbstractStatusAction
+class TWITTER4QML_EXPORT UpdateStatusesWithMedia : public AbstractStatusAction
 {
     Q_OBJECT
     Q_PROPERTY(QString status READ status WRITE status NOTIFY statusChanged)

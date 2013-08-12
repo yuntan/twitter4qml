@@ -144,19 +144,27 @@ QNetworkReply *OAuthManager::Private::request(const QString &method, const QUrl 
                     foreach(const QByteArray &val, vals) {
                         body.append(QString("--%1\r\n").arg(boundary).toUtf8());
                         if (key == "media[]") {
-                            QUrl url(val);
+                            QUrl url;
+                            if (val.startsWith(":")) {
+                                url = QUrl(QString("qrc%1").arg(QString::fromUtf8(val)));
+                            } else {
+                                url = QUrl::fromLocalFile(val);
+                            }
                             QFileInfo info(url.path());
-                            QFile file(info.filePath());
-                            body.append(QString("Content-Disposition: form-data; name=\"%1\"; filename=\"%2\"\r\n").arg(key).arg(info.fileName()).toUtf8());
-                            body.append("Content-Type: image/jpeg\r\n");
-//                            body.append("Content-Transfer-Encoding: binary\r\n");
-                            body.append("\r\n");
+                            QFile file(val);
+                            QByteArray data;
                             if (file.open(QFile::ReadOnly)) {
-                                body.append(file.readAll());
+                                data = file.readAll();
+                                DEBUG() << data.size();
                                 file.close();
                             } else {
-                                DEBUG() << file.errorString();
+                                DEBUG() << val << file.errorString();
                             }
+                            body.append(QString("Content-Disposition: form-data; name=\"%1\"; filename=\"%2\"\r\n").arg(key).arg(info.fileName()).toUtf8());
+                            body.append("Content-Type: application/octet-stream\r\n");
+//                            body.append("Content-Transfer-Encoding: binary\r\n");
+                            body.append("\r\n");
+                            body.append(data);
                             body.append("\r\n");
                         } else {
                             body.append(QString("Content-Disposition: form-data; name=\"%1\"\r\n").arg(key).toUtf8());
