@@ -27,6 +27,7 @@
 #include "oauthmanager.h"
 #include "hmac_sha1.h"
 
+#include <QtCore/QByteArray>
 #include <QtCore/QDateTime>
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
@@ -71,7 +72,9 @@ private:
     QByteArray normalize(const QMultiMap<QString, QByteArray> &param) const;
     QByteArray signature(const QString &method, const QUrl &url, const QByteArray &params) const;
     QMultiMap<QString, QByteArray> signatureParams(const QMultiMap<QString, QByteArray> &params) const;
-    QByteArray authHeader(const QMultiMap<QString, QByteArray> &params = QMultiMap<QString, QByteArray>(), const QUrl &realm = QUrl()) const;
+    QByteArray authHeader() const;
+    QByteArray authHeader(const QMultiMap<QString, QByteArray> &params) const;
+    QByteArray authHeader(const QMultiMap<QString, QByteArray> &params, const QUrl &realm) const;
     void getTokenCredential();
 };
 
@@ -433,6 +436,18 @@ QMultiMap<QString, QByteArray> OAuthManager::Private::signatureParams(const QMul
     ret.remove("oauth_signature");
     ret += params;
     return ret;
+}
+
+QByteArray OAuthManager::Private::authHeader() const
+{
+    QMultiMap<QString, QByteArray> params;
+    return authHeader(params);
+}
+
+QByteArray OAuthManager::Private::authHeader(const QMultiMap<QString, QByteArray> &params) const
+{
+    QUrl realm;
+    return authHeader(params, realm);
 }
 
 QByteArray OAuthManager::Private::authHeader(const QMultiMap<QString, QByteArray> &params, const QUrl &realm) const
