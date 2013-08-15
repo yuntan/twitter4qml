@@ -3,28 +3,34 @@ DEPENDPATH += $$PWD
 
 # Users
 PUBLIC_HEADERS += \
-    $$PWD/lookupusers.h \
-    $$PWD/showuser.h \
-    $$PWD/searchusers.h
+    $$PWD/userslookup.h \
+    $$PWD/usersshow.h \
+    $$PWD/userssearch.h
 
 SOURCES += \
-    $$PWD/lookupusers.cpp \
-    $$PWD/showuser.cpp \
-    $$PWD/searchusers.cpp
+    $$PWD/userslookup.cpp \
+    $$PWD/usersshow.cpp \
+    $$PWD/userssearch.cpp
 
 # Suggested Users
 PUBLIC_HEADERS += \
-    $$PWD/slugs.h \
-    $$PWD/suggestions.h
+    $$PWD/userssuggestions.h \
+    $$PWD/userssuggestionsslug.h
 
 SOURCES += \
-    $$PWD/slugs.cpp \
-    $$PWD/suggestions.cpp
+    $$PWD/userssuggestions.cpp \
+    $$PWD/userssuggestionsslug.cpp
 
 # Abstract classes
 PUBLIC_HEADERS += \
-    $$PWD/abstractuseraction.h \
+    $$PWD/abstractusersaction.h \
     $$PWD/abstractusersmodel.h
 SOURCES += \
-    $$PWD/abstractuseraction.cpp \
+    $$PWD/abstractusersaction.cpp \
     $$PWD/abstractusersmodel.cpp
+
+# Spam Reporting
+PUBLIC_HEADERS += \
+    $$PWD/usersreportspam.h
+SOURCES += \
+    $$PWD/usersreportspam.cpp

@@ -72,13 +72,13 @@
 #include <accountupdateprofile.h>
 #include <blockslist.h>
 #include <blocksids.h>
-#include <lookupusers.h>
+#include <userslookup.h>
 #include <user.h>
-#include <searchusers.h>
+#include <userssearch.h>
 
 // Suggested Users
-#include <slugs.h>
-#include <suggestions.h>
+#include <userssuggestions.h>
+#include <userssuggestionsslug.h>
 
 // Favorites
 #include <favoriteslist.h>
@@ -170,11 +170,11 @@ public:
 
 
 
-        qmlRegisterType<LookupUsers>(uri, major, minor, "UsersModel");
+        qmlRegisterType<UsersLookup>(uri, major, minor, "UsersModel");
         qmlRegisterType<User>(uri, major, minor, "User");
-        qmlRegisterType<Slugs>(uri, major, minor, "SlugsModel");
-        qmlRegisterType<Suggestions>(uri, major, minor, "SuggestionsModel");
-        qmlRegisterType<SearchUsers>(uri, major, minor, "SearchUsersModel");
+        qmlRegisterType<UsersSuggestions>(uri, major, minor, "UsersSuggestionsModel");
+        qmlRegisterType<UsersSuggestionsSlug>(uri, major, minor, "UsersSuggestionsSlugModel");
+        qmlRegisterType<UsersSearch>(uri, major, minor, "UsersSearchModel");
 
         qmlRegisterType<FavoritesList>(uri, major, minor, "FavoritesModel");
 

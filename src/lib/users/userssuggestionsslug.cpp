@@ -24,30 +24,18 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef ABSTRACTUSERACTION_H
-#define ABSTRACTUSERACTION_H
+#include "userssuggestionsslug.h"
 
-#include "abstracttwitteraction.h"
-
-class AbstractUserAction : public AbstractTwitterAction
+UsersSuggestionsSlug::UsersSuggestionsSlug(QObject *parent)
+    : AbstractUsersModel(parent)
 {
-    Q_OBJECT
-    Q_DISABLE_COPY(AbstractUserAction)
-public:
-    explicit AbstractUserAction(QObject *parent = 0);
+}
 
-signals:
-    void user_idChanged(const QString &user_id);
-    void screen_nameChanged(const QString &screen_name);
-    void include_entitiesChanged(bool include_entities);
-
-protected:
-    virtual AuthorizeBy authenticationMethod() const { return AuthorizeByHeader; }
-
-private:
-    ADD_PROPERTY(const QString &, user_id, QString)
-    ADD_PROPERTY(const QString &, screen_name, QString)
-    ADD_PROPERTY(bool, include_entities, bool)
-};
-
-#endif // ABSTRACTUSERACTION_H
+void UsersSuggestionsSlug::parseDone(const QVariant &result)
+{
+//    DEBUG() << result;
+    if (result.type() == QVariant::Map) {
+        QVariantMap map = result.toMap();
+        AbstractUsersModel::parseDone(map.value("users"));
+    }
+}

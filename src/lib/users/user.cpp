@@ -25,12 +25,12 @@
  */
 
 #include "user.h"
-#include "showuser.h"
+#include "usersshow.h"
 #include "../friendships/friendshipscreate.h"
 #include "../friendships/friendshipsdestroy.h"
 #include "../blocks/blockscreate.h"
 #include "../blocks/blocksdestroy.h"
-#include "../blocks/reportforspam.h"
+#include "usersreportspam.h"
 
 #include "datamanager.h"
 
@@ -47,7 +47,7 @@ public:
     void unfollow();
     void block();
     void unblock();
-    void reportForSpam();
+    void reportSpam();
 
 private slots:
     void setLoading(bool loading);
@@ -86,7 +86,7 @@ void User::Private::id_strChanged(const QString &id_str)
 
     if (id_str.isEmpty()) {
     } else if (q->screen_name().isEmpty()) {
-        ShowUser *action = new ShowUser(this);
+        UsersShow *action = new UsersShow(this);
         action->user_id(id_str);
         connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
         if (loading) {
@@ -107,7 +107,7 @@ void User::Private::screen_nameChanged(const QString &screen_name)
 
     if (screen_name.isEmpty()) {
     } else if (q->id_str().isEmpty()) {
-        ShowUser *action = new ShowUser(this);
+        UsersShow *action = new UsersShow(this);
         action->screen_name(screen_name);
         connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
         if (loading) {
@@ -208,9 +208,9 @@ void User::Private::unblock()
     }
 }
 
-void User::Private::reportForSpam()
+void User::Private::reportSpam()
 {
-    ReportForSpam *action = new ReportForSpam(this);
+    UsersReportSpam *action = new UsersReportSpam(this);
     action->user_id(q->id_str());
     connect(action, SIGNAL(dataChanged(QVariant)), this, SLOT(dataChanged(QVariant)));
     if (loading) {
@@ -231,7 +231,7 @@ void User::Private::dataChanged(const QVariant &data)
                 q->blocking(true);
             } else if (qobject_cast<BlocksDestroy *>(action)) {
                 q->blocking(false);
-            } else if (qobject_cast<ReportForSpam *>(action)) {
+            } else if (qobject_cast<UsersReportSpam *>(action)) {
                 q->blocking(true);
             }
         } else {
@@ -313,9 +313,9 @@ void User::unblock()
     d->unblock();
 }
 
-void User::reportForSpam()
+void User::reportSpam()
 {
-    d->reportForSpam();
+    d->reportSpam();
 }
 
 bool User::isLoading() const

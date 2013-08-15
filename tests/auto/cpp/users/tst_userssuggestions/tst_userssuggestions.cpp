@@ -1,6 +1,6 @@
 /* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
  *     * Neither the name of the Twitter4QML nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,20 +24,46 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef REPORTFORSPAM_H
-#define REPORTFORSPAM_H
+#include "abstracttwitter4qmltest.h"
 
-#include "abstractblocksaction.h"
+#include <userssuggestions.h>
 
-class ReportForSpam : public AbstractBlocksAction
+class UsersSuggestionsTest : public AbstractTwitter4QMLTest
 {
     Q_OBJECT
-    Q_DISABLE_COPY(ReportForSpam)
-public:
-    explicit ReportForSpam(QObject *parent = 0);
 
-protected:
-    QUrl api() const { return QUrl("https://api.twitter.com/1.1/report_spam.json"); }
+private Q_SLOTS:
+    void lang();
+    void lang_data();
 };
 
-#endif // REPORTFORSPAM_H
+void UsersSuggestionsTest::lang()
+{
+    QFETCH(QString, data);
+
+    UsersSuggestions usersSuggestions;
+    QCOMPARE(usersSuggestions.lang(), QString());
+
+    usersSuggestions.lang(data);
+    QCOMPARE(usersSuggestions.lang(), data);
+
+    QVERIFY2(reload(&usersSuggestions), "UsersSuggestions::reload()");
+
+    QVERIFY2(usersSuggestions.rowCount() > 0, "contains data");
+//    for (int i = 0; i < 2; i++) {
+//        qDebug() << data << slugs.get(i).value("name").toString();
+//    }
+}
+
+void UsersSuggestionsTest::lang_data()
+{
+    QTest::addColumn<QString>("data");
+
+    QTest::newRow("English") << "en";
+    QTest::newRow("Spanish") << "es";
+    QTest::newRow("Japanese") << "ja";
+}
+
+QTEST_MAIN(UsersSuggestionsTest)
+
+#include "tst_userssuggestions.moc"

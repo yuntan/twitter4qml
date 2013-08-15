@@ -24,16 +24,32 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "searchusers.h"
+#ifndef USERSLOOKUP_H
+#define USERSLOOKUP_H
 
-SearchUsers::SearchUsers(QObject *parent)
-    : AbstractUsersModel(parent)
-{
-}
+#include "abstractusersmodel.h"
 
-void SearchUsers::reload()
+class TWITTER4QML_EXPORT UsersLookup : public AbstractUsersModel
 {
-    if (!id().isEmpty() ) {
-        AbstractTwitterModel::reload();
-    }
-}
+    Q_OBJECT
+    Q_PROPERTY(QString screen_name READ screen_name WRITE screen_name NOTIFY screen_nameChanged)
+    Q_PROPERTY(QString user_id READ id WRITE id NOTIFY idChanged)
+    Q_PROPERTY(bool include_entities READ include_entities WRITE include_entities NOTIFY include_entitiesChanged)
+    Q_DISABLE_COPY(UsersLookup)
+
+public:
+    explicit UsersLookup(QObject *parent = 0);
+
+public slots:
+    void reload();
+
+signals:
+    void screen_nameChanged(const QString &screen_name);
+    void idChanged(const QString &id);
+    void include_entitiesChanged(bool include_entities);
+
+protected:
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/users/lookup.json"); }
+};
+
+#endif // USERSLOOKUP_H

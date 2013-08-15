@@ -1198,7 +1198,7 @@ Module {
         }
     }
     Component {
-        name: "LookupUsers"
+        name: "UsersLookup"
         defaultProperty: "childObjects"
         prototype: "AbstractUsersModel"
         exports: ["UsersModel 1.1"]
@@ -1551,10 +1551,10 @@ Module {
         }
     }
     Component {
-        name: "SearchUsers"
+        name: "UsersSearch"
         defaultProperty: "childObjects"
         prototype: "AbstractUsersModel"
-        exports: ["SearchUsersModel 1.1"]
+        exports: ["UsersSearchModel 1.1"]
         Property { name: "q"; type: "string" }
         Property { name: "page"; type: "int" }
         Property { name: "count"; type: "int" }
@@ -1664,10 +1664,10 @@ Module {
         Method { name: "exec" }
     }
     Component {
-        name: "Slugs"
+        name: "UsersSuggestions"
         defaultProperty: "childObjects"
         prototype: "AbstractTwitterModel"
-        exports: ["SlugsModel 1.1"]
+        exports: ["UsersSuggestionsModel 1.1"]
         Property { name: "lang"; type: "string" }
         Signal {
             name: "langChanged"
@@ -1808,10 +1808,10 @@ Module {
         Method { name: "debug" }
     }
     Component {
-        name: "Suggestions"
+        name: "UsersSuggestionsSlug"
         defaultProperty: "childObjects"
         prototype: "AbstractUsersModel"
-        exports: ["SuggestionsModel 1.1"]
+        exports: ["UsersSuggestionsSlugModel 1.1"]
         Property { name: "slug"; type: "string" }
         Property { name: "lang"; type: "string" }
         Signal {
@@ -2057,7 +2057,7 @@ Module {
         Method { name: "unfollow" }
         Method { name: "block" }
         Method { name: "unblock" }
-        Method { name: "reportForSpam" }
+        Method { name: "reportSpam" }
         Method { name: "debug" }
     }
     Component {

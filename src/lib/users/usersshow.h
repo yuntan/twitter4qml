@@ -24,32 +24,32 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef LOOKUPUSERS_H
-#define LOOKUPUSERS_H
+#ifndef USERSSHOW_H
+#define USERSSHOW_H
 
-#include "abstractusersmodel.h"
+#include "abstractusersaction.h"
 
-class TWITTER4QML_EXPORT LookupUsers : public AbstractUsersModel
+class UsersShow : public AbstractUsersAction
 {
     Q_OBJECT
+    Q_PROPERTY(QString user_id READ user_id WRITE user_id NOTIFY user_idChanged)
     Q_PROPERTY(QString screen_name READ screen_name WRITE screen_name NOTIFY screen_nameChanged)
-    Q_PROPERTY(QString user_id READ id WRITE id NOTIFY idChanged)
     Q_PROPERTY(bool include_entities READ include_entities WRITE include_entities NOTIFY include_entitiesChanged)
-    Q_DISABLE_COPY(LookupUsers)
-
+    Q_DISABLE_COPY(UsersShow)
 public:
-    explicit LookupUsers(QObject *parent = 0);
+    explicit UsersShow(QObject *parent = 0);
 
 public slots:
-    void reload();
+    void exec();
 
 signals:
-    void screen_nameChanged(const QString &screen_name);
-    void idChanged(const QString &id);
+    void user_idChanged(const QString &user_id);
+    void screen_nameChanged(bool screen_name);
     void include_entitiesChanged(bool include_entities);
 
 protected:
-    QUrl api() const { return QUrl("https://api.twitter.com/1.1/users/lookup.json"); }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/users/show.json"); }
+    QString httpMethod() const { return "GET"; }
 };
 
-#endif // LOOKUPUSERS_H
+#endif // USERSSHOW_H

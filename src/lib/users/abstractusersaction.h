@@ -24,10 +24,30 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "abstractuseraction.h"
+#ifndef ABSTRACTUSERSACTION_H
+#define ABSTRACTUSERSACTION_H
 
-AbstractUserAction::AbstractUserAction(QObject *parent)
-    : AbstractTwitterAction(parent)
-    , m_include_entities(true)
+#include "abstracttwitteraction.h"
+
+class AbstractUsersAction : public AbstractTwitterAction
 {
-}
+    Q_OBJECT
+    Q_DISABLE_COPY(AbstractUsersAction)
+public:
+    explicit AbstractUsersAction(QObject *parent = 0);
+
+signals:
+    void user_idChanged(const QString &user_id);
+    void screen_nameChanged(const QString &screen_name);
+    void include_entitiesChanged(bool include_entities);
+
+protected:
+    virtual AuthorizeBy authenticationMethod() const { return AuthorizeByHeader; }
+
+private:
+    ADD_PROPERTY(const QString &, user_id, QString)
+    ADD_PROPERTY(const QString &, screen_name, QString)
+    ADD_PROPERTY(bool, include_entities, bool)
+};
+
+#endif // ABSTRACTUSERSACTION_H

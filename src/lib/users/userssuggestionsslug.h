@@ -24,18 +24,32 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "suggestions.h"
+#ifndef USERSSUGGESTIONSSLUG_H
+#define USERSSUGGESTIONSSLUG_H
 
-Suggestions::Suggestions(QObject *parent)
-    : AbstractUsersModel(parent)
-{
-}
+#include "abstractusersmodel.h"
 
-void Suggestions::parseDone(const QVariant &result)
+class TWITTER4QML_EXPORT UsersSuggestionsSlug : public AbstractUsersModel
 {
-//    DEBUG() << result;
-    if (result.type() == QVariant::Map) {
-        QVariantMap map = result.toMap();
-        AbstractUsersModel::parseDone(map.value("users"));
-    }
-}
+    Q_OBJECT
+    Q_PROPERTY(QString slug READ slug WRITE slug NOTIFY slugChanged DESIGNABLE false)
+    Q_PROPERTY(QString lang READ lang WRITE lang NOTIFY langChanged)
+    Q_DISABLE_COPY(UsersSuggestionsSlug)
+public:
+    explicit UsersSuggestionsSlug(QObject *parent = 0);
+
+signals:
+    void slugChanged(const QString &slug);
+    void langChanged(const QString &lang);
+
+protected:
+    virtual AuthorizeBy authenticationMethod() const { return AuthorizeByHeader; }
+    QUrl api() const { return QUrl(QString("https://api.twitter.com/1.1/users/suggestions/%1.json").arg(slug())); }
+    void parseDone(const QVariant &result);
+
+private:
+    ADD_PROPERTY(const QString &, slug, QString)
+    ADD_PROPERTY(const QString &, lang, QString)
+};
+
+#endif // USERSSUGGESTIONSSLUG_H

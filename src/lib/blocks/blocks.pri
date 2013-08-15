@@ -16,11 +16,3 @@ SOURCES += \
     $$PWD/blocksids.cpp \
     $$PWD/blockscreate.cpp \
     $$PWD/blocksdestroy.cpp
-
-# Spam Reporting
-
-PUBLIC_HEADERS += \
-    $$PWD/reportforspam.h
-
-SOURCES += \
-    $$PWD/reportforspam.cpp

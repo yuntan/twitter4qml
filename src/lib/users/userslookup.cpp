@@ -24,9 +24,16 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "reportforspam.h"
+#include "userslookup.h"
 
-ReportForSpam::ReportForSpam(QObject *parent)
-    : AbstractBlocksAction(parent)
+UsersLookup::UsersLookup(QObject *parent)
+    : AbstractUsersModel(parent)
 {
+}
+
+void UsersLookup::reload()
+{
+    if (!id().isEmpty() || !screen_name().isEmpty()) {
+        AbstractTwitterModel::reload();
+    }
 }

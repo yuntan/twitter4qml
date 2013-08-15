@@ -24,26 +24,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "showuser.h"
-#include "datamanager.h"
+#include "usersreportspam.h"
 
-ShowUser::ShowUser(QObject *parent)
-    : AbstractUserAction(parent)
+UsersReportSpam::UsersReportSpam(QObject *parent)
+    : AbstractBlocksAction(parent)
 {
-}
-
-void ShowUser::exec()
-{
-    DataManager *manager = DataManager::instance();
-    if (!user_id().isEmpty() && manager->contains(DataManager::UserData, user_id())) {
-        QVariantMap user = manager->getData(DataManager::UserData, user_id());
-        if (user.value("description").isNull()) {
-            AbstractUserAction::exec();
-        } else {
-            setData(user);
-            setLoading(false);
-        }
-    } else {
-        AbstractUserAction::exec();
-    }
 }

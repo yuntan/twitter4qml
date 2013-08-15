@@ -24,16 +24,30 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "lookupusers.h"
+#include "userssuggestions.h"
 
-LookupUsers::LookupUsers(QObject *parent)
-    : AbstractUsersModel(parent)
+UsersSuggestions::UsersSuggestions(QObject *parent)
+    : AbstractTwitterModel(parent)
 {
+    QHash<int, QByteArray> roles;
+    roles[name_role] = "name";
+    roles[slug_role] = "slug";
+    roles[size_role] = "size";
+    setRoleNames(roles);
 }
 
-void LookupUsers::reload()
+void UsersSuggestions::parseDone(const QVariant &result)
 {
-    if (!id().isEmpty() || !screen_name().isEmpty()) {
-        AbstractTwitterModel::reload();
+//    DEBUG() << result;
+    if (result.type() == QVariant::List) {
+        QVariantList array = result.toList();
+        QAlgorithmsPrivate::qReverse(array.begin(), array.end());
+        foreach (const QVariant &result, array) {
+            if (result.type() == QVariant::Map) {
+                QVariantMap map = result.toMap();
+                map.insert("id_str", map.value("slug").toString());
+                addData(map);
+            }
+        }
     }
 }

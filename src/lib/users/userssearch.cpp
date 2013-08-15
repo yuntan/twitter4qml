@@ -24,35 +24,16 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef SLUGS_H
-#define SLUGS_H
+#include "userssearch.h"
 
-#include "abstracttwittermodel.h"
-
-class TWITTER4QML_EXPORT Slugs : public AbstractTwitterModel
+UsersSearch::UsersSearch(QObject *parent)
+    : AbstractUsersModel(parent)
 {
-    Q_OBJECT
-    Q_PROPERTY(QString lang READ lang WRITE lang NOTIFY langChanged)
-    Q_DISABLE_COPY(Slugs)
-public:
-    enum Roles {
-        name_role = Qt::UserRole + 1
-        , slug_role
-        , size_role
-    };
-    explicit Slugs(QObject *parent = 0);
+}
 
-signals:
-    void langChanged(const QString &lang);
-
-protected:
-    virtual AuthorizeBy authenticationMethod() const { return AuthorizeByHeader; }
-    QString httpMethod() const { return "GET"; }
-    QUrl api() const { return QUrl("https://api.twitter.com/1.1/users/suggestions.json"); }
-    void parseDone(const QVariant &result);
-
-private:
-    ADD_PROPERTY(const QString &, lang, QString)
-};
-
-#endif // SLUGS_H
+void UsersSearch::reload()
+{
+    if (!id().isEmpty() ) {
+        AbstractTwitterModel::reload();
+    }
+}

@@ -1,6 +1,6 @@
 /* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
  *     * Neither the name of the Twitter4QML nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,30 +24,49 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "slugs.h"
+#include "abstracttwitter4qmltest.h"
 
-Slugs::Slugs(QObject *parent)
-    : AbstractTwitterModel(parent)
+#include <userssuggestionsslug.h>
+
+class UsersSuggestionsSlugTest : public AbstractTwitter4QMLTest
 {
-    QHash<int, QByteArray> roles;
-    roles[name_role] = "name";
-    roles[slug_role] = "slug";
-    roles[size_role] = "size";
-    setRoleNames(roles);
+    Q_OBJECT
+
+private Q_SLOTS:
+    void load();
+    void load_data();
+};
+
+void UsersSuggestionsSlugTest::load()
+{
+    QFETCH(QString, slug);
+    QFETCH(QString, lang);
+
+    UsersSuggestionsSlug usersSuggestionsSlug;
+    QCOMPARE(usersSuggestionsSlug.slug(), QString());
+    QCOMPARE(usersSuggestionsSlug.lang(), QString());
+
+    usersSuggestionsSlug.slug(slug);
+    QCOMPARE(usersSuggestionsSlug.slug(), slug);
+
+    usersSuggestionsSlug.lang(lang);
+    QCOMPARE(usersSuggestionsSlug.lang(), lang);
+
+    QVERIFY2(reload(&usersSuggestionsSlug), "UsersSuggestions::reload()");
+
+    QVERIFY2(usersSuggestionsSlug.rowCount() > 0, "contains data");
 }
 
-void Slugs::parseDone(const QVariant &result)
+void UsersSuggestionsSlugTest::load_data()
 {
-//    DEBUG() << result;
-    if (result.type() == QVariant::List) {
-        QVariantList array = result.toList();
-        QAlgorithmsPrivate::qReverse(array.begin(), array.end());
-        foreach (const QVariant &result, array) {
-            if (result.type() == QVariant::Map) {
-                QVariantMap map = result.toMap();
-                map.insert("id_str", map.value("slug").toString());
-                addData(map);
-            }
-        }
-    }
+    QTest::addColumn<QString>("slug");
+    QTest::addColumn<QString>("lang");
+
+    QTest::newRow("Twitter") << "Twitter" << "en";
+    QTest::newRow("Twitter") << "Twitter" << "es";
+    QTest::newRow("Twitter") << "Twitter" << "ja";
 }
+
+QTEST_MAIN(UsersSuggestionsSlugTest)
+
+#include "tst_userssuggestionsslug.moc"

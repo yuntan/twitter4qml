@@ -99,7 +99,7 @@ public:
     Q_INVOKABLE void unfollow();
     Q_INVOKABLE void block();
     Q_INVOKABLE void unblock();
-    Q_INVOKABLE void reportForSpam();
+    Q_INVOKABLE void reportSpam();
 
     Q_INVOKABLE void debug() const;
 

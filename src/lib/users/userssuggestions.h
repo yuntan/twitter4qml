@@ -24,32 +24,35 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef SHOWUSER_H
-#define SHOWUSER_H
+#ifndef USERSSUGGESTIONS_H
+#define USERSSUGGESTIONS_H
 
-#include "abstractuseraction.h"
+#include "abstracttwittermodel.h"
 
-class ShowUser : public AbstractUserAction
+class TWITTER4QML_EXPORT UsersSuggestions : public AbstractTwitterModel
 {
     Q_OBJECT
-    Q_PROPERTY(QString user_id READ user_id WRITE user_id NOTIFY user_idChanged)
-    Q_PROPERTY(QString screen_name READ screen_name WRITE screen_name NOTIFY screen_nameChanged)
-    Q_PROPERTY(bool include_entities READ include_entities WRITE include_entities NOTIFY include_entitiesChanged)
-    Q_DISABLE_COPY(ShowUser)
+    Q_PROPERTY(QString lang READ lang WRITE lang NOTIFY langChanged)
+    Q_DISABLE_COPY(UsersSuggestions)
 public:
-    explicit ShowUser(QObject *parent = 0);
-
-public slots:
-    void exec();
+    enum Roles {
+        name_role = Qt::UserRole + 1
+        , slug_role
+        , size_role
+    };
+    explicit UsersSuggestions(QObject *parent = 0);
 
 signals:
-    void user_idChanged(const QString &user_id);
-    void screen_nameChanged(bool screen_name);
-    void include_entitiesChanged(bool include_entities);
+    void langChanged(const QString &lang);
 
 protected:
-    QUrl api() const { return QUrl("https://api.twitter.com/1.1/users/show.json"); }
+    virtual AuthorizeBy authenticationMethod() const { return AuthorizeByHeader; }
     QString httpMethod() const { return "GET"; }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/users/suggestions.json"); }
+    void parseDone(const QVariant &result);
+
+private:
+    ADD_PROPERTY(const QString &, lang, QString)
 };
 
-#endif // SHOWUSER_H
+#endif // USERSSUGGESTIONS_H

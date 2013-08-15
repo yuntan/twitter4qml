@@ -24,22 +24,22 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef SEARCHUSERS_H
-#define SEARCHUSERS_H
+#ifndef USERSSEARCH_H
+#define USERSSEARCH_H
 
 #include "abstractusersmodel.h"
 
-class TWITTER4QML_EXPORT SearchUsers : public AbstractUsersModel
+class TWITTER4QML_EXPORT UsersSearch : public AbstractUsersModel
 {
     Q_OBJECT
     Q_PROPERTY(QString q READ id WRITE id NOTIFY idChanged)
     Q_PROPERTY(int page READ page WRITE page NOTIFY pageChanged)
     Q_PROPERTY(int count READ count WRITE count NOTIFY countChanged)
     Q_PROPERTY(bool include_entities READ include_entities WRITE include_entities NOTIFY include_entitiesChanged)
-    Q_DISABLE_COPY(SearchUsers)
+    Q_DISABLE_COPY(UsersSearch)
 
 public:
-    explicit SearchUsers(QObject *parent = 0);
+    explicit UsersSearch(QObject *parent = 0);
 
 public slots:
     void reload();
@@ -54,4 +54,4 @@ protected:
     QUrl api() const { return QUrl("https://api.twitter.com/1.1/users/search.json"); }
 };
 
-#endif // SEARCHUSERS_H
+#endif // USERSSEARCH_H

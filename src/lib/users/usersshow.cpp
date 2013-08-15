@@ -24,32 +24,26 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef SUGGESTIONS_H
-#define SUGGESTIONS_H
+#include "usersshow.h"
+#include "datamanager.h"
 
-#include "abstractusersmodel.h"
-
-class TWITTER4QML_EXPORT Suggestions : public AbstractUsersModel
+UsersShow::UsersShow(QObject *parent)
+    : AbstractUsersAction(parent)
 {
-    Q_OBJECT
-    Q_PROPERTY(QString slug READ slug WRITE slug NOTIFY slugChanged DESIGNABLE false)
-    Q_PROPERTY(QString lang READ lang WRITE lang NOTIFY langChanged)
-    Q_DISABLE_COPY(Suggestions)
-public:
-    explicit Suggestions(QObject *parent = 0);
+}
 
-signals:
-    void slugChanged(const QString &slug);
-    void langChanged(const QString &lang);
-
-protected:
-    virtual AuthorizeBy authenticationMethod() const { return AuthorizeByHeader; }
-    QUrl api() const { return QUrl(QString("https://api.twitter.com/1.1/users/suggestions/%1.json").arg(slug())); }
-    void parseDone(const QVariant &result);
-
-private:
-    ADD_PROPERTY(const QString &, slug, QString)
-    ADD_PROPERTY(const QString &, lang, QString)
-};
-
-#endif // SUGGESTIONS_H
+void UsersShow::exec()
+{
+    DataManager *manager = DataManager::instance();
+    if (!user_id().isEmpty() && manager->contains(DataManager::UserData, user_id())) {
+        QVariantMap user = manager->getData(DataManager::UserData, user_id());
+        if (user.value("description").isNull()) {
+            AbstractUsersAction::exec();
+        } else {
+            setData(user);
+            setLoading(false);
+        }
+    } else {
+        AbstractUsersAction::exec();
+    }
+}
