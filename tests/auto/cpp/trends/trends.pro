@@ -1,4 +1,4 @@
 TEMPLATE = subdirs
 SUBDIRS = \
-	tst_available \
-	tst_place
+	tst_trendsavailable \
+	tst_trendsplace

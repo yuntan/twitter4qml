@@ -1,6 +1,6 @@
 /* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
  *     * Neither the name of the Twitter4QML nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,32 +24,43 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef AVAILABLE_H
-#define AVAILABLE_H
+#include "abstracttwitter4qmltest.h"
 
-#include "abstracttwittermodel.h"
+#include <trendsplace.h>
 
-class TWITTER4QML_EXPORT Available : public AbstractTwitterModel
+class tst_trendsplace : public AbstractTwitter4QMLTest
 {
     Q_OBJECT
-    Q_DISABLE_COPY(Available)
-public:
-    enum Roles {
-        country_role = Qt::UserRole + 1
-        , country_code_role
-        , name_role
-        , parentid_role
-        , place_type_role
-        , url_role
-        , woeid_role
-    };
-    explicit Available(QObject *parent = 0);
 
-protected:
-    virtual AuthorizeBy authenticationMethod() const { return AuthorizeByHeader; }
-    QString httpMethod() const { return "GET"; }
-    QUrl api() const { return QUrl("https://api.twitter.com/1.1/trends/available.json"); }
-    void parseDone(const QVariant &result);
+private Q_SLOTS:
+    void run();
+    void run_data();
 };
 
-#endif // AVAILABLE_H
+void tst_trendsplace::run()
+{
+    QFETCH(int, id);
+
+    TrendsPlace trendsplace;
+    QCOMPARE(trendsplace.id(), 0);
+    trendsplace.id(id);
+    QCOMPARE(trendsplace.id(), id);
+    QVERIFY2(reload(&trendsplace), "TrendsPlace::exec()");
+    QVERIFY2(trendsplace.rowCount() > 0, "loaded");
+
+//    for (int i = 0; i < place.rowCount(); i++) {
+//        qDebug() << place.get(i).value("name").toString();
+//    }
+}
+
+void tst_trendsplace::run_data()
+{
+    QTest::addColumn<int>("id");
+    QTest::newRow("Bandung") << 1047180;
+    QTest::newRow("Calocan") << 1167715;
+
+}
+
+QTEST_MAIN(tst_trendsplace)
+
+#include "tst_trendsplace.moc"

@@ -4,9 +4,9 @@ DEPENDPATH += $$PWD
 # Trends
 
 PUBLIC_HEADERS += \
-    $$PWD/place.h \
-    $$PWD/available.h
+    $$PWD/trendsplace.h \
+    $$PWD/trendsavailable.h
 
 SOURCES += \
-    $$PWD/place.cpp \
-    $$PWD/available.cpp
+    $$PWD/trendsplace.cpp \
+    $$PWD/trendsavailable.cpp

@@ -24,9 +24,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "available.h"
+#include "trendsavailable.h"
 
-Available::Available(QObject *parent)
+TrendsAvailable::TrendsAvailable(QObject *parent)
     : AbstractTwitterModel(parent)
 {
     QHash<int, QByteArray> roles;
@@ -40,7 +40,7 @@ Available::Available(QObject *parent)
     setRoleNames(roles);
 }
 
-void Available::parseDone(const QVariant &result)
+void TrendsAvailable::parseDone(const QVariant &result)
 {
     if (result.type() == QVariant::List) {
         QVariantList array = result.toList();

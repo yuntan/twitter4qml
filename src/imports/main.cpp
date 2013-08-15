@@ -100,8 +100,8 @@
 #include <geosearch.h>
 
 // Trends
-#include <place.h>
-#include <available.h>
+#include <trendsplace.h>
+#include <trendsavailable.h>
 
 // Spam Reporting
 
@@ -199,8 +199,8 @@ public:
         qmlRegisterType<GeoSearch>(uri, major, minor, "GeoSearchModel");
         qmlRegisterType<GeoReverseGeocode>(uri, major, minor, "GeoReverseGeocodeModel");
 
-        qmlRegisterType<Place>(uri, major, minor, "TrendsPlaceModel");
-        qmlRegisterType<Available>(uri, major, minor, "TrendsAvailableModel");
+        qmlRegisterType<TrendsPlace>(uri, major, minor, "TrendsPlaceModel");
+        qmlRegisterType<TrendsAvailable>(uri, major, minor, "TrendsAvailableModel");
 
         qmlRegisterType<OAuth>(uri, major, minor, "OAuth");
 

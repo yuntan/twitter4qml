@@ -1,6 +1,6 @@
 /* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
- *
+ * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
  *     * Neither the name of the Twitter4QML nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- *
+ * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,43 +24,49 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "abstracttwitter4qmltest.h"
+#include "trendsplace.h"
+#include <QtCore/qalgorithms.h>
 
-#include <place.h>
-
-class tst_place : public AbstractTwitter4QMLTest
+TrendsPlace::TrendsPlace(QObject *parent)
+    : AbstractTwitterModel(parent)
+    , m_id(0)
+    , m_exclude(false)
 {
-    Q_OBJECT
-
-private Q_SLOTS:
-    void run();
-    void run_data();
-};
-
-void tst_place::run()
-{
-    QFETCH(int, id);
-
-    Place place;
-    QCOMPARE(place.id(), 0);
-    place.id(id);
-    QCOMPARE(place.id(), id);
-    QVERIFY2(reload(&place), "Place::exec()");
-    QVERIFY2(place.rowCount() > 0, "loaded");
-
-//    for (int i = 0; i < place.rowCount(); i++) {
-//        qDebug() << place.get(i).value("name").toString();
-//    }
+    QHash<int, QByteArray> roles;
+    roles[query_role] = "query";
+    roles[name_role] = "name";
+    roles[PromotedContentRole] = "promoted_content";
+    roles[EventsRole] = "events";
+    roles[url_role] = "url";
+    setRoleNames(roles);
+//    connect(this, SIGNAL(idChanged(int)), this, SLOT(reload()));
 }
 
-void tst_place::run_data()
+void TrendsPlace::reload()
 {
-    QTest::addColumn<int>("id");
-    QTest::newRow("Bandung") << 1047180;
-    QTest::newRow("Calocan") << 1167715;
-
+    if (id() > 0) {
+        AbstractTwitterModel::reload();
+    }
 }
 
-QTEST_MAIN(tst_place)
-
-#include "tst_place.moc"
+void TrendsPlace::parseDone(const QVariant &result)
+{
+//    DEBUG() << result;
+    if (result.type() == QVariant::List) {
+        QVariantList array = result.toList();
+        foreach (const QVariant &result, array) {
+            if (result.type() == QVariant::Map) {
+                QVariantMap map = result.toMap();
+                if (map.contains("trends") && map.value("trends").type() == QVariant::List) {
+                    QVariantList trends = map.value("trends").toList();
+                    QAlgorithmsPrivate::qReverse(trends.begin(), trends.end());
+                    foreach (const QVariant &trend, trends) {
+                        QVariantMap t = trend.toMap();
+                        t.insert("id_str", t.value("name").toString());
+                        addData(t);
+                    }
+                }
+            }
+        }
+    }
+}

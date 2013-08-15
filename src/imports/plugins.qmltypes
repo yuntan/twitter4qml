@@ -383,7 +383,7 @@ Module {
         }
     }
     Component {
-        name: "Available"
+        name: "TrendsAvailable"
         defaultProperty: "childObjects"
         prototype: "AbstractTwitterModel"
         exports: ["TrendsAvailableModel 1.1"]
@@ -1414,7 +1414,7 @@ Module {
         }
     }
     Component {
-        name: "Place"
+        name: "TrendsPlace"
         defaultProperty: "childObjects"
         prototype: "AbstractTwitterModel"
         exports: ["TrendsPlaceModel 1.1"]

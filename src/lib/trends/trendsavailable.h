@@ -24,49 +24,32 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "place.h"
-#include <QtCore/qalgorithms.h>
+#ifndef TRENDSAVAILABLE_H
+#define TRENDSAVAILABLE_H
 
-Place::Place(QObject *parent)
-    : AbstractTwitterModel(parent)
-    , m_id(0)
-    , m_exclude(false)
-{
-    QHash<int, QByteArray> roles;
-    roles[query_role] = "query";
-    roles[name_role] = "name";
-    roles[PromotedContentRole] = "promoted_content";
-    roles[EventsRole] = "events";
-    roles[url_role] = "url";
-    setRoleNames(roles);
-//    connect(this, SIGNAL(idChanged(int)), this, SLOT(reload()));
-}
+#include "abstracttwittermodel.h"
 
-void Place::reload()
+class TWITTER4QML_EXPORT TrendsAvailable : public AbstractTwitterModel
 {
-    if (id() > 0) {
-        AbstractTwitterModel::reload();
-    }
-}
+    Q_OBJECT
+    Q_DISABLE_COPY(TrendsAvailable)
+public:
+    enum Roles {
+        country_role = Qt::UserRole + 1
+        , country_code_role
+        , name_role
+        , parentid_role
+        , place_type_role
+        , url_role
+        , woeid_role
+    };
+    explicit TrendsAvailable(QObject *parent = 0);
 
-void Place::parseDone(const QVariant &result)
-{
-//    DEBUG() << result;
-    if (result.type() == QVariant::List) {
-        QVariantList array = result.toList();
-        foreach (const QVariant &result, array) {
-            if (result.type() == QVariant::Map) {
-                QVariantMap map = result.toMap();
-                if (map.contains("trends") && map.value("trends").type() == QVariant::List) {
-                    QVariantList trends = map.value("trends").toList();
-                    QAlgorithmsPrivate::qReverse(trends.begin(), trends.end());
-                    foreach (const QVariant &trend, trends) {
-                        QVariantMap t = trend.toMap();
-                        t.insert("id_str", t.value("name").toString());
-                        addData(t);
-                    }
-                }
-            }
-        }
-    }
-}
+protected:
+    virtual AuthorizeBy authenticationMethod() const { return AuthorizeByHeader; }
+    QString httpMethod() const { return "GET"; }
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/trends/available.json"); }
+    void parseDone(const QVariant &result);
+};
+
+#endif // TRENDSAVAILABLE_H

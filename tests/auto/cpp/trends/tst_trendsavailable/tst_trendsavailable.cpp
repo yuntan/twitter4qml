@@ -26,9 +26,9 @@
 
 #include "abstracttwitter4qmltest.h"
 
-#include <available.h>
+#include <trendsavailable.h>
 
-class tst_available : public AbstractTwitter4QMLTest
+class tst_trendsavailable : public AbstractTwitter4QMLTest
 {
     Q_OBJECT
 
@@ -36,17 +36,17 @@ private Q_SLOTS:
     void run();
 };
 
-void tst_available::run()
+void tst_trendsavailable::run()
 {
-    Available available;
-    QVERIFY2(reload(&available), "Available::exec()");
-    QVERIFY2(available.rowCount() > 0, "loaded");
+    TrendsAvailable trendsavailable;
+    QVERIFY2(reload(&trendsavailable), "TrendsAvailable::exec()");
+    QVERIFY2(trendsavailable.rowCount() > 0, "loaded");
 
-    for (int i = 0; i < available.rowCount(); i++) {
-        qDebug() << available.get(i).value("woeid").toString() << available.get(i).value("name").toString();
+    for (int i = 0; i < trendsavailable.rowCount(); i++) {
+        qDebug() << trendsavailable.get(i).value("woeid").toString() << trendsavailable.get(i).value("name").toString();
     }
 }
 
-QTEST_MAIN(tst_available)
+QTEST_MAIN(tst_trendsavailable)
 
-#include "tst_available.moc"
+#include "tst_trendsavailable.moc"

@@ -24,17 +24,17 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLACE_H
-#define PLACE_H
+#ifndef TRENDSPLACE_H
+#define TRENDSPLACE_H
 
 #include "abstracttwittermodel.h"
 
-class TWITTER4QML_EXPORT Place : public AbstractTwitterModel
+class TWITTER4QML_EXPORT TrendsPlace : public AbstractTwitterModel
 {
     Q_OBJECT
     Q_PROPERTY(int _id READ id WRITE id NOTIFY idChanged)
     Q_PROPERTY(bool exclude READ exclude WRITE exclude NOTIFY excludeChanged)
-    Q_DISABLE_COPY(Place)
+    Q_DISABLE_COPY(TrendsPlace)
 public:
     enum Roles {
         query_role = Qt::UserRole + 1
@@ -43,7 +43,7 @@ public:
         , EventsRole
         , url_role
     };
-    explicit Place(QObject *parent = 0);
+    explicit TrendsPlace(QObject *parent = 0);
 
 public slots:
     void reload();
@@ -63,4 +63,4 @@ private:
     ADD_PROPERTY(bool, exclude, bool)
 };
 
-#endif // PLACE_H
+#endif // TRENDSPLACE_H
