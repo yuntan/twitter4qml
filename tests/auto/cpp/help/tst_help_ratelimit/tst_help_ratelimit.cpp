@@ -26,7 +26,7 @@
 
 #include "abstracttwitter4qmltest.h"
 
-#include <hometimeline.h>
+#include <statuseshometimeline.h>
 
 #include <QtCore/QDateTime>
 
@@ -40,7 +40,7 @@ private Q_SLOTS:
 
 void HelpRatelimitTest::run()
 {
-    HomeTimeline timeline;
+    StatusesHomeTimeline timeline;
     QVERIFY2(reload(&timeline), "HomeTimeline::reload()");
 
     QVERIFY2(timeline.xrlLimit() > 0, "AbstractTwitterModel::xrlLimit()");

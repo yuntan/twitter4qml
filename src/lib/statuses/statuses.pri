@@ -3,44 +3,44 @@ DEPENDPATH += $$PWD
 
 # Timelines
 PUBLIC_HEADERS += \
-    $$PWD/mentionstimeline.h \
-    $$PWD/usertimeline.h \
-    $$PWD/hometimeline.h \
-    $$PWD/retweetsofme.h
+    $$PWD/statusesmentionstimeline.h \
+    $$PWD/statusesusertimeline.h \
+    $$PWD/statuseshometimeline.h \
+    $$PWD/statusesretweetsofme.h
 
 SOURCES += \
-    $$PWD/mentionstimeline.cpp \
-    $$PWD/usertimeline.cpp \
-    $$PWD/hometimeline.cpp \
-    $$PWD/retweetsofme.cpp
+    $$PWD/statusesmentionstimeline.cpp \
+    $$PWD/statusesusertimeline.cpp \
+    $$PWD/statuseshometimeline.cpp \
+    $$PWD/statusesretweetsofme.cpp
 
 # Tweets
 PUBLIC_HEADERS += \
-    $$PWD/retweets.h \
-    $$PWD/showstatuses.h \
-    $$PWD/destroystatuses.h \
-    $$PWD/updatestatuses.h \
-    $$PWD/retweetstatuses.h \
-    $$PWD/updatestatuseswithmedia.h
+    $$PWD/statusesretweets.h \
+    $$PWD/statusesshow.h \
+    $$PWD/statusesdestroy.h \
+    $$PWD/statusesupdate.h \
+    $$PWD/statusesretweet.h \
+    $$PWD/statusesupdatewithmedia.h
 
 SOURCES += \
-    $$PWD/retweets.cpp \
-    $$PWD/showstatuses.cpp \
-    $$PWD/destroystatuses.cpp \
-    $$PWD/updatestatuses.cpp \
-    $$PWD/retweetstatuses.cpp \
-    $$PWD/updatestatuseswithmedia.cpp
+    $$PWD/statusesretweets.cpp \
+    $$PWD/statusesshow.cpp \
+    $$PWD/statusesdestroy.cpp \
+    $$PWD/statusesupdate.cpp \
+    $$PWD/statusesretweet.cpp \
+    $$PWD/statusesupdatewithmedia.cpp
 
 # Streaming
 PUBLIC_HEADERS += \
-    $$PWD/filterstream.h \
+    $$PWD/statusesfilter.h \
     $$PWD/userstream.h \
-    $$PWD/samplestream.h
+    $$PWD/statusessample.h
 
 SOURCES += \
-    $$PWD/filterstream.cpp \
+    $$PWD/statusesfilter.cpp \
     $$PWD/userstream.cpp \
-    $$PWD/samplestream.cpp
+    $$PWD/statusessample.cpp
 
 # Secret APIs
 PUBLIC_HEADERS += \

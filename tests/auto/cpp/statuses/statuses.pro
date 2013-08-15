@@ -1,5 +1,5 @@
 TEMPLATE = subdirs
 SUBDIRS += \
-        tst_mentionstimeline \
-        tst_updatestatuses \
-        tst_updatestatuseswithmedia
+        tst_statusesmentionstimeline \
+        tst_statusesupdate \
+        tst_statusesupdatewithmedia

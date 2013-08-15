@@ -43,7 +43,7 @@ greaterThan(QT_MAJOR_VERSION, 4) {
     QMAKE_RPATHDIR =
 }
 
-OTHER_FILES += statuses/tst_hometimeline.qml \
-    statuses/tst_samplestream.qml \
+OTHER_FILES += statuses/tst_statuseshometimeline.qml \
+    statuses/tst_statusessample.qml \
     savedsearches/tst_savedsearches.qml \
     search/tst_search_tweets.qml

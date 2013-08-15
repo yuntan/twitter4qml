@@ -24,52 +24,47 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "searchtweets.h"
-#include "statusesshow.h"
-#include "status.h"
-#include "../utils.h"
-#include <QtCore/QQueue>
+#ifndef STATUSESFILTER_H
+#define STATUSESFILTER_H
 
-SearchTweets::SearchTweets(QObject *parent)
-    : AbstractStatusesModel(parent)
-    , m_result_type("mixed")
-{
-}
+#include "abstractstatusesmodel.h"
 
-void SearchTweets::parseDone(const QVariant &result)
+class TWITTER4QML_EXPORT StatusesFilter : public AbstractStatusesModel
 {
-    if (result.type() == QVariant::Map) {
-        QVariantMap object = result.toMap();
-        if (object.contains("search_metadata"))
-            search_metadata(object.value("search_metadata").toMap());
-//        if (object.contains("query"))
-//            setQ(object.value("query").toString());
-        if (object.contains("statuses") && object.value("statuses").type() == QVariant::List) {
-            QVariantList results = object.value("statuses").toList();
-            if (results.isEmpty()) {
-                emit loadingChanged(false);
-            } else {
-                foreach (const QVariant &result, results) {
-                    if (result.type() == QVariant::Map) {
-                        addData(SearchTweets::parse(result.toMap()));
-                    }
-                }
-            }
-        } else {
-            DEBUG() << object;
-        }
-    }
-}
+    Q_OBJECT
+    Q_PROPERTY(QString delimited READ delimited WRITE setDelimited NOTIFY delimitedChanged)
+    Q_PROPERTY(QString follow READ follow WRITE setFollow NOTIFY followChanged)
+    Q_PROPERTY(QString track READ track WRITE setTrack NOTIFY trackChanged)
+    Q_DISABLE_COPY(StatusesFilter)
+public:
+    explicit StatusesFilter(QObject *parent = 0);
+    ~StatusesFilter();
 
-void SearchTweets::dataAdded(const QString &key, const QVariantMap &value)
-{
-    Q_UNUSED(key)
-    if (value.value("text").toString().contains(QString(QByteArray::fromPercentEncoding(q().toUtf8())), Qt::CaseInsensitive)) {
-        addData(value);
-    }
-}
+    const QString &delimited() const;
+    void setDelimited(const QString &delimited);
+    const QString &follow() const;
+    void setFollow(const QString &follow);
+    const QString &track() const;
+    void setTrack(const QString &track);
 
-QVariantMap SearchTweets::parse(const QVariantMap &status)
-{
-    return Status::parse(status);
-}
+public slots:
+    void reload();
+
+signals:
+    void delimitedChanged(const QString &delimited);
+    void followChanged(const QString &follow);
+    void trackChanged(const QString &track);
+
+protected:
+    AuthorizeBy authenticationMethod() const { return AuthorizeByHeader; }
+    bool isStreaming() const { return true; }
+    QUrl api() const { return QUrl("https://stream.twitter.com/1.1/statuses/filter.json"); }
+    QString httpMethod() const { return "POST"; }
+    void parseDone(const QVariant &result);
+
+private:
+    class Private;
+    Private *d;
+};
+
+#endif // STATUSESFILTER_H

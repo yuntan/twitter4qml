@@ -24,52 +24,24 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "searchtweets.h"
-#include "statusesshow.h"
-#include "status.h"
-#include "../utils.h"
-#include <QtCore/QQueue>
+#include "statusesmentionstimeline.h"
+#include "oauthmanager.h"
 
-SearchTweets::SearchTweets(QObject *parent)
+StatusesMentionsTimeline::StatusesMentionsTimeline(QObject *parent)
     : AbstractStatusesModel(parent)
-    , m_result_type("mixed")
 {
 }
 
-void SearchTweets::parseDone(const QVariant &result)
-{
-    if (result.type() == QVariant::Map) {
-        QVariantMap object = result.toMap();
-        if (object.contains("search_metadata"))
-            search_metadata(object.value("search_metadata").toMap());
-//        if (object.contains("query"))
-//            setQ(object.value("query").toString());
-        if (object.contains("statuses") && object.value("statuses").type() == QVariant::List) {
-            QVariantList results = object.value("statuses").toList();
-            if (results.isEmpty()) {
-                emit loadingChanged(false);
-            } else {
-                foreach (const QVariant &result, results) {
-                    if (result.type() == QVariant::Map) {
-                        addData(SearchTweets::parse(result.toMap()));
-                    }
-                }
-            }
-        } else {
-            DEBUG() << object;
-        }
-    }
-}
-
-void SearchTweets::dataAdded(const QString &key, const QVariantMap &value)
+void StatusesMentionsTimeline::dataAdded(const QString &key, const QVariantMap &value)
 {
     Q_UNUSED(key)
-    if (value.value("text").toString().contains(QString(QByteArray::fromPercentEncoding(q().toUtf8())), Qt::CaseInsensitive)) {
-        addData(value);
+    QVariantMap entities = value.value("entities").toMap();
+    QVariantList user_mentions = entities.value("user_mentions").toList();
+    QString id_str = OAuthManager::instance().user_id();
+    foreach (const QVariant &user_mention, user_mentions) {
+        if (user_mention.toMap().value("id_str").toString() == id_str) {
+            addData(value);
+            break;
+        }
     }
-}
-
-QVariantMap SearchTweets::parse(const QVariantMap &status)
-{
-    return Status::parse(status);
 }

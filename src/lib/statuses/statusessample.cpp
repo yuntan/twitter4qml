@@ -1,6 +1,6 @@
 /* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
  *     * Neither the name of the Twitter4QML nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,52 +24,64 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "searchtweets.h"
-#include "statusesshow.h"
+#include "statusessample.h"
 #include "status.h"
-#include "../utils.h"
-#include <QtCore/QQueue>
 
-SearchTweets::SearchTweets(QObject *parent)
-    : AbstractStatusesModel(parent)
-    , m_result_type("mixed")
+class StatusesSample::Private
 {
+public:
+    Private();
+    QString delimited;
+};
+
+StatusesSample::Private::Private() : delimited("length") {}
+
+StatusesSample::StatusesSample(QObject *parent)
+    : AbstractStatusesModel(parent)
+    , d(new Private)
+{
+    setPushOrder(PushOlderToNewer);
 }
 
-void SearchTweets::parseDone(const QVariant &result)
+StatusesSample::~StatusesSample()
 {
-    if (result.type() == QVariant::Map) {
+    delete d;
+}
+
+void StatusesSample::reload()
+{
+    if (isLoading())
+        abort();
+    AbstractStatusesModel::reload();
+}
+
+void StatusesSample::parseDone(const QVariant &result)
+{
+//    DEBUG() << result;
+    switch (result.type()) {
+    case QVariant::Map: {
         QVariantMap object = result.toMap();
-        if (object.contains("search_metadata"))
-            search_metadata(object.value("search_metadata").toMap());
-//        if (object.contains("query"))
-//            setQ(object.value("query").toString());
-        if (object.contains("statuses") && object.value("statuses").type() == QVariant::List) {
-            QVariantList results = object.value("statuses").toList();
-            if (results.isEmpty()) {
-                emit loadingChanged(false);
-            } else {
-                foreach (const QVariant &result, results) {
-                    if (result.type() == QVariant::Map) {
-                        addData(SearchTweets::parse(result.toMap()));
-                    }
-                }
-            }
-        } else {
-            DEBUG() << object;
+        if (object.keys().contains("text")) {
+            addData(Status::parse(object));
+//        } else {
+//            DEBUG() << object;
         }
     }
-}
-
-void SearchTweets::dataAdded(const QString &key, const QVariantMap &value)
-{
-    Q_UNUSED(key)
-    if (value.value("text").toString().contains(QString(QByteArray::fromPercentEncoding(q().toUtf8())), Qt::CaseInsensitive)) {
-        addData(value);
+        break;
+    default:
+        DEBUG() << result;
+        break;
     }
 }
 
-QVariantMap SearchTweets::parse(const QVariantMap &status)
+const QString &StatusesSample::delimited() const
 {
-    return Status::parse(status);
+    return d->delimited;
+}
+
+void StatusesSample::setDelimited(const QString &delimited)
+{
+    if (d->delimited == delimited) return;
+    d->delimited = delimited;
+    emit delimitedChanged(delimited);
 }

@@ -34,13 +34,13 @@
 #endif
 
 // Timelines
-#include <mentionstimeline.h>
-#include <hometimeline.h>
-#include <usertimeline.h>
-#include <retweetsofme.h>
+#include <statusesmentionstimeline.h>
+#include <statuseshometimeline.h>
+#include <statusesusertimeline.h>
+#include <statusesretweetsofme.h>
 
 // Tweets
-#include <retweets.h>
+#include <statusesretweets.h>
 #include <status.h>
 
 // Search
@@ -48,8 +48,8 @@
 
 // Streaming
 #include <userstream.h>
-#include <filterstream.h>
-#include <samplestream.h>
+#include <statusesfilter.h>
+#include <statusessample.h>
 
 // Direct Messages
 #include <directmessages.h>
@@ -140,13 +140,13 @@ public:
         int minor = 1;
 
         // Timelines
-        qmlRegisterType<MentionsTimeline>(uri, major, minor, "MentionsTimelineModel");
-        qmlRegisterType<UserTimeline>(uri, major, minor, "UserTimelineModel");
-        qmlRegisterType<HomeTimeline>(uri, major, minor, "HomeTimelineModel");
-        qmlRegisterType<RetweetsOfMe>(uri, major, minor, "RetweetsOfMeModel");
+        qmlRegisterType<StatusesMentionsTimeline>(uri, major, minor, "StatusesMentionsTimelineModel");
+        qmlRegisterType<StatusesUserTimeline>(uri, major, minor, "StatusesUserTimelineModel");
+        qmlRegisterType<StatusesHomeTimeline>(uri, major, minor, "StatusesHomeTimelineModel");
+        qmlRegisterType<StatusesRetweetsOfMe>(uri, major, minor, "StatusesRetweetsOfMeModel");
 
         // Tweets
-        qmlRegisterType<Retweets>(uri, major, minor, "RetweetsModel");
+        qmlRegisterType<StatusesRetweets>(uri, major, minor, "StatusesRetweetsModel");
         qmlRegisterType<Status>(uri, major, minor, "Status");
 
         // Search
@@ -154,8 +154,8 @@ public:
 
         // Streaming
         qmlRegisterType<UserStream>(uri, major, minor, "UserStreamModel");
-        qmlRegisterType<FilterStream>(uri, major, minor, "FilterStreamModel");
-        qmlRegisterType<SampleStream>(uri, major, minor, "SampleStreamModel");
+        qmlRegisterType<StatusesFilter>(uri, major, minor, "StatusesFilterModel");
+        qmlRegisterType<StatusesSample>(uri, major, minor, "StatusesSampleModel");
 
         // Direct Messages
         qmlRegisterType<DirectMessages>(uri, major, minor, "DirectMessagesModel");

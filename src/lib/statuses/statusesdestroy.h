@@ -24,52 +24,28 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "searchtweets.h"
-#include "statusesshow.h"
-#include "status.h"
-#include "../utils.h"
-#include <QtCore/QQueue>
+#ifndef STATUSESDESTROY_H
+#define STATUSESDESTROY_H
 
-SearchTweets::SearchTweets(QObject *parent)
-    : AbstractStatusesModel(parent)
-    , m_result_type("mixed")
-{
-}
+#include "abstractstatusaction.h"
 
-void SearchTweets::parseDone(const QVariant &result)
+class StatusesDestroy : public AbstractStatusAction
 {
-    if (result.type() == QVariant::Map) {
-        QVariantMap object = result.toMap();
-        if (object.contains("search_metadata"))
-            search_metadata(object.value("search_metadata").toMap());
-//        if (object.contains("query"))
-//            setQ(object.value("query").toString());
-        if (object.contains("statuses") && object.value("statuses").type() == QVariant::List) {
-            QVariantList results = object.value("statuses").toList();
-            if (results.isEmpty()) {
-                emit loadingChanged(false);
-            } else {
-                foreach (const QVariant &result, results) {
-                    if (result.type() == QVariant::Map) {
-                        addData(SearchTweets::parse(result.toMap()));
-                    }
-                }
-            }
-        } else {
-            DEBUG() << object;
-        }
-    }
-}
+    Q_OBJECT
+    Q_PROPERTY(QString _id READ id WRITE id NOTIFY idChanged DESIGNABLE false)
+    Q_PROPERTY(bool trim_user READ trim_user WRITE trim_user NOTIFY trim_userChanged)
+//    Q_PROPERTY(bool include_entities READ include_entities WRITE include_entities NOTIFY include_entitiesChanged)
+    Q_DISABLE_COPY(StatusesDestroy)
+public:
+    explicit StatusesDestroy(QObject *parent = 0);
 
-void SearchTweets::dataAdded(const QString &key, const QVariantMap &value)
-{
-    Q_UNUSED(key)
-    if (value.value("text").toString().contains(QString(QByteArray::fromPercentEncoding(q().toUtf8())), Qt::CaseInsensitive)) {
-        addData(value);
-    }
-}
+signals:
+    void idChanged(const QString &id);
+    void trim_userChanged(bool trim_user);
+//    void include_entitiesChanged(bool include_entities);
 
-QVariantMap SearchTweets::parse(const QVariantMap &status)
-{
-    return Status::parse(status);
-}
+protected:
+    QUrl api() const { return QUrl(QString("https://api.twitter.com/1.1/statuses/destroy/%1.json").arg(id())); }
+};
+
+#endif // STATUSESDESTROY_H

@@ -1,6 +1,6 @@
 /* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
  *     * Neither the name of the Twitter4QML nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,52 +24,33 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "searchtweets.h"
-#include "statusesshow.h"
-#include "status.h"
-#include "../utils.h"
-#include <QtCore/QQueue>
+import QtTest 1.0
+import TwitterAPI 1.1
 
-SearchTweets::SearchTweets(QObject *parent)
-    : AbstractStatusesModel(parent)
-    , m_result_type("mixed")
-{
-}
+TestCase {
+    id: root
 
-void SearchTweets::parseDone(const QVariant &result)
-{
-    if (result.type() == QVariant::Map) {
-        QVariantMap object = result.toMap();
-        if (object.contains("search_metadata"))
-            search_metadata(object.value("search_metadata").toMap());
-//        if (object.contains("query"))
-//            setQ(object.value("query").toString());
-        if (object.contains("statuses") && object.value("statuses").type() == QVariant::List) {
-            QVariantList results = object.value("statuses").toList();
-            if (results.isEmpty()) {
-                emit loadingChanged(false);
-            } else {
-                foreach (const QVariant &result, results) {
-                    if (result.type() == QVariant::Map) {
-                        addData(SearchTweets::parse(result.toMap()));
-                    }
-                }
-            }
-        } else {
-            DEBUG() << object;
-        }
+    OAuth {
+        consumer_key: 'K6eWjgzGz1qE4oOOBYkdMg'
+        consumer_secret: 't4ku8EEo8Sw7ywZ26vAxuQuH7sH0CQYH4DvhizEX4'
+        token: '798286350-Za9khIT9UFYdNKMwjuha1zyrbeiVInr2p8iLtetk'
+        token_secret: 'xfGg5t21TmJQdxxOpD4KYaxjRUZgIf8KIV33Z9s'
+        user_id: '798286350'
+        screen_name: 'twit_ter4qml'
     }
-}
 
-void SearchTweets::dataAdded(const QString &key, const QVariantMap &value)
-{
-    Q_UNUSED(key)
-    if (value.value("text").toString().contains(QString(QByteArray::fromPercentEncoding(q().toUtf8())), Qt::CaseInsensitive)) {
-        addData(value);
+    StatusesSampleModel {
+        id: model
     }
-}
 
-QVariantMap SearchTweets::parse(const QVariantMap &status)
-{
-    return Status::parse(status);
+    function init() {
+        model.reset()
+    }
+
+    function test_size() {
+        model.reload()
+        tryCompare(model, 'loading', true)
+        wait(2000)
+        verify(model.size > 0)
+    }
 }

@@ -24,52 +24,36 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "searchtweets.h"
-#include "statusesshow.h"
-#include "status.h"
-#include "../utils.h"
-#include <QtCore/QQueue>
+#ifndef STATUSESSHOW_H
+#define STATUSESSHOW_H
 
-SearchTweets::SearchTweets(QObject *parent)
-    : AbstractStatusesModel(parent)
-    , m_result_type("mixed")
-{
-}
+#include "abstractstatusaction.h"
 
-void SearchTweets::parseDone(const QVariant &result)
+class StatusesShow : public AbstractStatusAction
 {
-    if (result.type() == QVariant::Map) {
-        QVariantMap object = result.toMap();
-        if (object.contains("search_metadata"))
-            search_metadata(object.value("search_metadata").toMap());
-//        if (object.contains("query"))
-//            setQ(object.value("query").toString());
-        if (object.contains("statuses") && object.value("statuses").type() == QVariant::List) {
-            QVariantList results = object.value("statuses").toList();
-            if (results.isEmpty()) {
-                emit loadingChanged(false);
-            } else {
-                foreach (const QVariant &result, results) {
-                    if (result.type() == QVariant::Map) {
-                        addData(SearchTweets::parse(result.toMap()));
-                    }
-                }
-            }
-        } else {
-            DEBUG() << object;
-        }
-    }
-}
+    Q_OBJECT
+    Q_PROPERTY(QString _id READ id WRITE id NOTIFY idChanged)
+    Q_PROPERTY(bool trim_user READ trim_user WRITE trim_user NOTIFY trim_userChanged)
+    Q_PROPERTY(bool include_my_retweet READ include_my_retweet WRITE include_my_retweet NOTIFY include_my_retweetChanged)
+    Q_PROPERTY(bool include_entities READ include_entities WRITE include_entities NOTIFY include_entitiesChanged)
+    Q_DISABLE_COPY(StatusesShow)
+public:
+    explicit StatusesShow(QObject *parent = 0);
 
-void SearchTweets::dataAdded(const QString &key, const QVariantMap &value)
-{
-    Q_UNUSED(key)
-    if (value.value("text").toString().contains(QString(QByteArray::fromPercentEncoding(q().toUtf8())), Qt::CaseInsensitive)) {
-        addData(value);
-    }
-}
+public slots:
+    void exec();
 
-QVariantMap SearchTweets::parse(const QVariantMap &status)
-{
-    return Status::parse(status);
-}
+signals:
+    void idChanged(const QString &id);
+    void trim_userChanged(bool trim_user);
+    void include_my_retweetChanged(bool include_my_retweet);
+    void include_entitiesChanged(bool include_entities);
+
+protected:
+    QUrl api() const { return QUrl("https://api.twitter.com/1.1/statuses/show.json"); }
+    QString httpMethod() const { return "GET"; }
+
+    ADD_PROPERTY(bool, include_my_retweet, bool)
+};
+
+#endif // STATUSESSHOW_H

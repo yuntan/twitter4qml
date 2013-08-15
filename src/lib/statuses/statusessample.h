@@ -1,6 +1,6 @@
 /* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
  *     * Neither the name of the Twitter4QML nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,52 +24,39 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "searchtweets.h"
-#include "statusesshow.h"
-#include "status.h"
-#include "../utils.h"
-#include <QtCore/QQueue>
+#ifndef STATUSESSAMPLE_H
+#define STATUSESSAMPLE_H
 
-SearchTweets::SearchTweets(QObject *parent)
-    : AbstractStatusesModel(parent)
-    , m_result_type("mixed")
-{
-}
+#include "abstractstatusesmodel.h"
 
-void SearchTweets::parseDone(const QVariant &result)
+class TWITTER4QML_EXPORT StatusesSample : public AbstractStatusesModel
 {
-    if (result.type() == QVariant::Map) {
-        QVariantMap object = result.toMap();
-        if (object.contains("search_metadata"))
-            search_metadata(object.value("search_metadata").toMap());
-//        if (object.contains("query"))
-//            setQ(object.value("query").toString());
-        if (object.contains("statuses") && object.value("statuses").type() == QVariant::List) {
-            QVariantList results = object.value("statuses").toList();
-            if (results.isEmpty()) {
-                emit loadingChanged(false);
-            } else {
-                foreach (const QVariant &result, results) {
-                    if (result.type() == QVariant::Map) {
-                        addData(SearchTweets::parse(result.toMap()));
-                    }
-                }
-            }
-        } else {
-            DEBUG() << object;
-        }
-    }
-}
+    Q_OBJECT
+    Q_PROPERTY(QString delimited READ delimited WRITE setDelimited NOTIFY delimitedChanged)
+    Q_DISABLE_COPY(StatusesSample)
+public:
+    explicit StatusesSample(QObject *parent = 0);
+    ~StatusesSample();
 
-void SearchTweets::dataAdded(const QString &key, const QVariantMap &value)
-{
-    Q_UNUSED(key)
-    if (value.value("text").toString().contains(QString(QByteArray::fromPercentEncoding(q().toUtf8())), Qt::CaseInsensitive)) {
-        addData(value);
-    }
-}
+    const QString &delimited() const;
+    void setDelimited(const QString &delimited);
 
-QVariantMap SearchTweets::parse(const QVariantMap &status)
-{
-    return Status::parse(status);
-}
+public slots:
+    void reload();
+
+signals:
+    void delimitedChanged(const QString &delimited);
+
+protected:
+    bool isStreaming() const { return true; }
+    virtual AuthorizeBy authenticationMethod() const { return AuthorizeByHeader; }
+    QUrl api() const { return QUrl("https://stream.twitter.com/1.1/statuses/sample.json"); }
+    QString httpMethod() const { return "GET"; }
+    void parseDone(const QVariant &result);
+
+private:
+    class Private;
+    Private *d;
+};
+
+#endif // STATUSESSAMPLE_H

@@ -79,9 +79,9 @@ public:
 
     QVariantMap data() const;
 
-    Q_INVOKABLE void updateStatuses(QVariantMap parameters);
-    Q_INVOKABLE void retweetStatuses(QVariantMap parameters);
-    Q_INVOKABLE void destroyStatuses();
+    Q_INVOKABLE void statusesUpdate(QVariantMap parameters);
+    Q_INVOKABLE void statusesRetweet(QVariantMap parameters);
+    Q_INVOKABLE void statusesDestroy();
     Q_INVOKABLE void favorite();
     Q_INVOKABLE void unfavorite();
 

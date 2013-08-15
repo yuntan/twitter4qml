@@ -613,10 +613,10 @@ Module {
         }
     }
     Component {
-        name: "FilterStream"
+        name: "StatusesFilter"
         defaultProperty: "childObjects"
         prototype: "AbstractStatusesModel"
-        exports: ["FilterStreamModel 1.1"]
+        exports: ["StatusesFilterModel 1.1"]
         Property { name: "delimited"; type: "string" }
         Property { name: "follow"; type: "string" }
         Property { name: "track"; type: "string" }
@@ -848,10 +848,10 @@ Module {
         Method { name: "reload" }
     }
     Component {
-        name: "HomeTimeline"
+        name: "StatusesHomeTimeline"
         defaultProperty: "childObjects"
         prototype: "AbstractStatusesModel"
-        exports: ["HomeTimelineModel 1.1"]
+        exports: ["StatusesHomeTimelineModel 1.1"]
         Property { name: "count"; type: "int" }
         Property { name: "since_id"; type: "string" }
         Property { name: "max_id"; type: "string" }
@@ -1289,10 +1289,10 @@ Module {
         Method { name: "reload" }
     }
     Component {
-        name: "MentionsTimeline"
+        name: "StatusesMentionsTimeline"
         defaultProperty: "childObjects"
         prototype: "AbstractStatusesModel"
-        exports: ["MentionsTimelineModel 1.1"]
+        exports: ["StatusesMentionsTimelineModel 1.1"]
         Property { name: "count"; type: "int" }
         Property { name: "since_id"; type: "string" }
         Property { name: "max_id"; type: "string" }
@@ -1456,10 +1456,10 @@ Module {
         }
     }
     Component {
-        name: "Retweets"
+        name: "StatusesRetweets"
         defaultProperty: "childObjects"
         prototype: "AbstractStatusesModel"
-        exports: ["RetweetsModel 1.1"]
+        exports: ["StatusesRetweetsModel 1.1"]
         Property { name: "_id"; type: "string" }
         Property { name: "count"; type: "int" }
         Property { name: "trim_user"; type: "bool" }
@@ -1477,10 +1477,10 @@ Module {
         }
     }
     Component {
-        name: "RetweetsOfMe"
+        name: "StatusesRetweetsOfMe"
         defaultProperty: "childObjects"
         prototype: "AbstractStatusesModel"
-        exports: ["RetweetsOfMeModel 1.1"]
+        exports: ["StatusesRetweetsOfMeModel 1.1"]
         Property { name: "count"; type: "int" }
         Property { name: "since_id"; type: "string" }
         Property { name: "max_id"; type: "string" }
@@ -1880,14 +1880,14 @@ Module {
             Parameter { name: "media"; type: "QVariantList" }
         }
         Method {
-            name: "updateStatuses"
+            name: "statusesUpdate"
             Parameter { name: "parameters"; type: "QVariantMap" }
         }
         Method {
-            name: "retweetStatuses"
+            name: "statusesRetweet"
             Parameter { name: "parameters"; type: "QVariantMap" }
         }
-        Method { name: "destroyStatuses" }
+        Method { name: "statusesDestroy" }
         Method { name: "favorite" }
         Method { name: "unfavorite" }
         Method { name: "debug" }
@@ -2187,10 +2187,10 @@ Module {
         }
     }
     Component {
-        name: "UserTimeline"
+        name: "StatusesUserTimeline"
         defaultProperty: "childObjects"
         prototype: "AbstractStatusesModel"
-        exports: ["UserTimelineModel 1.1"]
+        exports: ["StatusesUserTimelineModel 1.1"]
         Property { name: "user_id"; type: "string" }
         Property { name: "screen_name"; type: "string" }
         Property { name: "since_id"; type: "string" }
