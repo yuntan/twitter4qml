@@ -42,12 +42,6 @@ SOURCES += \
     $$PWD/userstream.cpp \
     $$PWD/statusessample.cpp
 
-# Secret APIs
-PUBLIC_HEADERS += \
-    $$PWD/activitysummary.h
-SOURCES += \
-    $$PWD/activitysummary.cpp
-
 # Abstract classes
 PUBLIC_HEADERS += \
     $$PWD/abstractstatusesmodel.h \

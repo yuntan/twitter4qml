@@ -27,7 +27,6 @@ SOURCES += \
     $$PWD/directmessages/directmessage.cpp \
     $$PWD/lists/list.cpp \
     $$PWD/utils.cpp \
-    $$PWD/related_results/showrelatedresults.cpp
 
 PUBLIC_HEADERS += \
     $$PWD/twitter4qml_global.h \
@@ -36,7 +35,6 @@ PUBLIC_HEADERS += \
     $$PWD/directmessages/directmessage.h \
     $$PWD/lists/list.h \
     $$PWD/utils.h \
-    $$PWD/related_results/showrelatedresults.h
 
 HEADERS = $$PUBLIC_HEADERS
 

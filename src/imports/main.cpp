@@ -116,9 +116,6 @@
 
 #include <oauthmanager.h>
 
-#include <showrelatedresults.h>
-#include <activitysummary.h>
-
 #if QT_VERSION >= 0x050000
 class QmlTwitterAPIPlugin : public QQmlExtensionPlugin
 #else
@@ -208,9 +205,6 @@ public:
 
         qmlRegisterType<HelpPrivacy>(uri, major, minor, "HelpPrivacy");
         qmlRegisterType<HelpTos>(uri, major, minor, "HelpTos");
-
-        qmlRegisterType<ShowRelatedResults>(uri, major, minor, "RelatedResultsModel");
-        qmlRegisterType<ActivitySummary>(uri, major, minor, "ActivitySummary");
     }
 };
 

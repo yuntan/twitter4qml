@@ -314,75 +314,6 @@ Module {
         Method { name: "reload" }
     }
     Component {
-        name: "ActivitySummary"
-        prototype: "AbstractTwitterAction"
-        exports: ["ActivitySummary 1.1"]
-        Property { name: "_id"; type: "string" }
-        Property { name: "favoriters"; type: "QVariantList" }
-        Property { name: "favoriters_count"; type: "string" }
-        Property { name: "repliers"; type: "QVariantList" }
-        Property { name: "repliers_count"; type: "string" }
-        Property { name: "retweeters_count"; type: "string" }
-        Property { name: "retweeters"; type: "QVariantList" }
-        Signal {
-            name: "idChanged"
-            Parameter { name: "id"; type: "string" }
-        }
-        Signal {
-            name: "favoritersChanged"
-            Parameter { name: "favoriters"; type: "QVariantList" }
-        }
-        Signal {
-            name: "favoritersCountChanged"
-            Parameter { name: "favoritersCount"; type: "string" }
-        }
-        Signal {
-            name: "repliersChanged"
-            Parameter { name: "repliers"; type: "QVariantList" }
-        }
-        Signal {
-            name: "repliersCountChanged"
-            Parameter { name: "repliersCount"; type: "string" }
-        }
-        Signal {
-            name: "retweetersCountChanged"
-            Parameter { name: "retweetersCount"; type: "string" }
-        }
-        Signal {
-            name: "retweetersChanged"
-            Parameter { name: "retweeters"; type: "QVariantList" }
-        }
-        Method { name: "exec" }
-        Method {
-            name: "id"
-            Parameter { name: "id"; type: "string" }
-        }
-        Method {
-            name: "setFavoriters"
-            Parameter { name: "favoriters"; type: "QVariantList" }
-        }
-        Method {
-            name: "setFavoritersCount"
-            Parameter { name: "favoritersCount"; type: "string" }
-        }
-        Method {
-            name: "setRepliers"
-            Parameter { name: "repliers"; type: "QVariantList" }
-        }
-        Method {
-            name: "setRepliersCount"
-            Parameter { name: "repliersCount"; type: "string" }
-        }
-        Method {
-            name: "setRetweetersCount"
-            Parameter { name: "retweetersCount"; type: "string" }
-        }
-        Method {
-            name: "setRetweeters"
-            Parameter { name: "retweeters"; type: "QVariantList" }
-        }
-    }
-    Component {
         name: "TrendsAvailable"
         defaultProperty: "childObjects"
         prototype: "AbstractTwitterModel"
@@ -1731,22 +1662,6 @@ Module {
             Parameter { name: "relationship"; type: "QVariantMap" }
         }
         Method { name: "exec" }
-    }
-    Component {
-        name: "ShowRelatedResults"
-        defaultProperty: "childObjects"
-        prototype: "AbstractStatusesModel"
-        exports: ["RelatedResultsModel 1.1"]
-        Property { name: "_id"; type: "string" }
-        Property { name: "include_entities"; type: "bool" }
-        Signal {
-            name: "idChanged"
-            Parameter { name: "id"; type: "string" }
-        }
-        Signal {
-            name: "include_entitiesChanged"
-            Parameter { name: "include_entities"; type: "bool" }
-        }
     }
     Component {
         name: "Slugs"
