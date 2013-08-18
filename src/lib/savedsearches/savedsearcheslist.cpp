@@ -140,9 +140,8 @@ void SavedSearchesList::dataAdded(const QString &key, const QVariantMap &value)
     addData(value);
 }
 
-void SavedSearchesList::dataAboutToBeRemoved(const QString &key, const QVariantMap &value)
+void SavedSearchesList::dataAboutToBeRemoved(const QString &key)
 {
-    Q_UNUSED(value)
     removeData(key);
 }
 
