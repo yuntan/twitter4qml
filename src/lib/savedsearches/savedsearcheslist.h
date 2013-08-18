@@ -24,12 +24,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef SAVEDSEARCHES_H
-#define SAVEDSEARCHES_H
+#ifndef SAVEDSEARCHESLIST_H
+#define SAVEDSEARCHESLIST_H
 
 #include "abstracttwittermodel.h"
 
-class TWITTER4QML_EXPORT SavedSearches : public AbstractTwitterModel
+class TWITTER4QML_EXPORT SavedSearchesList : public AbstractTwitterModel
 {
     Q_OBJECT
 public:
@@ -41,7 +41,7 @@ public:
         , position_role
         , query_role
     };
-    explicit SavedSearches(QObject *parent = 0);
+    explicit SavedSearchesList(QObject *parent = 0);
 
     Q_INVOKABLE void savedSearchesCreate(QVariantMap parameters);
     Q_INVOKABLE void savedSearchesDestroy(QVariantMap parameters);
@@ -59,9 +59,9 @@ protected:
     void dataAboutToBeRemoved(const QString &key, const QVariantMap &value);
 
 private:
-    Q_DISABLE_COPY(SavedSearches)
+    Q_DISABLE_COPY(SavedSearchesList)
     class Private;
     Private *d;
 };
 
-#endif // SAVEDSEARCHES_H
+#endif // SAVEDSEARCHESLIST_H

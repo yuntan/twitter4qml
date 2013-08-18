@@ -4,11 +4,11 @@ DEPENDPATH += $$PWD
 # Saved Searches
 
 PUBLIC_HEADERS += \
-    $$PWD/savedsearches.h \
+    $$PWD/savedsearcheslist.h \
     $$PWD/savedsearchescreate.h \
     $$PWD/savedsearchesdestroy.h
 
 SOURCES += \
-    $$PWD/savedsearches.cpp \
+    $$PWD/savedsearcheslist.cpp \
     $$PWD/savedsearchescreate.cpp \
     $$PWD/savedsearchesdestroy.cpp

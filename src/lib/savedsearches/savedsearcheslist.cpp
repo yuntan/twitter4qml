@@ -24,15 +24,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "savedsearches.h"
+#include "savedsearcheslist.h"
 #include "savedsearchescreate.h"
 #include "savedsearchesdestroy.h"
 
-class SavedSearches::Private : public QObject
+class SavedSearchesList::Private : public QObject
 {
     Q_OBJECT
 public:
-    Private(SavedSearches *parent);
+    Private(SavedSearchesList *parent);
 
     bool loading;
     void create(const QVariantMap &parameters);
@@ -43,18 +43,18 @@ private slots:
     void dataChanged(const QVariant &data);
 
 private:
-    SavedSearches *q;
+    SavedSearchesList *q;
     QList<AbstractTwitterAction *> tasks;
 };
 
-SavedSearches::Private::Private(SavedSearches *parent)
+SavedSearchesList::Private::Private(SavedSearchesList *parent)
     : QObject(parent)
     , loading(false)
     , q(parent)
 {
 }
 
-void SavedSearches::Private::create(const QVariantMap &parameters)
+void SavedSearchesList::Private::create(const QVariantMap &parameters)
 {
     SavedSearchesCreate *action = new SavedSearchesCreate(this);
     action->query(parameters.value("query").toString());
@@ -67,7 +67,7 @@ void SavedSearches::Private::create(const QVariantMap &parameters)
     }
 }
 
-void SavedSearches::Private::destroy(const QVariantMap &parameters)
+void SavedSearchesList::Private::destroy(const QVariantMap &parameters)
 {
     SavedSearchesDestroy *action = new SavedSearchesDestroy(this);
     action->id(parameters.value("id").toString());
@@ -80,7 +80,7 @@ void SavedSearches::Private::destroy(const QVariantMap &parameters)
     }
 }
 
-void SavedSearches::Private::dataChanged(const QVariant &data)
+void SavedSearchesList::Private::dataChanged(const QVariant &data)
 {
     QVariantMap map = data.toMap();
 //    DEBUG() << data;
@@ -103,14 +103,14 @@ void SavedSearches::Private::dataChanged(const QVariant &data)
     }
 }
 
-void SavedSearches::Private::setLoading(bool l)
+void SavedSearchesList::Private::setLoading(bool l)
 {
     if (loading == l) return;
     loading = l;
     emit q->loadingChanged(l);
 }
 
-SavedSearches::SavedSearches(QObject *parent)
+SavedSearchesList::SavedSearchesList(QObject *parent)
     : AbstractTwitterModel(parent)
     , d(new Private(this))
 {
@@ -124,34 +124,34 @@ SavedSearches::SavedSearches(QObject *parent)
     setRoleNames(roles);
 }
 
-void SavedSearches::savedSearchesCreate(QVariantMap parameters)
+void SavedSearchesList::savedSearchesCreate(QVariantMap parameters)
 {
     d->create(parameters);
 }
 
-void SavedSearches::savedSearchesDestroy(QVariantMap parameters)
+void SavedSearchesList::savedSearchesDestroy(QVariantMap parameters)
 {
     d->destroy(parameters);
 }
 
-void SavedSearches::dataAdded(const QString &key, const QVariantMap &value)
+void SavedSearchesList::dataAdded(const QString &key, const QVariantMap &value)
 {
     Q_UNUSED(key)
     addData(value);
 }
 
-void SavedSearches::dataAboutToBeRemoved(const QString &key, const QVariantMap &value)
+void SavedSearchesList::dataAboutToBeRemoved(const QString &key, const QVariantMap &value)
 {
     Q_UNUSED(value)
     removeData(key);
 }
 
-bool SavedSearches::isLoading() const
+bool SavedSearchesList::isLoading() const
 {
     return AbstractTwitterModel::isLoading() || d->loading;
 }
 
-void SavedSearches::parseDone(const QVariant &result)
+void SavedSearchesList::parseDone(const QVariant &result)
 {
     if (result.type() == QVariant::List) {
         QVariantList array = result.toList();
@@ -165,4 +165,4 @@ void SavedSearches::parseDone(const QVariant &result)
     }
 }
 
-#include "savedsearches.moc"
+#include "savedsearcheslist.moc"

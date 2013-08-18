@@ -92,7 +92,7 @@
 #include <list.h> // TODO ?
 
 // Saved Searches
-#include <savedsearches.h>
+#include <savedsearcheslist.h>
 
 // Places & Geo
 #include <georeversegeocode.h>
@@ -190,7 +190,7 @@ public:
         qmlRegisterType<AccountSettings>(uri, major, minor, "AccountSettings");
         qmlRegisterType<ApplicationRateLimitStatus>(uri, major, minor, "ApplicationRateLimitStatus");
 
-        qmlRegisterType<SavedSearches>(uri, major, minor, "SavedSearchesModel");
+        qmlRegisterType<SavedSearchesList>(uri, major, minor, "SavedSearchesListModel");
 
         qmlRegisterType<GeoSearch>(uri, major, minor, "GeoSearchModel");
         qmlRegisterType<GeoReverseGeocode>(uri, major, minor, "GeoReverseGeocodeModel");

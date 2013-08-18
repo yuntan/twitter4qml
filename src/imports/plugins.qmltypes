@@ -1476,10 +1476,10 @@ Module {
         Method { name: "reload" }
     }
     Component {
-        name: "SavedSearches"
+        name: "SavedSearchesList"
         defaultProperty: "childObjects"
         prototype: "AbstractTwitterModel"
-        exports: ["SavedSearchesModel 1.1"]
+        exports: ["SavedSearchesListModel 1.1"]
         Method {
             name: "savedSearchesCreate"
             Parameter { name: "parameters"; type: "QVariantMap" }

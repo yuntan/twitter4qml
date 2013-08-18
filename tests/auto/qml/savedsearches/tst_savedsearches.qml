@@ -39,7 +39,7 @@ TestCase {
         screen_name: 'twit_ter4qml'
     }
 
-    SavedSearchesModel {
+    SavedSearchesListModel {
         id: model
     }
 
