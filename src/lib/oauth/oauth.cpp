@@ -68,6 +68,7 @@ OAuth::Private::Private(OAuth *parent)
     connect(q, SIGNAL(tokenSecretChanged(QString)), this, SLOT(updateStatus()));
     connect(q, SIGNAL(user_idChanged(QString)), this, SLOT(updateStatus()));
     connect(q, SIGNAL(screen_nameChanged(QString)), this, SLOT(updateStatus()));
+    updateStatus();
 }
 
 void OAuth::Private::setState(State s)
