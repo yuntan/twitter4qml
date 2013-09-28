@@ -28,6 +28,10 @@
 #include <QtCore/QMap>
 #include <QtCore/QRegExp>
 
+#if QT_VERSION < 0x050000
+# define QStringLiteral QLatin1String
+#endif
+
 QString escapeHtml(const QString &text)
 {
     static QMap<QString, QString> table;
