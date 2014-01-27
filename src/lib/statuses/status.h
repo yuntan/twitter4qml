@@ -43,6 +43,7 @@ public: \
 private: \
     type2 m_##name;
 
+// Tweet specification  https://dev.twitter.com/docs/platform-objects/tweets
 class TWITTER4QML_EXPORT Status : public QObject
 {
     Q_OBJECT
@@ -50,15 +51,23 @@ class TWITTER4QML_EXPORT Status : public QObject
     Q_PROPERTY(QVariantList contributors READ contributors WRITE contributors NOTIFY contributorsChanged)
     Q_PROPERTY(QVariantMap coordinates READ coordinates WRITE coordinates NOTIFY coordinatesChanged)
     Q_PROPERTY(QString created_at READ created_at WRITE created_at NOTIFY created_atChanged)
+    Q_PROPERTY(QVariantList current_user_retweet READ current_user_retweet WRITE current_user_retweet NOTIFY current_user_retweetChanged)
     Q_PROPERTY(QVariantMap entities READ entities WRITE entities NOTIFY entitiesChanged)
+    Q_PROPERTY(int favorite_count READ favorite_count WRITE favorite_count NOTIFY favorite_countChanged)
     Q_PROPERTY(bool favorited READ favorited WRITE favorited NOTIFY favoritedChanged)
+    Q_PROPERTY(QString filter_level READ filter_level WRITE filter_level NOTIFY filter_levelChanged)
     Q_PROPERTY(QVariantMap geo READ geo WRITE geo NOTIFY geoChanged)
+    Q_PROPERTY(long long id READ id WRITE id NOTIFY idChanged)
     Q_PROPERTY(QString id_str READ id_str WRITE id_str NOTIFY id_strChanged)
     Q_PROPERTY(QString in_reply_to_screen_name READ in_reply_to_screen_name WRITE in_reply_to_screen_name NOTIFY in_reply_to_screen_nameChanged)
+    Q_PROPERTY(long long in_reply_to_status_id READ in_reply_to_status_id WRITE in_reply_to_status_id NOTIFY in_reply_to_status_idChanged)
     Q_PROPERTY(QString in_reply_to_status_id_str READ in_reply_to_status_id_str WRITE in_reply_to_status_id_str NOTIFY in_reply_to_status_id_strChanged)
+    Q_PROPERTY(long long in_reply_to_user_id READ in_reply_to_user_id WRITE in_reply_to_user_id NOTIFY in_reply_to_user_idChanged)
     Q_PROPERTY(QString in_reply_to_user_id_str READ in_reply_to_user_id_str WRITE in_reply_to_user_id_str NOTIFY in_reply_to_user_id_strChanged)
+    Q_PROPERTY(QString lang READ lang WRITE lang NOTIFY langChanged)
     Q_PROPERTY(QVariantMap place READ place WRITE place NOTIFY placeChanged)
     Q_PROPERTY(bool possibly_sensitive READ possibly_sensitive WRITE possibly_sensitive NOTIFY possibly_sensitiveChanged)
+    Q_PROPERTY(QVariantList scopes READ scopes WRITE scopes NOTIFY scopesChanged)
     Q_PROPERTY(int retweet_count READ retweet_count WRITE retweet_count NOTIFY retweet_countChanged)
     Q_PROPERTY(bool retweeted READ retweeted WRITE retweeted NOTIFY retweetedChanged)
     Q_PROPERTY(QVariantMap retweeted_status READ retweeted_status WRITE retweeted_status NOTIFY retweeted_statusChanged)
@@ -68,6 +77,9 @@ class TWITTER4QML_EXPORT Status : public QObject
     Q_PROPERTY(QString rich_text READ rich_text WRITE rich_text NOTIFY rich_textChanged)
     Q_PROPERTY(bool truncated READ truncated WRITE truncated NOTIFY truncatedChanged)
     Q_PROPERTY(QVariantMap user READ user WRITE user NOTIFY userChanged)
+    Q_PROPERTY(bool withheld_copyright READ withheld_copyright WRITE withheld_copyright NOTIFY withheld_copyrightChanged)
+    Q_PROPERTY(QVariantMap withheld_in_countries READ withheld_in_countries WRITE withheld_in_countries NOTIFY withheld_in_countriesChanged)
+    Q_PROPERTY(QString withheld_scope READ withheld_scope WRITE withheld_scope NOTIFY withheld_scopeChanged)
     Q_PROPERTY(QVariantList media READ media WRITE media NOTIFY mediaChanged)
     Q_PROPERTY(QVariantMap data READ data NOTIFY dataChanged DESIGNABLE false)
     Q_DISABLE_COPY(Status)
@@ -94,15 +106,23 @@ signals:
     void contributorsChanged(const QVariantList &contributors) const;
     void coordinatesChanged(const QVariantMap &coordinates);
     void created_atChanged(const QString &created_at);
+    void current_user_retweetChanged(const QVariantList &current_user_retweet);
     void entitiesChanged(const QVariantMap &entities);
+    void favorite_countChanged(int favorite_count);
     void favoritedChanged(bool favorited);
+    void filter_levelChanged(const QString &filter_level);
     void geoChanged(const QVariantMap &geo);
+    void idChanged(long long id);
     void id_strChanged(const QString &id_str);
     void in_reply_to_screen_nameChanged(const QString &in_reply_to_screen_name);
+    void in_reply_to_status_idChanged(long long in_reply_to_status_id);
     void in_reply_to_status_id_strChanged(const QString &in_reply_to_status_id_str);
+    void in_reply_to_user_idChanged(long long in_reply_to_user_id);
     void in_reply_to_user_id_strChanged(const QString &in_reply_to_user_id_str);
+    void langChanged(const QString &lang);
     void placeChanged(const QVariantMap &place);
     void possibly_sensitiveChanged(bool possibly_sensitive);
+    void scopesChanged(const QVariantList &scopes);
     void retweet_countChanged(int retweet_count);
     void retweetedChanged(bool retweeted);
     void retweeted_statusChanged(const QVariantMap &retweeted_status);
@@ -112,6 +132,9 @@ signals:
     void rich_textChanged(const QString &rich_text);
     void truncatedChanged(bool truncated);
     void userChanged(const QVariantMap &user);
+    void withheld_copyrightChanged(bool withheld_copyright);
+    void withheld_in_countriesChanged(const QVariantMap &withheld_in_countries);
+    void withheld_scopeChanged(const QString &withheld_scope);
     void mediaChanged(const QVariantList &media) const;
     void dataChanged();
 
@@ -123,15 +146,23 @@ private:
     ADD_PROPERTY(const QVariantList &, contributors, QVariantList)
     ADD_PROPERTY(const QVariantMap &, coordinates, QVariantMap)
     ADD_PROPERTY(const QString &, created_at, QString)
+    ADD_PROPERTY(const QVariantList &, current_user_retweet, QVariantList)
     ADD_PROPERTY(const QVariantMap &, entities, QVariantMap)
+    ADD_PROPERTY(int, favorite_count, int)
     ADD_PROPERTY(bool, favorited, bool)
+    ADD_PROPERTY(const QString &, filter_level, QString)
     ADD_PROPERTY(const QVariantMap &, geo, QVariantMap)
+    ADD_PROPERTY(long long, id, long long)
     ADD_PROPERTY(const QString &, id_str, QString)
     ADD_PROPERTY(const QString &, in_reply_to_screen_name, QString)
+    ADD_PROPERTY(long long, in_reply_to_status_id, long long)
     ADD_PROPERTY(const QString &, in_reply_to_status_id_str, QString)
+    ADD_PROPERTY(long long, in_reply_to_user_id, long long)
     ADD_PROPERTY(const QString &, in_reply_to_user_id_str, QString)
+    ADD_PROPERTY(const QString &, lang, QString)
     ADD_PROPERTY(const QVariantMap &, place, QVariantMap)
     ADD_PROPERTY(bool, possibly_sensitive, bool)
+    ADD_PROPERTY(const QVariantList &, scopes, QVariantList)
     ADD_PROPERTY(int, retweet_count, int)
     ADD_PROPERTY(bool, retweeted, bool)
     ADD_PROPERTY(const QVariantMap &, retweeted_status, QVariantMap)
@@ -141,6 +172,9 @@ private:
     ADD_PROPERTY(const QString &, rich_text, QString)
     ADD_PROPERTY(bool, truncated, bool)
     ADD_PROPERTY(const QVariantMap &, user, QVariantMap)
+    ADD_PROPERTY(bool, withheld_copyright, bool)
+    ADD_PROPERTY(const QVariantMap &, withheld_in_countries, QVariantMap)
+    ADD_PROPERTY(const QString &, withheld_scope, QString)
     ADD_PROPERTY(const QVariantList &, media, QVariantList)
 };
 

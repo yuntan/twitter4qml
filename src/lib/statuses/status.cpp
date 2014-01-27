@@ -71,14 +71,18 @@ Status::Private::Private(Status *parent)
 void Status::Private::id_strChanged(const QString &id)
 {
     q->contributors(QVariantList());
-    q->contributors(QVariantList());
     q->coordinates(QVariantMap());
+    q->current_user_retweet(QVariantList());
     q->entities(QVariantMap());
+    q->favorite_count(0);
     q->favorited(false);
     q->geo(QVariantMap());
     q->in_reply_to_screen_name(QString());
+    q->in_reply_to_status_id(0);
     q->in_reply_to_status_id_str(QString());
+    q->in_reply_to_user_id(0);
     q->in_reply_to_user_id_str(QString());
+    q->lang(QString());
     q->place(QVariantMap());
     q->possibly_sensitive(false);
     q->retweet_count(0);
