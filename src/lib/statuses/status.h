@@ -1,6 +1,6 @@
 /* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
  *     * Neither the name of the Twitter4QML nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -48,6 +48,7 @@ class TWITTER4QML_EXPORT Status : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool loading READ loading NOTIFY loadingChanged DESIGNABLE false)
+    Q_PROPERTY(PostStatus postStatus READ postStatus NOTIFY postStatusChanged DESIGNABLE false)
     Q_PROPERTY(QVariantList contributors READ contributors WRITE contributors NOTIFY contributorsChanged)
     Q_PROPERTY(QVariantMap coordinates READ coordinates WRITE coordinates NOTIFY coordinatesChanged)
     Q_PROPERTY(QString created_at READ created_at WRITE created_at NOTIFY created_atChanged)
@@ -86,6 +87,17 @@ class TWITTER4QML_EXPORT Status : public QObject
 public:
     explicit Status(QObject *parent = 0);
 
+    enum PostStatus {
+        Success = Qt::UserRole,
+        RateLimitExceeded, // code 88
+        OverCapacity, // code 130
+        InternalError, // code 131
+        TimeInvalid, // code 135
+        Duplicate, // code 187
+        Unknown
+    };
+    Q_ENUMS(PostStatus)
+
     static QVariantMap parse(const QVariantMap &status);
     static bool indicesGreaterThan(const QVariant &v1, const QVariant &v2);
 
@@ -103,6 +115,7 @@ public slots:
 
 signals:
     void loadingChanged(bool loading);
+    void postStatusChanged(PostStatus postStatus);
     void contributorsChanged(const QVariantList &contributors) const;
     void coordinatesChanged(const QVariantMap &coordinates);
     void created_atChanged(const QString &created_at);
@@ -143,6 +156,7 @@ private:
     Private *d;
 
     ADD_PROPERTY(bool, loading, bool)
+    ADD_PROPERTY(PostStatus, postStatus, PostStatus)
     ADD_PROPERTY(const QVariantList &, contributors, QVariantList)
     ADD_PROPERTY(const QVariantMap &, coordinates, QVariantMap)
     ADD_PROPERTY(const QString &, created_at, QString)

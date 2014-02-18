@@ -1,6 +1,6 @@
 /* Copyright (c) 2012-2013 Twitter4QML Project.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
  *     * Neither the name of the Twitter4QML nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -215,6 +215,22 @@ void Status::Private::dataChanged(const QVariant &data)
     QObject *action = qobject_cast<QObject *>(sender());
     if (action) {
         QVariantMap status = Status::parse(data.toMap());
+        DEBUG() << data;
+        DEBUG() << status;
+        if(status.contains("errors")) {
+            QVariantMap error = status["errors"].toList()[0].toMap();
+            switch ( error["code"].toInt() ) {
+            case 88: q->postStatus(RateLimitExceeded); break;
+            case 130: q->postStatus(OverCapacity); break;
+            case 131: q->postStatus(InternalError); break;
+            case 135: q->postStatus(TimeInvalid); break;
+            case 187: q->postStatus(Duplicate); break;
+            default: q->postStatus(Unknown); break;
+            }
+        } else {
+            q->postStatus(Success);
+        }
+
         const QMetaObject *mo = q->metaObject();
         for (int i = 0; i < mo->propertyCount(); i++) {
             QMetaProperty prop = mo->property(i);
